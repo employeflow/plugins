@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "employeflow": {
+      "type": "http",
+      "url": "https://employeflow.com/api/mcp",
+      "headers": { "Authorization": "Bearer ${user_config.team_key}" }
+    }
+  }
+}

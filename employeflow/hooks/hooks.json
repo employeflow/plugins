@@ -1,0 +1,8 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      { "hooks": [ { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/bin/peek.sh",
+                     "args": ["${user_config.team_key}"], "timeout": 30 } ] }
+    ]
+  }
+}
