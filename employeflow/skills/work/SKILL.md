@@ -17,8 +17,12 @@ do it, and report that back as a failed task with the reason.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
-1. Call `employeflow_my_work`. If it says nothing is waiting, or the team is paused, say so in one line
-   and stop.
+1. Call `employeflow_my_work`. If that tool isn't available (the connect code isn't set yet), or it answers
+   that the code was rejected, say in one line: "Employeflow isn't connected yet: copy only the part that
+   starts with efb_ from the Connect tab in your portal (Create connect code), then type
+   /plugin configure employeflow@employeflow and paste it." and stop.
+   Don't try other tools or workarounds. If it says nothing is waiting, or the team is paused, say so in one
+   line and stop.
 2. For each **TASK** (in the order given):
    1. Call `employeflow_start_task` with its id.
    2. Read the employee's notes, if they exist: `Employeflow/<Employee>/NOTES.md` in the current folder.

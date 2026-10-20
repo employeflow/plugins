@@ -1,14 +1,18 @@
 {
   "name": "employeflow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Connects Claude to your Employeflow team: picks up the tasks and messages you wrote in your portal, does them in each employee's role, and reports the results back.",
-  "author": { "name": "Employeflow", "url": "https://employeflow.com" },
+  "author": {
+    "name": "Employeflow",
+    "url": "https://employeflow.com"
+  },
   "homepage": "https://employeflow.com",
+  "repository": "https://github.com/employeflow/plugins",
   "userConfig": {
     "team_key": {
       "type": "string",
-      "title": "Team key",
-      "description": "Your team key from the Connect tab in your Employeflow portal.",
+      "title": "Connect code",
+      "description": "The connect code from the Connect tab in your Employeflow portal: only the part that starts with efb_",
       "sensitive": true,
       "required": true
     }

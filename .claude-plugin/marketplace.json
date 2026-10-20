@@ -7,7 +7,7 @@
       "name": "employeflow",
       "source": "./employeflow",
       "description": "Connects Claude to your Employeflow team: picks up the tasks and messages you wrote in your portal, does them in each employee's role, and reports the results back.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }
