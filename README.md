@@ -11,9 +11,9 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
 ## What you need
 
 - **Claude Code**: the **Code** tab in the Claude desktop app, or `claude` in a terminal.
-- An **Employeflow portal** and its **connect code**: in your portal open the **Connect** tab and click
-  **Create connect code**. The page shows a command line with the code at the end. **You only need the code itself:
-  the part that starts with `efb_`.** It is shown once, so keep it until the plugin has it. Ignore the Connect tab's
+- An **Employeflow portal** and its **connect code**: in your portal open the **Connect** tab, click
+  **Create connect code**, then **Copy code only (for the Claude plugin)**. **You only need the code itself: the part
+  that starts with `efb_`.** It is shown once, so keep it until the plugin has it. Ignore the Connect tab's
   "Download the connector" and "Copy the command instead" buttons: they are for a different way of connecting, and the
   plugin needs only the `efb_…` code. A stray space at either end, or a line break at the end, is fine; it is trimmed. A line break at the start or in the
   middle is not: paste the code again as one line.
@@ -55,8 +55,10 @@ claude plugin marketplace add employeflow/plugins
 claude plugin install employeflow@employeflow --config team_key=efb_YOUR_CODE
 ```
 
-Read what it prints. If it says `--config not applied` (for example "Failed to save sensitive plugin options"), the
-plugin is installed but has **no connect code**, even though the command still succeeds. Start `claude` and type
+Read what it prints. If it says `--config not applied` (for example "Failed to save sensitive plugin options to
+secure storage"), the plugin is installed but has **no connect code**, even though the command still succeeds. You
+can also see it afterwards: `/employeflow:work` answers "Employeflow isn't connected yet", and a scheduled
+`/employeflow:work auto` stops with "no connect code set". Start `claude` and type
 `/plugin configure employeflow@employeflow` to set it.
 
 ## Check that it works
@@ -86,7 +88,8 @@ Type:
 ```
 
 Claude asks your portal what is waiting, does each task as the right employee, and reports back. It ends with one
-line: tasks done, tasks failed, chats answered.
+line: tasks done, tasks failed, chats answered. If the portal didn't accept a report, that line says **not reported**
+with the reason, and the result file stays in your folder; such a task doesn't count as done.
 
 **Checking automatically.** Ask Claude to "check my Employeflow every 15 minutes". It offers a scheduled task in the
 Claude app with the prompt `/employeflow:work auto`, and creates it only if you say yes. Scheduled tasks run while

@@ -24,18 +24,28 @@ do it, and report that back as a failed task with the reason.
    Don't try other tools or workarounds. If it says nothing is waiting, or the team is paused, say so in one
    line and stop.
 2. For each **TASK** (in the order given):
-   1. Call `employeflow_start_task` with its id.
+   1. Call `employeflow_start_task` with its id. If it returns an error, don't do the task: note it as
+      not reported (with the error) and go on to the next one.
    2. Read the employee's notes, if they exist: `Employeflow/<Employee>/NOTES.md` in the current folder.
       They hold what this employee learned in earlier runs.
    3. Do the task as that employee (their role is listed in the work). Keep the result in the current
-      folder under `Employeflow/<Employee>/results/` (one file per task, named after the task).
+      folder under `Employeflow/<Employee>/results/`, one file per task, named
+      `<employee>-<short-topic>-<YYYY-MM-DD>.md` in lowercase with hyphens (for example
+      `tom-video-4-cut-2026-10-20.md`). Don't put the word "task" or the task id in the file name.
    4. Call `employeflow_finish_task` with the result, or a two-line summary plus the file path. If you
       could not do it, call it with `failed: true` and the reason.
+      **Check its answer.** Only "Saved" means the portal has it. If it returns an error, the task is
+      **not reported**: the owner doesn't see it in the portal. Don't count it as done, don't call it
+      "registered" or "probably saved", and don't retry more than once.
    5. Add one dated line to `Employeflow/<Employee>/NOTES.md`: what you did and anything worth
-      remembering next time.
+      remembering next time. If the report failed, the line says "NOT reported: <the error>" and where the
+      result file is.
 3. For each **CHAT** message: answer as the employee it is addressed to, with `employeflow_reply_chat`.
-   Use the employee's notes when they help.
-4. End with one line: how many tasks done, how many failed, how many chats answered.
+   Use the employee's notes when they help. If it returns an error, that answer is **not reported** either.
+4. End with one line, in the user's language, counting only what the portal confirmed: tasks done, tasks
+   failed, chats answered. If anything was not reported, say so plainly in that line with the error, for
+   example: "2 tasks done, 1 NOT reported (nicht gemeldet): the portal said HTTP 400 nothing accepted.
+   Result file: Employeflow/Tom/results/tom-video-4-cut-2026-10-20.md".
 
 Respect the team goals shown in the work: when a task belongs to a goal, keep that goal in mind.
 
@@ -52,5 +62,5 @@ Create it only when the user asks for it or agrees to it. Never set up anything 
 ## Never
 - Never ask for or handle the user's Claude login, API keys, or passwords. The connector already has
   what it needs.
-- Never report a task as done that you didn't do. A result that says where the work is beats a
-  long summary.
+- Never report a task as done that you didn't do, or that the portal didn't confirm with "Saved". A
+  result that says where the work is beats a long summary.
