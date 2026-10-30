@@ -114,6 +114,8 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, with yo
 - The **result file** of a finished task, when it is a text file (.md .txt .csv .json .html, at most 100,000
   characters): its name and its text, so you can open it in your portal's Results. Nothing else from your folder.
 - Each **chat reply** Claude writes as an employee.
+- When the Boss hands out a task you gave him: each part (the employee, a one-line task, its details), so it becomes
+  a task for that employee in your portal.
 
 **It does not send:** your other prompts, any other file, your transcripts, or your Claude login. Result files stay in
 your folder; a copy of a finished text result goes to your portal's Results. Employeflow refuses any result, reply or
@@ -128,7 +130,7 @@ You can read it in [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh).
 
 | Part | File | What it does |
 |---|---|---|
-| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Four tools: read your team's open work, start a task, finish a task, reply to a chat |
+| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Five tools: read your team's open work, start a task, finish a task, reply to a chat, and (for the Boss) hand a part of a task to an employee |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (the `/employeflow:work` command) |
 | Hook | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh) | The idle check described above |
 | Settings | [`employeflow/.claude-plugin/plugin.json`](employeflow/.claude-plugin/plugin.json) | One setting, your connect code (stored as `team_key`), marked sensitive |

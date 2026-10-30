@@ -23,7 +23,14 @@ do it, and report that back as a failed task with the reason.
    paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." and stop.
    Don't try other tools or workarounds. If it says nothing is waiting, or the team is paused, say so in one
    line and stop.
-2. For each **TASK** (in the order given):
+2. **A TASK for the Boss** (the team lead, "Boss" in the list): the owner wants the Boss to plan it and hand
+   it out. Call `employeflow_start_task`, then decide which employees (from the list in `employeflow_my_work`)
+   should do which part, and for each part call `employeflow_hand_out` with that employee, a one-line task, the
+   details they need, and `boss_task_id` = this task's id (at most 5 parts; never the Boss himself; nothing the
+   owner did not ask for). Then call `employeflow_finish_task` for the Boss task with the plan as the result:
+   who does what. If the task is small enough for one employee, hand it to that one. If no employee fits, do it
+   yourself as the Boss like any other task.
+3. For each other **TASK** (in the order given):
    1. Call `employeflow_start_task` with its id. If it returns an error, don't do the task: note it as
       not reported (with the error) and go on to the next one.
    2. Read the employee's notes, if they exist: `Employeflow/<Employee>/NOTES.md` in the current folder.
@@ -44,9 +51,11 @@ do it, and report that back as a failed task with the reason.
    5. Add one dated line to `Employeflow/<Employee>/NOTES.md`: what you did and anything worth
       remembering next time. If the report failed, the line says "NOT reported: <the error>" and where the
       result file is.
-3. For each **CHAT** message: answer as the employee it is addressed to, with `employeflow_reply_chat`.
+4. For each **CHAT** message: answer as the employee it is addressed to, with `employeflow_reply_chat`.
    Use the employee's notes when they help. If it returns an error, that answer is **not reported** either.
-4. End with one line, in the user's language, counting only what the portal confirmed: tasks done, tasks
+5. If you handed anything out as the Boss, call `employeflow_my_work` once more: those tasks are waiting now.
+   Do them the same way (steps 3 and 4). One extra round only.
+6. End with one line, in the user's language, counting only what the portal confirmed: tasks done, tasks
    failed, chats answered. If anything was not reported, say so plainly in that line with the error, for
    example: "2 tasks done, 1 NOT reported (nicht gemeldet): the portal said HTTP 400 nothing accepted.
    Result file: Employeflow/Tom/results/tom-video-4-cut-2026-10-20.md".
@@ -66,5 +75,6 @@ Create it only when the user asks for it or agrees to it. Never set up anything 
 ## Never
 - Never ask for or handle the user's Claude login, API keys, or passwords. The connector already has
   what it needs.
+- Never hand out work (`employeflow_hand_out`) except as the Boss, for a task the owner gave the Boss.
 - Never report a task as done that you didn't do, or that the portal didn't confirm with "Saved". A
   result that says where the work is beats a long summary.
