@@ -1,6 +1,6 @@
 # Employeflow plugin for Claude Code
 
-This plugin connects your own Claude Code to your **Employeflow** team portal ([employeflow.com](https://employeflow.com)).
+This plugin lets your own Claude work for your **Employeflow** AI team ([employeflow.com](https://employeflow.com)).
 
 In the portal you write tasks and chat messages for your AI employees, for example "Tom: cut video #4". With this
 plugin, your Claude picks that work up, does each item in the role of the employee it is addressed to, and reports
@@ -12,7 +12,7 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
 
 - **Claude Code**: the **Code** tab in the Claude desktop app, or `claude` in a terminal.
 - An **Employeflow portal** and its **connect code**: in your portal open the **Connect** tab, click
-  **Create connect code**, then **Copy code only (for the Claude plugin)**. **You only need the code itself: the part
+  **Create connect code**, then **Copy the code**. **You only need the code itself: the part
   that starts with `efb_`.** It is shown once, so keep it until the plugin has it. Ignore the Connect tab's
   "Download the connector" and "Copy the command instead" buttons: they are for a different way of connecting, and the
   plugin needs only the `efb_…` code. A stray space at either end, or a line break at the end, is fine; it is trimmed. A line break at the start or in the
@@ -22,25 +22,23 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
 
 ## Install
 
-> **"Successfully installed" does not mean the plugin is connected.** It also needs your connect code (step 3).
+> **"Successfully installed" does not mean the plugin is connected.** It also needs your connect code (step 4).
 > Without it the plugin does nothing, and every check stops with "no connect code set".
 
-**In the Claude app:** open the **Code** tab, start a session in any folder, and type into the message box:
+**In the Claude app:**
 
-1. ```
-   /plugin marketplace add employeflow/plugins
-   ```
-2. ```
-   /plugin install employeflow@employeflow
-   ```
-   Claude Code shows what the plugin contains and asks you to confirm.
-3. Paste your connect code (only the `efb_…` part) when Claude Code asks for it. If it doesn't ask, type
-   `/plugin configure employeflow@employeflow` and paste it there.
-4. Start a **new session** (a new chat in the Code tab), so the plugin is loaded, and type `/employeflow:work`.
-   The first time, Claude asks whether it may use the Employeflow tools: choose **Allow**.
+1. Open **Settings → Plugins** (German: **Einstellungen → Plugins**). Typing `/plugin` into a chat opens the same window.
+2. Click **Add** (top right; German: **Hinzufügen**) and enter `employeflow/plugins`.
+3. **Employeflow** now appears in the list. Click **Add to this computer** (German: **Zu diesem Computer hinzufügen**).
+4. Open **Employeflow** and its **Settings** tab (it says **Setup required**; German: **Einstellungen**, **Einrichtung
+   erforderlich**). Paste your connect code (only the `efb_…` part) into **Connect code** and click **Save**
+   (**Speichern**). Never paste the code into a chat.
+5. Start a **new session** (a new chat in the Code tab), so the plugin is loaded with your code, and type
+   `/employeflow:work`. The first time, Claude asks whether it may use the Employeflow tools: choose **Allow**.
 
-Claude Code keeps the connect code in your system's secure storage (the macOS Keychain), never in a plain file. To
-change it later, type `/plugin configure employeflow@employeflow` again.
+Claude Code keeps the connect code on your computer, in your system's secure storage (the macOS Keychain), never in a
+plain file. To change it later, go back to the plugin's **Settings** tab, paste the new code, **Save**, and start a new
+session.
 
 ### Terminal only
 
@@ -70,7 +68,7 @@ Scheduled runs (see below) say it before Claude starts, at no cost to your plan:
 
 | The scheduled run stops with | What it means |
 |---|---|
-| "no connect code set" | No code is set. Set it as in step 3. |
+| "no connect code set" | No code is set. Set it as in step 4. |
 | "the connect code looks like a whole command line" | The whole line from the Connect tab was pasted. Paste only the part that starts with `efb_`. |
 | "the connect code has a line break in it" | A line break got into the code when it was pasted. Set it again as one line. |
 | "connect code rejected (401)" or "(403)" | The code is wrong or no longer valid. Create a new one in the Connect tab and set it again. |
@@ -159,4 +157,4 @@ Uninstalling does not switch off your connect code. To have a code switched off,
 
 ## Questions and security reports
 
-[support@employeflow.com](mailto:support@employeflow.com)
+Open **Support** on [employeflow.com](https://employeflow.com) (bottom right of every page). Our support mailbox is not set up yet.

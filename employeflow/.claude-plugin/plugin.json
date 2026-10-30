@@ -1,18 +1,29 @@
 {
   "name": "employeflow",
-  "version": "0.1.2",
-  "description": "Connects Claude to your Employeflow team: picks up the tasks and messages you wrote in your portal, does them in each employee's role, and reports the results back.",
+  "displayName": "Employeflow",
+  "version": "0.1.3",
+  "description": "Your Employeflow AI team, worked by your own Claude: picks up the tasks you give your employees in your portal, does each one in that employee's role, and puts the result in your portal's Results.",
   "author": {
     "name": "Employeflow",
     "url": "https://employeflow.com"
   },
   "homepage": "https://employeflow.com",
   "repository": "https://github.com/employeflow/plugins",
+  "license": "MIT",
+  "keywords": [
+    "employeflow",
+    "ai-team",
+    "ai-employees",
+    "tasks",
+    "portal",
+    "automation"
+  ],
+  "icon": "./assets/icon.png",
   "userConfig": {
     "team_key": {
       "type": "string",
       "title": "Connect code",
-      "description": "The connect code from the Connect tab in your Employeflow portal: only the part that starts with efb_",
+      "description": "The connect code from the Connect tab in your Employeflow portal: only the part that starts with efb_. After saving, start a new session.",
       "sensitive": true,
       "required": true
     }

@@ -1,13 +1,27 @@
 {
   "name": "employeflow",
-  "owner": { "name": "Employeflow", "url": "https://employeflow.com" },
-  "metadata": { "description": "Employeflow: your AI team portal, worked by your own Claude." },
+  "owner": {
+    "name": "Employeflow",
+    "url": "https://employeflow.com"
+  },
+  "metadata": {
+    "description": "Employeflow: your AI team portal, worked by your own Claude."
+  },
   "plugins": [
     {
       "name": "employeflow",
       "source": "./employeflow",
-      "description": "Connects Claude to your Employeflow team: picks up the tasks and messages you wrote in your portal, does them in each employee's role, and reports the results back.",
-      "version": "0.1.2"
+      "description": "Your Employeflow AI team, worked by your own Claude: picks up the tasks you give your employees in your portal, does each one in that employee's role, and puts the result in your portal's Results.",
+      "version": "0.1.3",
+      "displayName": "Employeflow",
+      "keywords": [
+        "employeflow",
+        "ai-team",
+        "ai-employees",
+        "tasks",
+        "portal",
+        "automation"
+      ]
     }
   ]
 }

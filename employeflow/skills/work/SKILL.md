@@ -19,8 +19,8 @@ do it, and report that back as a failed task with the reason.
 (`/employeflow:work auto` is the same run, started by the schedule.)
 1. Call `employeflow_my_work`. If that tool isn't available (the connect code isn't set yet), or it answers
    that the code was rejected, say in one line: "Employeflow isn't connected yet: copy only the part that
-   starts with efb_ from the Connect tab in your portal (Create connect code), then type
-   /plugin configure employeflow@employeflow and paste it." and stop.
+   starts with efb_ from the Connect tab in your portal (Create connect code), then
+   paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." and stop.
    Don't try other tools or workarounds. If it says nothing is waiting, or the team is paused, say so in one
    line and stop.
 2. For each **TASK** (in the order given):

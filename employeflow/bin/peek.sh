@@ -21,18 +21,18 @@ KEY="${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}"; URL="${2:-https://employeflow.co
 while :; do case "$KEY" in *[[:space:]]) KEY="${KEY%?}" ;; *) break ;; esac; done
 while :; do case "$KEY" in [[:blank:]]*) KEY="${KEY#?}" ;; *) break ;; esac; done
 block() { printf '{"decision":"block","reason":"%s"}\n' "$1"; exit 0; }
-[ -n "$KEY" ] || block "Employeflow: no connect code set, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then in Claude Code type /plugin configure employeflow@employeflow and paste it."
+[ -n "$KEY" ] || block "Employeflow: no connect code set, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session."
 NL="$(printf '\n_')"; NL="${NL%_}"; CR="$(printf '\r')"
-case "$KEY" in *"$NL"*|*"$CR"*) block "Employeflow: the connect code has a line break in it, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then in Claude Code type /plugin configure employeflow@employeflow and paste it." ;; esac
+case "$KEY" in *"$NL"*|*"$CR"*) block "Employeflow: the connect code has a line break in it, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." ;; esac
 # a whole pasted connect line ("curl ... | sh -s -- efb_...") is never sent anywhere
-case "$KEY" in *[[:space:]]*) block "Employeflow: the connect code looks like a whole command line, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then in Claude Code type /plugin configure employeflow@employeflow and paste it." ;; esac
+case "$KEY" in *[[:space:]]*) block "Employeflow: the connect code looks like a whole command line, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." ;; esac
 # the key goes to curl on stdin, never on its command line
 OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?peek=1") \
   || block "Employeflow: the portal did not answer; nothing checked. Try /employeflow:work by hand."
 CODE=$(printf '%s' "$OUT" | tail -n 1)
 case "$CODE" in
   200) ;;
-  401|403) block "Employeflow: connect code rejected ($CODE). Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then in Claude Code type /plugin configure employeflow@employeflow and paste it." ;;
+  401|403) block "Employeflow: connect code rejected ($CODE). Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." ;;
   *) block "Employeflow: the portal answered unexpectedly (HTTP $CODE); nothing checked. Try /employeflow:work by hand." ;;
 esac
 N=$(printf '%s' "$OUT" | sed -n 's/.*"waiting"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)
