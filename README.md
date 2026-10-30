@@ -111,11 +111,13 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, with yo
 - A **task id** when Claude starts a task.
 - The **result you report** when a task is done or failed: the result itself, or a short summary plus where the file
   is (at most 600 characters).
+- The **result file** of a finished task, when it is a text file (.md .txt .csv .json .html, at most 100,000
+  characters): its name and its text, so you can open it in your portal's Results. Nothing else from your folder.
 - Each **chat reply** Claude writes as an employee.
 
-**It does not send:** your other prompts, your files, your transcripts, or your Claude login. Result files stay in
-your folder; only the summary Claude reports goes to the portal. Employeflow drops any result or reply that looks
-like a password or key before storing it.
+**It does not send:** your other prompts, any other file, your transcripts, or your Claude login. Result files stay in
+your folder; a copy of a finished text result goes to your portal's Results. Employeflow refuses any result, reply or
+file that looks like a password or key, and stores nothing of it.
 
 **The idle check.** The plugin adds a hook that runs on your computer before Claude reads a prompt. It only acts on the
 exact prompt `/employeflow:work auto`: then it asks your portal "how much is waiting?" (connect code only, nothing else),

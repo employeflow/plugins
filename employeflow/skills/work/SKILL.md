@@ -32,8 +32,12 @@ do it, and report that back as a failed task with the reason.
       folder under `Employeflow/<Employee>/results/`, one file per task, named
       `<employee>-<short-topic>-<YYYY-MM-DD>.md` in lowercase with hyphens (for example
       `tom-video-4-cut-2026-10-20.md`). Don't put the word "task" or the task id in the file name.
-   4. Call `employeflow_finish_task` with the result, or a two-line summary plus the file path. If you
-      could not do it, call it with `failed: true` and the reason.
+   4. Call `employeflow_finish_task` with the result, or a two-line summary plus the file path. If the result
+      file is a text file (.md .txt .csv .json .html) of at most 100,000 characters, also send it:
+      `file_name` = its name, `file_text` = its full text, exactly as saved, so the owner can open it in the
+      portal's Results. Never put a password or key into a result file. If the portal refuses the file, call
+      `employeflow_finish_task` once more without `file_name`/`file_text` and say in the result why the file is
+      missing. If you could not do it, call it with `failed: true` and the reason (no file).
       **Check its answer.** Only "Saved" means the portal has it. If it returns an error, the task is
       **not reported**: the owner doesn't see it in the portal. Don't count it as done, don't call it
       "registered" or "probably saved", and don't retry more than once.
