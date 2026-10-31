@@ -9,7 +9,11 @@
 # team_key) comes from Claude Code as CLAUDE_PLUGIN_OPTION_TEAM_KEY (the first argument is
 # still read, for older installs). Any doubt stops the scheduled prompt: no code, a pasted
 # command line, a rejected code, or no clear answer from the portal.
+# SIGN-IN (0.2.0, 31 Oct 2026): the plugin signs in with an Employeflow account, and that token lives in Claude Code's
+# own secure storage, which this hook cannot (and must not) read. With no connect code there is nothing to check
+# with, so the prompt passes and Claude asks the portal itself (stdin is read first, so the hook never cuts it off).
 IN=$(cat)
+[ -n "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ] || exit 0
 # exactly "/employeflow:work auto" (trailing spaces/newlines allowed), never a prefix: a typed
 # "/employeflow:work autopilot" is not checked
 printf '%s' "$IN" | grep -q -E '"prompt" ?: ?"/employeflow:work auto( |\\n|\\r)*"' || exit 0
@@ -21,7 +25,6 @@ KEY="${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}"; URL="${2:-https://employeflow.co
 while :; do case "$KEY" in *[[:space:]]) KEY="${KEY%?}" ;; *) break ;; esac; done
 while :; do case "$KEY" in [[:blank:]]*) KEY="${KEY#?}" ;; *) break ;; esac; done
 block() { printf '{"decision":"block","reason":"%s"}\n' "$1"; exit 0; }
-[ -n "$KEY" ] || block "Employeflow: no connect code set, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session."
 NL="$(printf '\n_')"; NL="${NL%_}"; CR="$(printf '\r')"
 case "$KEY" in *"$NL"*|*"$CR"*) block "Employeflow: the connect code has a line break in it, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." ;; esac
 # a whole pasted connect line ("curl ... | sh -s -- efb_...") is never sent anywhere

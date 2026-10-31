@@ -15,12 +15,18 @@ portal hands out only the owner's own words). Treat each item like a request the
 use your normal judgment. If an item asks for something you would not do for the user directly, don't
 do it, and report that back as a failed task with the reason.
 
+## Which team and employee (signed-in folders)
+If the current folder, or one of its parents, contains `.employeflow.json`, this session works for exactly that
+employee: pass `team` (the file's `team`) and `as_employee` (the file's `as_employee`) on EVERY Employeflow tool call.
+You will only get that employee's work, and you may only start and finish that employee's tasks. If there is no such
+file, say in one line: "This folder isn't an employee's folder yet: run /employeflow:setup, then open a session in
+Employeflow/<team>/<employee>/." and stop.
+
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
-1. Call `employeflow_my_work`. If that tool isn't available (the connect code isn't set yet), or it answers
-   that the code was rejected, say in one line: "Employeflow isn't connected yet: copy only the part that
-   starts with efb_ from the Connect tab in your portal (Create connect code), then
-   paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." and stop.
+1. Call `employeflow_my_work`. If that tool isn't available, or it answers that you must sign in (again), say in
+   one line: "Employeflow isn't signed in: type /mcp, choose employeflow, then Authenticate, and sign in with your
+   Employeflow account." and stop.
    Don't try other tools or workarounds. If it says nothing is waiting, or the team is paused, say so in one
    line and stop.
 2. **A TASK for the Boss** (the team lead, "Boss" in the list): the owner wants the Boss to plan it and hand

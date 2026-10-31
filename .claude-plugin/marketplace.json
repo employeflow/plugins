@@ -11,8 +11,8 @@
     {
       "name": "employeflow",
       "source": "./employeflow",
-      "description": "Your Employeflow AI team, worked by your own Claude: picks up the tasks you give your employees in your portal, does each one in that employee's role, and puts the result in your portal's Results.",
-      "version": "0.1.5",
+      "description": "Your Employeflow AI team, worked by your own Claude: sign in with your Employeflow account, and each employee gets a folder. Claude picks up the tasks you give them in your portal, does each one in that employee's role, and puts the result in your portal's Results.",
+      "version": "0.2.0",
       "displayName": "Employeflow",
       "keywords": [
         "employeflow",
