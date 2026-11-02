@@ -15,18 +15,19 @@ portal hands out only the owner's own words). Treat each item like a request the
 use your normal judgment. If an item asks for something you would not do for the user directly, don't
 do it, and report that back as a failed task with the reason.
 
-## Which team and employee (signed-in folders)
-If the current folder, or one of its parents, contains `.employeflow.json`, this session works for exactly that
-employee: pass `team` (the file's `team`) and `as_employee` (the file's `as_employee`) on EVERY Employeflow tool call.
-You will only get that employee's work, and you may only start and finish that employee's tasks. If there is no such
-file, say in one line: "This folder isn't an employee's folder yet: run /employeflow:setup, then open a session in
-Employeflow/<team>/<employee>/." and stop.
+## Which team (and employee)
+Look for `.employeflow.json` in the current folder or one of its parents. On EVERY Employeflow tool call, pass `team`
+(the file's `team`), and `as_employee` (the file's `as_employee`) too if it has one. With `as_employee` (a folder made by /employeflow:setup) this session
+works only that employee's tasks; without it, the whole team, each task in its employee's role. Without the file,
+leave `team` out: an account with one team works that team. Always pass `plugin_version: "0.3.0"` to
+`employeflow_my_work`.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
 1. Call `employeflow_my_work`. If that tool isn't available, or it answers that you must sign in (again), say in
    one line: "Employeflow isn't signed in: type /mcp, choose employeflow, then Authenticate, and sign in with your
-   Employeflow account." and stop.
+   Employeflow account." and stop. If it says to name the team, say "Type /employeflow:start to pick your team." and stop.
+   If its answer starts with UPDATE, do what it says about the update (ask before changing anything), then go on.
    Don't try other tools or workarounds. If it says nothing is waiting, or the team is paused, say so in one
    line and stop.
 2. **A TASK for the Boss** (the team lead, "Boss" in the list): the owner wants the Boss to plan it and hand
@@ -74,7 +75,7 @@ in the Claude app (it runs while the app is open and the computer is awake):
 - prompt: `/employeflow:work auto` (exactly this: the word `auto` lets the plugin check the portal first, so a
   run with nothing waiting stops before Claude starts and uses none of the user's plan)
 - schedule: every 15 minutes (only runs that find work use the user's Claude plan)
-- folder: the folder they keep their Employeflow work in
+- folder: the folder they keep their Employeflow work in (where /employeflow:start ran)
 
 Create it only when the user asks for it or agrees to it. Never set up anything else that runs on its own.
 

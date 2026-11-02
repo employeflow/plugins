@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Set up Employeflow on this computer for a signed-in Employeflow account — one folder per team and one per employee, so each Claude session works for exactly one employee. Use when the user says "set up my Employeflow folders", "/employeflow:setup", "connect all my teams", or right after signing in to Employeflow.
+description: Optional, for busy teams — one folder per team and one per employee, so several Claude sessions work in parallel, each for exactly one employee. Use only when the user asks for employee folders or "/employeflow:setup". For a normal start use /employeflow:start.
 ---
 
 # Employeflow: one folder per team, one per employee

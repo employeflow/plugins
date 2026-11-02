@@ -14,64 +14,43 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
 - An **Employeflow account** ([employeflow.com](https://employeflow.com)) that owns a team or is a member of one.
   You sign in with it once; there is no code to copy.
 
-## Install
+## Start in 3 steps
 
-**In the Claude app:**
+1. **On [employeflow.com](https://employeflow.com):** sign up and build your team.
+2. **In the Claude app:** open **Settings → Plugins** (German: **Einstellungen → Plugins**), click **Add**
+   (**Hinzufügen**), enter `employeflow/plugins`, then click **Add to this computer** (**Zu diesem Computer hinzufügen**).
+3. **In a new chat, type `/employeflow:start`.** Claude asks you to connect: click **Connect**, sign in on
+   employeflow.com and click **Allow**. Then it finds your team, does the work that is waiting, and asks once whether
+   to check for new work automatically. Say yes.
 
-1. Open **Settings → Plugins** (German: **Einstellungen → Plugins**). Typing `/plugin` into a chat opens the same window.
-2. Click **Add** (top right; German: **Hinzufügen**) and enter `employeflow/plugins`.
-3. **Employeflow** now appears in the list. Click **Add to this computer** (German: **Zu diesem Computer hinzufügen**).
-4. Start a **new session** and type `/mcp`. Choose **employeflow**, then **Authenticate**. Your browser opens
-   employeflow.com: sign in if asked, then click **Allow**. Go back to Claude.
-5. Type `/employeflow:setup`. It creates one folder per team and one per employee:
-   `Employeflow/<team>/<employee>/`.
+That's it. New tasks you give your employees in the portal are picked up automatically while the Claude app is open
+and the computer is awake, each one done in that employee's role, and the results appear in your portal's Results.
+Checks that find nothing waiting stop before Claude starts, so they use none of your Claude plan.
 
-**In a terminal:**
+In a terminal instead of the app: `claude plugin marketplace add employeflow/plugins`, then
+`claude plugin install employeflow@employeflow`, then start `claude` and type `/employeflow:start`.
 
-```
-claude plugin marketplace add employeflow/plugins
-```
+## Day to day
 
-```
-claude plugin install employeflow@employeflow
-```
+- Type `/employeflow:work` any time to do what's waiting right now.
+- Finished work is kept in the folder where you ran `/employeflow:start`: `Employeflow/<Employee>/results/` (one file
+  per task) and `Employeflow/<Employee>/NOTES.md` (what the employee learned).
+- When a newer version of the plugin exists, Claude tells you and offers to update it; it changes nothing without
+  your yes. The Claude app needs a restart afterwards.
+- To sign out: Settings → Plugins → Employeflow → Connectors → employeflow → disconnect (or type `/mcp`, choose
+  **employeflow**, then **Clear authentication**).
 
-Then start `claude` and do steps 4 and 5 above.
+**Busy team?** `/employeflow:setup` (optional) makes one folder per employee, so several Claude sessions work in
+parallel, each for one employee with its own memory. Open a session in an employee's folder and type `/employeflow:work`.
 
-Claude Code keeps the sign-in on your computer, in your system's secure storage (the macOS Keychain), and renews it
-by itself. To sign out, type `/mcp`, choose **employeflow**, then **Clear authentication**.
-
-## Use it
-
-Open a new Claude Code session **in an employee's folder** (for example `Employeflow/My Team/Tom/`) and type:
-
-```
-/employeflow:work
-```
-
-That session works only for that employee: it sees only that employee's tasks and chats, does each one in that
-role, and reports back. It ends with one line: tasks done, tasks failed, chats answered. If the portal didn't accept a
-report, that line says **not reported** with the reason, and the result file stays in the folder; such a task doesn't
-count as done. The Boss's folder plans the tasks you give the Boss and hands the parts to the employees.
-
-**Checking automatically.** In an employee's folder, ask Claude to "check my Employeflow every hour". It offers a
-scheduled task in the Claude app with the prompt `/employeflow:work auto`, and creates it only if you say yes.
-Scheduled tasks run while the app is open and the computer is awake. Each check is a short Claude turn, also when
-nothing is waiting, so check every hour rather than every few minutes.
-
-Finished work is kept in the employee's folder: `results/` (one file per task) and `NOTES.md` (what the employee
-learned, read again on the next run).
-
-## Check that it works
+## If something doesn't work
 
 | You see | What it means |
 |---|---|
-| "Employeflow isn't signed in" | Sign in as in step 4. |
-| "This folder isn't an employee's folder yet" | Run `/employeflow:setup`, then open the session in an employee's folder. |
-| "nothing waiting" | Signed in; this employee has no open work right now. |
-| "no team … on your account" | The folder names a team your account can't reach (any more). Run `/employeflow:setup` again. |
-
-In `/mcp` the `employeflow` connector shows **needs authentication** until you sign in.
+| "Connect Employeflow first" | Click Connect as in step 3 (Settings → Plugins → Employeflow → Connectors). |
+| "Create your team on employeflow.com first" | Your account has no team yet. |
+| "Type /employeflow:start to pick your team" | Your account reaches several teams; start picks one for this folder. |
+| "nothing waiting" | Connected; no open work right now. |
 
 ## What it sends, and what it doesn't
 
@@ -80,7 +59,11 @@ employeflow.com; Claude Code only receives a sign-in token for your account.
 
 **It sends:**
 
-- Your **sign-in token**, with every request, plus the **team and employee** of the folder (from `.employeflow.json`).
+- Your **sign-in token**, with every request, plus the **team** (and, in an employee's folder, the **employee**) from
+  `.employeflow.json`, and the plugin's version.
+- For the automatic check: a **count-only key** that `/employeflow:start` stores in `~/.config/employeflow/` (readable
+  only by you). It can only ask "how much is waiting for this team?", nothing else, and stops working when your account
+  no longer reaches the team.
 - A **task id** when Claude starts a task.
 - The **result you report** when a task is done or failed: the result itself, or a short summary plus where the file
   is (at most 600 characters).
@@ -100,18 +83,19 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 
 | Part | File | What it does |
 |---|---|---|
-| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Six tools: your teams, your employee's open work, start a task, finish a task, reply to a chat, and (for the Boss) hand a part of a task to an employee |
-| Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Creates the team and employee folders (`/employeflow:setup`) |
+| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Seven tools: your teams, the open work, start a task, finish a task, reply to a chat, (for the Boss) hand a part of a task to an employee, and the count-only key |
+| Skill `start` | [`employeflow/skills/start/SKILL.md`](employeflow/skills/start/SKILL.md) | Connect, pick the team, do the waiting work, turn on the automatic check (`/employeflow:start`) |
+| Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Optional: one folder per employee (`/employeflow:setup`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
-| Hook | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh) | The idle check of the older connect-code version; with sign-in it lets every prompt pass |
+| Hook | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh) | The free idle check: before a scheduled `/employeflow:work auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched and is never sent anywhere |
 
 The plugin never starts anything on its own. Work only runs when you type `/employeflow:work`, or from a scheduled
 task you created yourself.
 
-## Upgrading from 0.1 (connect code)
+## Upgrading from 0.1 or 0.2
 
-Version 0.2 signs in with your account instead of a connect code. After the update: do steps 4 and 5 above, then run
-`/employeflow:work` in an employee's folder. Your old connect code is no longer used by the plugin.
+Since 0.2 the plugin signs in with your account instead of a connect code. After the update, type
+`/employeflow:start` once. Your old connect code is no longer used by the plugin.
 
 ## Uninstall
 
@@ -126,7 +110,7 @@ Optionally remove the marketplace too:
 ```
 
 If you created a scheduled task for `/employeflow:work auto`, delete it in the Claude app as well. Your folders,
-result files and notes stay where they are.
+result files and notes stay where they are; you can delete `~/.config/employeflow/`.
 
 ## Questions and security reports
 

@@ -9,22 +9,40 @@
 # team_key) comes from Claude Code as CLAUDE_PLUGIN_OPTION_TEAM_KEY (the first argument is
 # still read, for older installs). Any doubt stops the scheduled prompt: no code, a pasted
 # command line, a rejected code, or no clear answer from the portal.
-# SIGN-IN (0.2.0, 31 Oct 2026): the plugin signs in with an Employeflow account, and that token lives in Claude Code's
-# own secure storage, which this hook cannot (and must not) read. With no connect code there is nothing to check
-# with, so the prompt passes and Claude asks the portal itself (stdin is read first, so the hook never cuts it off).
 IN=$(cat)
-[ -n "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ] || exit 0
 # exactly "/employeflow:work auto" (trailing spaces/newlines allowed), never a prefix: a typed
 # "/employeflow:work autopilot" is not checked
 printf '%s' "$IN" | grep -q -E '"prompt" ?: ?"/employeflow:work auto( |\\n|\\r)*"' || exit 0
-KEY="${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}"; URL="${2:-https://employeflow.com/api/mcp}"
+URL="${2:-https://employeflow.com/api/mcp}"
+block() { printf '{"decision":"block","reason":"%s"}\n' "$1"; exit 0; }
+# SIGN-IN (0.2.0/0.3.0): the account's sign-in lives in Claude Code's own secure storage, which this hook cannot (and
+# must not) read. /employeflow:start leaves a PEEK KEY instead: it can only count one team's waiting work. The team is
+# the one in this folder's .employeflow.json; its key is ~/.config/employeflow/peek-<team>.key. Here any doubt (no
+# file, no key, a refused key, no clear answer) lets the prompt PASS, so the work still runs and only costs a turn.
+if [ -z "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ]; then
+  CWD=$(printf '%s' "$IN" | sed -n 's/.*"cwd"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n 1)
+  [ -n "$CWD" ] || CWD=$(pwd)
+  TEAM=$(sed -n 's/.*"team"[[:space:]]*:[[:space:]]*"\([0-9a-fA-F-]\{36\}\)".*/\1/p' "$CWD/.employeflow.json" 2>/dev/null | head -n 1)
+  [ -n "$TEAM" ] || exit 0
+  KF="$HOME/.config/employeflow/peek-$TEAM.key"
+  [ -r "$KF" ] || exit 0
+  KEY=$(head -n 1 "$KF")
+  case "$KEY" in efp_*) ;; *) exit 0 ;; esac
+  case "$KEY" in *[!A-Za-z0-9_-]*) exit 0 ;; esac
+  OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?peek=1") || exit 0
+  [ "$(printf '%s' "$OUT" | tail -n 1)" = 200 ] || exit 0
+  N=$(printf '%s' "$OUT" | sed -n 's/.*"waiting"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)
+  [ -n "$N" ] || exit 0
+  [ "$N" -gt 0 ] && exit 0
+  block "Employeflow: nothing waiting."
+fi
+KEY="${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}"
 # a stray space or line break around a copied code is trimmed the way the connector's header
 # is (trailing whitespace, leading spaces/tabs; the portal trims too). A line break that isn't
 # at the end breaks the connector's header, and whitespace inside is a pasted command line:
 # both are refused below, never sent
 while :; do case "$KEY" in *[[:space:]]) KEY="${KEY%?}" ;; *) break ;; esac; done
 while :; do case "$KEY" in [[:blank:]]*) KEY="${KEY#?}" ;; *) break ;; esac; done
-block() { printf '{"decision":"block","reason":"%s"}\n' "$1"; exit 0; }
 NL="$(printf '\n_')"; NL="${NL%_}"; CR="$(printf '\r')"
 case "$KEY" in *"$NL"*|*"$CR"*) block "Employeflow: the connect code has a line break in it, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." ;; esac
 # a whole pasted connect line ("curl ... | sh -s -- efb_...") is never sent anywhere
