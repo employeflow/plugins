@@ -35,8 +35,11 @@ In a terminal instead of the app: `claude plugin marketplace add employeflow/plu
 - Type `/employeflow:work` any time to do what's waiting right now.
 - Finished work is kept in the folder where you ran `/employeflow:start`: `Employeflow/<Employee>/results/` (one file
   per task) and `Employeflow/<Employee>/NOTES.md` (what the employee learned).
-- When a newer version of the plugin exists, Claude tells you and offers to update it; it changes nothing without
-  your yes. The Claude app needs a restart afterwards.
+- **Updates.** The Claude app does not fetch a newer version of this plugin by itself. When one exists, your portal's
+  status line and the automatic check say so. To update: open a Code session, type `/employeflow:work` and say yes when
+  Claude offers the update (it runs `claude plugin marketplace update employeflow`, then
+  `claude plugin update employeflow@employeflow`), then restart the Claude app. Removing and adding the plugin again is
+  not enough: the app keeps the old copy.
 - To sign out: Settings → Plugins → Employeflow → Connectors → employeflow → disconnect (or type `/mcp`, choose
   **employeflow**, then **Clear authentication**).
 

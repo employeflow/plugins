@@ -14,6 +14,18 @@ IN=$(cat)
 # "/employeflow:work autopilot" is not checked
 printf '%s' "$IN" | grep -q -E '"prompt" ?: ?"/employeflow:work auto( |\\n|\\r)*"' || exit 0
 URL="${2:-https://employeflow.com/api/mcp}"
+# this plugin's version, sent with the check so the portal can say when a newer one exists (0.3.1); the Claude app never
+# fetches a newer Employeflow plugin by itself
+ROOT=$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)
+VER=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)".*/\1/p' "$ROOT/.claude-plugin/plugin.json" 2>/dev/null | head -n 1)
+QS="peek=1"; [ -n "$VER" ] && QS="peek=1&v=$VER"
+# nothing waiting: stop the run, and say it if a newer plugin is ready (the steps come from the portal's answer)
+idle() {
+  case "$1" in *'"update":true'*)
+    block "Employeflow: nothing waiting. A newer Employeflow plugin is ready: open a Code session, type /employeflow:work and say yes when Claude offers the update, then restart the Claude app." ;;
+  esac
+  block "Employeflow: nothing waiting."
+}
 block() { printf '{"decision":"block","reason":"%s"}\n' "$1"; exit 0; }
 # SIGN-IN (0.2.0/0.3.0): the account's sign-in lives in Claude Code's own secure storage, which this hook cannot (and
 # must not) read. /employeflow:start leaves a PEEK KEY instead: it can only count one team's waiting work. The team is
@@ -29,12 +41,12 @@ if [ -z "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ]; then
   KEY=$(head -n 1 "$KF")
   case "$KEY" in efp_*) ;; *) exit 0 ;; esac
   case "$KEY" in *[!A-Za-z0-9_-]*) exit 0 ;; esac
-  OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?peek=1") || exit 0
+  OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?$QS") || exit 0
   [ "$(printf '%s' "$OUT" | tail -n 1)" = 200 ] || exit 0
   N=$(printf '%s' "$OUT" | sed -n 's/.*"waiting"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)
   [ -n "$N" ] || exit 0
   [ "$N" -gt 0 ] && exit 0
-  block "Employeflow: nothing waiting."
+  idle "$OUT"
 fi
 KEY="${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}"
 # a stray space or line break around a copied code is trimmed the way the connector's header
@@ -48,7 +60,7 @@ case "$KEY" in *"$NL"*|*"$CR"*) block "Employeflow: the connect code has a line 
 # a whole pasted connect line ("curl ... | sh -s -- efb_...") is never sent anywhere
 case "$KEY" in *[[:space:]]*) block "Employeflow: the connect code looks like a whole command line, nothing checked. Copy only the part that starts with efb_ from the Connect tab in your portal (Create connect code), then paste it in the Claude app under Settings → Plugins → Employeflow → Settings tab, or type /plugin configure employeflow@employeflow, then start a new session." ;; esac
 # the key goes to curl on stdin, never on its command line
-OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?peek=1") \
+OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?$QS") \
   || block "Employeflow: the portal did not answer; nothing checked. Try /employeflow:work by hand."
 CODE=$(printf '%s' "$OUT" | tail -n 1)
 case "$CODE" in
@@ -59,4 +71,4 @@ esac
 N=$(printf '%s' "$OUT" | sed -n 's/.*"waiting"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)
 [ -n "$N" ] || block "Employeflow: the portal answered unexpectedly; nothing checked. Try /employeflow:work by hand."
 [ "$N" -gt 0 ] && exit 0
-block "Employeflow: nothing waiting."
+idle "$OUT"

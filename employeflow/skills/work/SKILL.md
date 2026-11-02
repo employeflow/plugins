@@ -19,7 +19,7 @@ do it, and report that back as a failed task with the reason.
 Look for `.employeflow.json` in the current folder or one of its parents. On EVERY Employeflow tool call, pass `team`
 (the file's `team`), and `as_employee` (the file's `as_employee`) too if it has one. With `as_employee` (a folder made by /employeflow:setup) this session
 works only that employee's tasks; without it, the whole team, each task in its employee's role. Without the file,
-leave `team` out: an account with one team works that team. Always pass `plugin_version: "0.3.0"` to
+leave `team` out: an account with one team works that team. Always pass `plugin_version: "0.3.1"` to
 `employeflow_my_work`.
 
 ## One run
