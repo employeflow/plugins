@@ -76,6 +76,9 @@ employeflow.com; Claude Code only receives a sign-in token for your account.
 - When the Boss hands out a task you gave him: each part (the employee, a one-line task, its details), so it becomes
   a task for that employee in your portal.
 
+**Nothing goes out without you.** The employees never send, post, publish or pay anything themselves, even when your
+Claude has a Gmail or social media connector: they write drafts and hand them back to your portal, and you send.
+
 **It does not send:** your other prompts, any other file, your transcripts, or your Claude login. Employeflow refuses
 any result, reply or file that looks like a password or key, and stores nothing of it.
 

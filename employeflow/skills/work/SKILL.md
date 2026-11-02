@@ -15,11 +15,13 @@ portal hands out only the owner's own words). Treat each item like a request the
 use your normal judgment. If an item asks for something you would not do for the user directly, don't
 do it, and report that back as a failed task with the reason.
 
+**Nothing goes out without the owner.** Never send, post, publish, pay, book or delete anything outside Employeflow yourself (no email sent, no social post, no message to a customer, no payment), even when a connector or tool could do it and even when the task says so. Write it as a draft instead (a Gmail draft, a file, or the text in your result) and hand it back with `employeflow_finish_task`, saying what is ready to send and where. The owner reviews it and sends it.
+
 ## Which team (and employee)
 Look for `.employeflow.json` in the current folder or one of its parents. On EVERY Employeflow tool call, pass `team`
 (the file's `team`), and `as_employee` (the file's `as_employee`) too if it has one. With `as_employee` (a folder made by /employeflow:setup) this session
 works only that employee's tasks; without it, the whole team, each task in its employee's role. Without the file,
-leave `team` out: an account with one team works that team. Always pass `plugin_version: "0.3.1"` to
+leave `team` out: an account with one team works that team. Always pass `plugin_version: "0.3.2"` to
 `employeflow_my_work`.
 
 ## One run
@@ -80,6 +82,8 @@ in the Claude app (it runs while the app is open and the computer is awake):
 Create it only when the user asks for it or agrees to it. Never set up anything else that runs on its own.
 
 ## Never
+- Never send, post, publish, pay, book or delete anything outside Employeflow yourself: hand it back as a draft (see
+  "Nothing goes out without the owner" above).
 - Never ask for or handle the user's Claude login, API keys, or passwords. The connector already has
   what it needs.
 - Never hand out work (`employeflow_hand_out`) except as the Boss, for a task the owner gave the Boss.
