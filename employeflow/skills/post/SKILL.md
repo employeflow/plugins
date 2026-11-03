@@ -32,7 +32,11 @@ session.)
    "question from <from>: <text>". End it with: "Do it now: same steps as /employeflow:work (this session is
    <employee>)."
    If a send fails, note it: that item comes again in 30 minutes by itself.
-5. End with one line: who got what ("Lena 2, Tom 1"), or "Nothing new."
+5. **Keep the minute check running.** Only when the user typed this (not `/employeflow:post auto`): look with
+   `CronList` for a job with the prompt `/employeflow:post auto` in this session. If there is none (the app was
+   quit, or 7 days have passed), ask once: "Bring new work to your employees every minute again?" and on yes create it
+   as in "Setting it up".
+6. End with one line: who got what ("Lena 2, Tom 1"), or "Nothing new."
 
 ## Setting it up (from /employeflow:start)
 - The folder is `~/Employeflow/<team>/Post office/` with `.employeflow.json`

@@ -24,7 +24,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.5.0"` to `employeflow_my_work`.
+`plugin_version: "0.5.1"` to `employeflow_my_work`.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
@@ -76,6 +76,11 @@ say once at the end: "Tip: type /employeflow:start to give each employee its own
    failed, chats answered. If anything was not reported, say so plainly in that line with the error, for
    example: "2 tasks done, 1 NOT reported (nicht gemeldet): the portal said HTTP 400 nothing accepted.
    Result file: ~/Employeflow/<team>/Tom/results/tom-video-4-cut-2026-10-20.md".
+
+7. **Keep the check running** (the same gap as the post office, Elliot 3 Nov): only when the user typed this (not
+   `/employeflow:work auto`), the team has no post office (no session titled "Post office" in the team's group) and
+   `CronList` shows no `/employeflow:work auto` job in this session: ask once whether to check every 15 minutes again,
+   and on yes create it as in "Checking automatically" below.
 
 Respect the team goals shown in the work: when a task belongs to a goal, keep that goal in mind.
 
