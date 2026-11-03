@@ -19,10 +19,12 @@ do it, and report that back as a failed task with the reason.
 
 ## Which team (and employee)
 Look for `.employeflow.json` in the current folder or one of its parents. On EVERY Employeflow tool call, pass `team`
-(the file's `team`), and `as_employee` (the file's `as_employee`) too if it has one. With `as_employee` (a folder made by /employeflow:setup) this session
-works only that employee's tasks; without it, the whole team, each task in its employee's role. Without the file,
-leave `team` out: an account with one team works that team. Always pass `plugin_version: "0.3.2"` to
-`employeflow_my_work`.
+(the file's `team`), and `as_employee` (the file's `as_employee`) too if it has one. With `as_employee` (a folder made
+by /employeflow:start) this session IS that employee: it works only that employee's tasks and messages, in that
+employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
+say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
+"Type /employeflow:start to make this session one of your employees." and stop. Always pass
+`plugin_version: "0.4.0"` to `employeflow_my_work`.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
@@ -38,14 +40,19 @@ leave `team` out: an account with one team works that team. Always pass `plugin_
    details they need, and `boss_task_id` = this task's id (at most 5 parts; never the Boss himself; nothing the
    owner did not ask for). Then call `employeflow_finish_task` for the Boss task with the plan as the result:
    who does what. If the task is small enough for one employee, hand it to that one. If no employee fits, do it
-   yourself as the Boss like any other task.
+   yourself as the Boss like any other task. The parts wait for their employees' own sessions: call the app's
+   `list_sessions` tool (if it has one) with `group` = the team name, and in the result name every employee you
+   handed a part to who has no session there yet ("Tom has no session yet: open a new Code session and type
+   /employeflow:start"). The others start at their sessions' next check.
 3. For each other **TASK** (in the order given):
    1. Call `employeflow_start_task` with its id. If it returns an error, don't do the task: note it as
       not reported (with the error) and go on to the next one.
-   2. Read the employee's notes, if they exist: `Employeflow/<Employee>/NOTES.md` in the current folder.
-      They hold what this employee learned in earlier runs.
-   3. Do the task as that employee (their role is listed in the work). Keep the result in the current
-      folder under `Employeflow/<Employee>/results/`, one file per task, named
+   2. Read the employee's notes, if they exist: `NOTES.md` in the employee's folder (the folder of
+      `.employeflow.json`; in an older whole-team folder `Employeflow/<Employee>/NOTES.md`). They hold what this
+      employee learned in earlier runs.
+   3. Do the task as that employee (their role is listed in the work). Keep the result in the
+      employee's folder under `results/` (in an older whole-team folder `Employeflow/<Employee>/results/`), one file
+      per task, named
       `<employee>-<short-topic>-<YYYY-MM-DD>.md` in lowercase with hyphens (for example
       `tom-video-4-cut-2026-10-20.md`). Don't put the word "task" or the task id in the file name.
    4. Call `employeflow_finish_task` with the result, or a two-line summary plus the file path. If the result
@@ -57,29 +64,32 @@ leave `team` out: an account with one team works that team. Always pass `plugin_
       **Check its answer.** Only "Saved" means the portal has it. If it returns an error, the task is
       **not reported**: the owner doesn't see it in the portal. Don't count it as done, don't call it
       "registered" or "probably saved", and don't retry more than once.
-   5. Add one dated line to `Employeflow/<Employee>/NOTES.md`: what you did and anything worth
+   5. Add one dated line to the employee's `NOTES.md` (same place as in step 2): what you did and anything worth
       remembering next time. If the report failed, the line says "NOT reported: <the error>" and where the
       result file is.
 4. For each **CHAT** message: answer as the employee it is addressed to, with `employeflow_reply_chat`.
    Use the employee's notes when they help. If it returns an error, that answer is **not reported** either.
-5. If you handed anything out as the Boss, call `employeflow_my_work` once more: those tasks are waiting now.
-   Do them the same way (steps 3 and 4). One extra round only.
+5. Only in an older whole-team folder (no `as_employee`): if you handed anything out as the Boss, call
+   `employeflow_my_work` once more: those tasks are waiting now. Do them the same way (steps 3 and 4). One extra
+   round only. An employee's own session never does another employee's part.
 6. End with one line, in the user's language, counting only what the portal confirmed: tasks done, tasks
    failed, chats answered. If anything was not reported, say so plainly in that line with the error, for
    example: "2 tasks done, 1 NOT reported (nicht gemeldet): the portal said HTTP 400 nothing accepted.
-   Result file: Employeflow/Tom/results/tom-video-4-cut-2026-10-20.md".
+   Result file: ~/Employeflow/<team>/Tom/results/tom-video-4-cut-2026-10-20.md".
 
 Respect the team goals shown in the work: when a task belongs to a goal, keep that goal in mind.
 
 ## Checking automatically
-If the user wants their team's work done without asking each time, offer to create a **scheduled task**
-in the Claude app (it runs while the app is open and the computer is awake):
+If the user wants this employee's work done without asking each time, offer to check **in this session** with the
+`CronCreate` tool (it runs while the app is open; it stops when the app quits and after 7 days, and typing
+/employeflow:work here starts it again):
 - prompt: `/employeflow:work auto` (exactly this: the word `auto` lets the plugin check the portal first, so a
   run with nothing waiting stops before Claude starts and uses none of the user's plan)
-- schedule: every 15 minutes (only runs that find work use the user's Claude plan)
-- folder: the folder they keep their Employeflow work in (where /employeflow:start ran)
+- cron: `7,22,37,52 * * * *` (every 15 minutes; only runs that find work use the user's Claude plan)
 
-Create it only when the user asks for it or agrees to it. Never set up anything else that runs on its own.
+Never use the app's scheduled tasks for it: they open a new session for every run, and an employee's work belongs in
+that employee's session. Create it only when the user asks for it or agrees to it, and only once per session (check
+`CronList` first). Never set up anything else that runs on its own.
 
 ## Never
 - Never send, post, publish, pay, book or delete anything outside Employeflow yourself: hand it back as a draft (see

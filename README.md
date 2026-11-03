@@ -14,17 +14,21 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
 - An **Employeflow account** ([employeflow.com](https://employeflow.com)) that owns a team or is a member of one.
   You sign in with it once; there is no code to copy.
 
-## Start in 3 steps
+## Start in 4 steps
 
 1. **On [employeflow.com](https://employeflow.com):** sign up and build your team.
 2. **In the Claude app:** open **Settings → Plugins** (German: **Einstellungen → Plugins**), click **Add**
    (**Hinzufügen**), enter `employeflow/plugins`, then click **Add to this computer** (**Zu diesem Computer hinzufügen**).
-3. **In a new chat, type `/employeflow:start`.** Claude asks you to connect: click **Connect**, sign in on
-   employeflow.com and click **Allow**. Then it finds your team, does the work that is waiting, and asks once whether
-   to check for new work automatically. Say yes.
+3. **Connect once.** In a new Code session type `/mcp`, choose **employeflow**, click **Authenticate**, sign in on
+   employeflow.com and click **Allow**. (Use `/mcp`, not the Settings page.)
+4. **Type `/employeflow:start`.** Claude asks which team and which employee this session is, names the session after
+   them and files it under your team in the sidebar. Then it does that employee's waiting work and asks once whether
+   to check for new work every 15 minutes. Say yes. For the next employee, open a new Code session and type
+   `/employeflow:start` again.
 
-That's it. New tasks you give your employees in the portal are picked up automatically while the Claude app is open
-and the computer is awake, each one done in that employee's role, and the results appear in your portal's Results.
+That's it: one session per employee, each one named and grouped under your team. New tasks you give an employee in
+the portal are picked up by that employee's session while the Claude app is open, and the results appear in your
+portal's Results. Whether each employee's session checked in, and when, is shown on the portal.
 Checks that find nothing waiting stop before Claude starts, so they use none of your Claude plan.
 
 In a terminal instead of the app: `claude plugin marketplace add employeflow/plugins`, then
@@ -33,24 +37,22 @@ In a terminal instead of the app: `claude plugin marketplace add employeflow/plu
 ## Day to day
 
 - Type `/employeflow:work` any time to do what's waiting right now.
-- Finished work is kept in the folder where you ran `/employeflow:start`: `Employeflow/<Employee>/results/` (one file
-  per task) and `Employeflow/<Employee>/NOTES.md` (what the employee learned).
+- Finished work is kept in each employee's folder, `~/Employeflow/<team>/<employee>/`: `Employeflow/<Employee>/results/`
+  (one file per task) and `Employeflow/<Employee>/NOTES.md` (what the employee learned).
+- The 15-minute check runs inside the employee's session. It stops when you quit the Claude app (and after 7 days):
+  type `/employeflow:work` in that session to start it again.
 - **Updates.** The Claude app does not fetch a newer version of this plugin by itself. When one exists, your portal's
   status line and the automatic check say so. To update: open a Code session, type `/employeflow:work` and say yes when
   Claude offers the update (it runs `claude plugin marketplace update employeflow`, then
   `claude plugin update employeflow@employeflow`), then restart the Claude app. Removing and adding the plugin again is
   not enough: the app keeps the old copy.
-- To sign out: Settings → Plugins → Employeflow → Connectors → employeflow → disconnect (or type `/mcp`, choose
-  **employeflow**, then **Clear authentication**).
-
-**Busy team?** `/employeflow:setup` (optional) makes one folder per employee, so several Claude sessions work in
-parallel, each for one employee with its own memory. Open a session in an employee's folder and type `/employeflow:work`.
+- To sign out: type `/mcp`, choose **employeflow**, then **Clear authentication**.
 
 ## If something doesn't work
 
 | You see | What it means |
 |---|---|
-| "Connect Employeflow first" | Click Connect as in step 3 (Settings → Plugins → Employeflow → Connectors). |
+| "Connect Employeflow first" | Do step 3: `/mcp` → employeflow → Authenticate, in a new session. |
 | "Create your team on employeflow.com first" | Your account has no team yet. |
 | "Type /employeflow:start to pick your team" | Your account reaches several teams; start picks one for this folder. |
 | "nothing waiting" | Connected; no open work right now. |

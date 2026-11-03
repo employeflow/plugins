@@ -31,17 +31,27 @@ block() { printf '{"decision":"block","reason":"%s"}\n' "$1"; exit 0; }
 # must not) read. /employeflow:start leaves a PEEK KEY instead: it can only count one team's waiting work. The team is
 # the one in this folder's .employeflow.json; its key is ~/.config/employeflow/peek-<team>.key. Here any doubt (no
 # file, no key, a refused key, no clear answer) lets the prompt PASS, so the work still runs and only costs a turn.
-if [ -z "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ]; then
-  CWD=$(printf '%s' "$IN" | sed -n 's/.*"cwd"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n 1)
-  [ -n "$CWD" ] || CWD=$(pwd)
-  TEAM=$(sed -n 's/.*"team"[[:space:]]*:[[:space:]]*"\([0-9a-fA-F-]\{36\}\)".*/\1/p' "$CWD/.employeflow.json" 2>/dev/null | head -n 1)
+# 0.4.0 (measured 3 Nov 2026): a folder with its own check key wins over an old connect code. An install that once had a
+# 0.1 connect code still hands it to this hook; when that code is no longer valid, every scheduled check was stopped
+# with "connect code rejected" even with work waiting.
+CWD=$(printf '%s' "$IN" | sed -n 's/.*"cwd"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n 1)
+[ -n "$CWD" ] || CWD=$(pwd)
+TEAM=$(sed -n 's/.*"team"[[:space:]]*:[[:space:]]*"\([0-9a-fA-F-]\{36\}\)".*/\1/p' "$CWD/.employeflow.json" 2>/dev/null | head -n 1)
+KF=""; [ -n "$TEAM" ] && KF="$HOME/.config/employeflow/peek-$TEAM.key"
+if [ -z "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ] || { [ -n "$KF" ] && [ -r "$KF" ]; }; then
   [ -n "$TEAM" ] || exit 0
-  KF="$HOME/.config/employeflow/peek-$TEAM.key"
   [ -r "$KF" ] || exit 0
   KEY=$(head -n 1 "$KF")
   case "$KEY" in efp_*) ;; *) exit 0 ;; esac
   case "$KEY" in *[!A-Za-z0-9_-]*) exit 0 ;; esac
-  OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?$QS") || exit 0
+  # ONE SESSION = ONE EMPLOYEE (0.4.0): a folder made by /employeflow:start names its employee; then only that
+  # employee's waiting work counts (sent url-encoded by curl, never built by hand)
+  EMP=$(sed -n 's/.*"as_employee"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$CWD/.employeflow.json" 2>/dev/null | head -n 1)
+  if [ -n "$EMP" ]; then
+    OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -G -w '\n%{http_code}' -H @- --data-urlencode "as_employee=$EMP" "$URL?$QS") || exit 0
+  else
+    OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?$QS") || exit 0
+  fi
   [ "$(printf '%s' "$OUT" | tail -n 1)" = 200 ] || exit 0
   N=$(printf '%s' "$OUT" | sed -n 's/.*"waiting"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)
   [ -n "$N" ] || exit 0
