@@ -12,7 +12,7 @@
       "name": "employeflow",
       "source": "./employeflow",
       "description": "AI employees that draft your replies, sort your invoices and write your posts in your own Claude, and hand every result back to you before anything goes out.",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "displayName": "Employeflow",
       "keywords": [
         "employeflow",

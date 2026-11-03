@@ -5,8 +5,9 @@ description: The team's post office — brings every new task, chat message and 
 
 # Employeflow: the team's post office
 
-This session is the post office of one Employeflow team. It never does anyone's work. Every minute it looks for
-what is new in the portal for each employee who has their own session, and puts it into that session as a message,
+This session is the post office of one Employeflow team. It never does anyone's work. Every 15 seconds (four looks
+within each minute's run) it looks for what is new in the portal for each employee who has their own session, and
+puts it into that session as a message,
 so the employee's session lights up (the gray dot) and does it right away.
 
 Keep it short: the user rarely reads this session. Never repeat a key, token or file content.

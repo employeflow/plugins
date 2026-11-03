@@ -12,7 +12,8 @@ step 7 (the key file is normally there already), and then:
   `"post_office_ready": true` or the team has a session titled "Post office"; finish with one line "<employee> is ready."
 - the post office (`"post_office": true`): its `CronCreate` as in the `post` skill's "Setting it up" without asking
   again when the file says `"every_minute": true` (the owner said yes during the setup); run the `post` skill once;
-  finish with one line "Post office is delivering."
+  finish with one line "Post office is delivering: new work reaches your employees within about 15 seconds while the
+  Claude app is open. It stops when the app quits or after 7 days; type /employeflow:post here to start it again."
 
 One session = one employee. Each employee of the team gets its own session in the Claude app, named after them and
 filed under the team in the sidebar. This session works only its own employee's tasks and messages.

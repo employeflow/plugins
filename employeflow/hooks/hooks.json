@@ -2,7 +2,7 @@
   "hooks": {
     "UserPromptSubmit": [
       { "hooks": [ { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/bin/peek.sh",
-                     "args": [], "timeout": 30 } ] }
+                     "args": [], "timeout": 58 } ] }
     ]
   }
 }

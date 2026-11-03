@@ -62,7 +62,23 @@ if [ -z "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ] || { [ -n "$KF" ] && [ -r "
     while IFS= read -r N || [ -n "$N" ]; do [ -n "$N" ] && set -- "$@" --data-urlencode "as_employee=$N"; done < "$SF"
     # no employee session yet (the post office wrote an empty file): nothing to deliver, free; the hourly run looks again
     [ "$#" -gt 0 ] || block "Employeflow post office: no employee sessions yet."
-    OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 25 -G -w '\n%{http_code}' -H @- "$@" "$URL?$QS&route=1") || exit 0
+    # 0.6.1 (Malte 3 Nov: "every 15 seconds, and it can't cost anything"): the schedule can't fire more often than once
+    # a minute, so within that minute this check looks up to 4 times, 15 seconds apart, and lets the post office run
+    # the moment something is waiting. Nothing waiting: still stopped before Claude starts (free). It stops looking
+    # after about 45 seconds so the next minute's run is never missed (the hook may run up to 58 seconds).
+    EVERY="${EF_POST_EVERY:-15}"; T0=$(date +%s); I=0
+    while :; do
+      I=$((I + 1))
+      OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 10 -G -w '\n%{http_code}' -H @- "$@" "$URL?$QS&route=1") || exit 0
+      [ "$(printf '%s' "$OUT" | tail -n 1)" = 200 ] || exit 0
+      N=$(printf '%s' "$OUT" | sed -n 's/.*"waiting"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)
+      [ -n "$N" ] || exit 0
+      [ "$N" -gt 0 ] && exit 0
+      [ "$I" -ge 4 ] && break
+      [ $(( $(date +%s) - T0 + EVERY )) -le 45 ] || break
+      sleep "$EVERY"
+    done
+    idle "$OUT"
   elif [ -n "$EMP" ]; then
     OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -G -w '\n%{http_code}' -H @- --data-urlencode "as_employee=$EMP" "$URL?$QS") || exit 0
   else
