@@ -60,7 +60,8 @@ token or file content in your messages.
    create it with `create_group` (the team's name). Move this session into it with `move_sessions`
    (`session_ids` ["self"]). If the app has none of these tools, skip this step and say so in one line at the end.
 6b. **The rest of the team, by itself** (only when this session is the team lead, the one marked "leads" in
-   `employeflow_my_teams`). Call `list_sessions` with `group` = the team name. Every employee of the team with no
+   `employeflow_my_teams`; on a team where nobody is marked "leads", in the first session of the team, when no other
+   session has the team's name as its group yet). Call `list_sessions` with `group` = the team name. Every employee of the team with no
    session titled with their name, and the post office if no session is titled "Post office", is missing. If none
    is missing, skip this step. Otherwise ask once: "Set up the others too: <names> and the Post office? Each gets its
    own session, named and filed under <team>, and the Post office brings them new work within a minute while the

@@ -21,12 +21,15 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
    (**Hinzufügen**), enter `employeflow/plugins`, then click **Add to this computer** (**Zu diesem Computer hinzufügen**).
 3. **Connect once.** In a new Code session type `/mcp`, choose **employeflow**, click **Authenticate**, sign in on
    employeflow.com and click **Allow**. (Use `/mcp`, not the Settings page.)
-4. **Type `/employeflow:start`.** Claude asks which team and which employee this session is, names the session after
-   them and files it under your team in the sidebar. Then it does that employee's waiting work and asks once whether
-   to check for new work every 15 minutes. Say yes. For the next employee, open a new Code session and type
-   `/employeflow:start` again.
+4. **Type `/employeflow:start` and pick your team lead.** Claude names this session after them and files it under your
+   team in the sidebar. Then it offers once to set up everyone else and the Post office: say yes. Each one gets its own
+   session, names itself, joins your team and starts on its waiting work. (If your Claude app can't open sessions by
+   itself, it opens a new-session screen for each one: press Enter once in each.) To add someone later, open a new
+   Code session, type `/employeflow:start` and pick them.
 
-That's it: one session per employee, each one named and grouped under your team. New tasks you give an employee in
+That's it: one session per employee, each one named and grouped under your team. The Post office brings each new task
+and message to the right employee's session within about a minute while the Claude app is open; a check that finds
+nothing costs nothing. New tasks you give an employee in
 the portal are picked up by that employee's session while the Claude app is open, and the results appear in your
 portal's Results. Whether each employee's session checked in, and when, is shown on the portal.
 Checks that find nothing waiting stop before Claude starts, so they use none of your Claude plan.

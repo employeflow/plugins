@@ -27,9 +27,11 @@ idle() {
   case "$1" in *'"update":true'*)
     block "Employeflow: nothing waiting. A newer Employeflow plugin is ready: open a Code session, type /employeflow:work and say yes when Claude offers the update, then restart the Claude app." ;;
   esac
-  block "Employeflow: nothing waiting."
+  block "Employeflow: all quiet, nothing new. (This is the free check; nothing is wrong.)"
 }
-block() { printf '{"decision":"block","reason":"%s"}\n' "$1"; exit 0; }
+# 0.7.1: the app shows every stopped prompt; there is no silent stop (hooks docs, 3 Nov 2026). suppressOriginalPrompt at
+# least leaves out the "Original prompt: /employeflow:… auto" line under each one.
+block() { printf '{"decision":"block","reason":"%s","hookSpecificOutput":{"hookEventName":"UserPromptSubmit","suppressOriginalPrompt":true}}\n' "$1"; exit 0; }
 # SIGN-IN (0.2.0/0.3.0): the account's sign-in lives in Claude Code's own secure storage, which this hook cannot (and
 # must not) read. /employeflow:start leaves a PEEK KEY instead: it can only count one team's waiting work. The team is
 # the one in this folder's .employeflow.json; its key is ~/.config/employeflow/peek-<team>.key. Here any doubt (no

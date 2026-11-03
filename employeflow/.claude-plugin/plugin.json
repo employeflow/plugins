@@ -1,13 +1,14 @@
 {
   "name": "employeflow",
   "displayName": "Employeflow",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "AI employees that draft your replies, sort your invoices and write your posts in your own Claude, and hand every result back to you before anything goes out.",
   "author": {
     "name": "Employeflow",
     "url": "https://employeflow.com"
   },
   "homepage": "https://employeflow.com",
+  "privacyPolicyUrl": "https://employeflow.com/privacy.html",
   "repository": "https://github.com/employeflow/plugins",
   "license": "MIT",
   "keywords": [
