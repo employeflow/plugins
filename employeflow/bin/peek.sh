@@ -12,7 +12,10 @@
 IN=$(cat)
 # exactly "/employeflow:work auto" (trailing spaces/newlines allowed), never a prefix: a typed
 # "/employeflow:work autopilot" is not checked
-printf '%s' "$IN" | grep -q -E '"prompt" ?: ?"/employeflow:work auto( |\\n|\\r)*"' || exit 0
+# 0.5.0: the team's post office runs "/employeflow:post auto" every minute; the same free check, for its employees
+POST=0
+if printf '%s' "$IN" | grep -q -E '"prompt" ?: ?"/employeflow:post auto( |\\n|\\r)*"'; then POST=1
+else printf '%s' "$IN" | grep -q -E '"prompt" ?: ?"/employeflow:work auto( |\\n|\\r)*"' || exit 0; fi
 URL="${2:-https://employeflow.com/api/mcp}"
 # this plugin's version, sent with the check so the portal can say when a newer one exists (0.3.1); the Claude app never
 # fetches a newer Employeflow plugin by itself
@@ -47,7 +50,20 @@ if [ -z "${CLAUDE_PLUGIN_OPTION_TEAM_KEY:-${1:-}}" ] || { [ -n "$KF" ] && [ -r "
   # ONE SESSION = ONE EMPLOYEE (0.4.0): a folder made by /employeflow:start names its employee; then only that
   # employee's waiting work counts (sent url-encoded by curl, never built by hand)
   EMP=$(sed -n 's/.*"as_employee"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$CWD/.employeflow.json" 2>/dev/null | head -n 1)
-  if [ -n "$EMP" ]; then
+  if [ "$POST" = 1 ]; then
+    # the post office: the employees that have their own session, one name per line (the post office writes the file);
+    # no file or no name yet: let the run go ahead, it writes the file
+    SF="$HOME/.config/employeflow/seats-$TEAM.txt"
+    [ -r "$SF" ] || exit 0
+    # once an hour the run goes ahead anyway, so the post office rewrites the seats file from the app's sessions and a
+    # closed or archived employee session stops looking connected (Elliot, 3 Nov: the empty minutes never refresh it)
+    [ -n "$(find "$SF" -mmin +60 2>/dev/null)" ] && exit 0
+    set --
+    while IFS= read -r N || [ -n "$N" ]; do [ -n "$N" ] && set -- "$@" --data-urlencode "as_employee=$N"; done < "$SF"
+    # no employee session yet (the post office wrote an empty file): nothing to deliver, free; the hourly run looks again
+    [ "$#" -gt 0 ] || block "Employeflow post office: no employee sessions yet."
+    OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 25 -G -w '\n%{http_code}' -H @- "$@" "$URL?$QS&route=1") || exit 0
+  elif [ -n "$EMP" ]; then
     OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -G -w '\n%{http_code}' -H @- --data-urlencode "as_employee=$EMP" "$URL?$QS") || exit 0
   else
     OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 20 -w '\n%{http_code}' -H @- "$URL?$QS") || exit 0

@@ -24,7 +24,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.4.0"` to `employeflow_my_work`.
+`plugin_version: "0.5.0"` to `employeflow_my_work`.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
@@ -78,6 +78,18 @@ say once at the end: "Tip: type /employeflow:start to give each employee its own
    Result file: ~/Employeflow/<team>/Tom/results/tom-video-4-cut-2026-10-20.md".
 
 Respect the team goals shown in the work: when a task belongs to a goal, keep that goal in mind.
+
+## Your colleagues
+Each colleague on the team has their own session in the Claude app (in the team's group in the sidebar). When a task
+needs a colleague's part or answer, message them directly: find their session with the app's `list_sessions` tool
+(`group` = the team name, title = the colleague's name) and send them one short message with `send_message`: who you
+are ("Lena from <team>"), what you need, and by when. Their session lights up and answers you the same way. Use it for
+real needs of the task only, never for chatter, and never to pass on work the owner did not ask for. A colleague
+without a session can't be reached: say so in your result.
+
+## New work delivered by the post office
+A message "New from your Employeflow portal for <employee>: …" comes from the team's post office: do it right away,
+with the steps of one run above (it is the same work `employeflow_my_work` shows).
 
 ## Checking automatically
 If the user wants this employee's work done without asking each time, offer to check **in this session** with the

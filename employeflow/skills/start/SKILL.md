@@ -23,11 +23,17 @@ token or file content in your messages.
    is that employee: say "This session is <employee> on <team>." and ask whether to keep it (then go on at step 6) or
    change it (go on at step 3). Never change it without a yes.
 3. **Which team.** One team: use it, don't ask. Several: show them as a short numbered list (team name only) and ask.
-4. **Which employee.** Show the team's employees as a short numbered list: name and role, the team lead first.
-   Before you show it, call the app's `list_sessions` tool (if this app has it) with `group` = the team name: an
-   employee whose name is the title of one of those sessions already has a session; mark it "has a session". Ask which
-   employee this session is. If the user picks one that has a session, say so and ask again (open that session to
-   work with them).
+4. **Which employee.** Show the team's employees as a short numbered list: name and role, the team lead first,
+   and as the last line "Post office (brings every new task and message to your employees' sessions within a
+   minute; one per team)". Before you show it, call the app's `list_sessions` tool (if this app has it) with
+   `group` = the team name: an employee whose name is the title of one of those sessions already has a session; mark
+   it "has a session" (and the post office, if a session is titled "Post office"). Ask which one this session is. If
+   the user picks one that has a session, say so and ask again (open that session to work with them).
+   **Post office chosen:** do steps 5–7 with the folder `~/Employeflow/<team>/Post office/`, the file
+   `{ "team": "<team_id>", "team_name": "<team>", "post_office": true }` and the session name "Post office"; then
+   follow "Setting it up" in the `post` skill, run the `post` skill once, finish with "Done. This is your team's
+   post office: new tasks and messages reach your employees' sessions within a minute while the Claude app is
+   open." and stop.
 5. **Their own folder.** Each employee works in its own folder:
    `~/Employeflow/<team>/<employee>/` (names as shown, with `/` and `\` replaced by `-` and leading dots removed; a
    name that is then empty becomes `team` or `employee`; if two employees of the team would get the same folder, add
@@ -51,7 +57,9 @@ token or file content in your messages.
    The folder move only takes effect after this turn, so pass `team` and `as_employee` from step 5 yourself on every
    Employeflow call, and write the employee's notes and results with full paths inside
    `~/Employeflow/<team>/<employee>/`.
-9. **Turn on the automatic check.** Ask once: "Check for <employee>'s new work every 15 minutes in this session
+9. **Turn on the automatic check.** If the team has a post office (a session titled "Post office" in the team's
+   group, step 4), skip this step: say "The post office brings <employee>'s new work to this session." Otherwise ask
+   once: "Check for <employee>'s new work every 15 minutes in this session
    while the app is open?" Only on yes: schedule it **in this session** with the `CronCreate` tool, prompt
    `/employeflow:work auto`, cron `7,22,37,52 * * * *`, recurring. Tell the user in one line that it stops when the
    Claude app quits or after 7 days, and that typing /employeflow:work in this session starts it again. Never use the
@@ -59,11 +67,12 @@ token or file content in your messages.
    session. If there is no `CronCreate` tool, tell the user to type /employeflow:work in this session when they want.
 10. **Finish** with two short lines: "Done. This session is <employee> on <team>: their tasks from your portal are
     done here, and results appear in your portal's Results." and "For another employee, open a new Code session and
-    type /employeflow:start."
+    type /employeflow:start." If the team has no post office yet, add: "Tip: one more session as Post office brings
+    every new task and message here within a minute."
 
 ## Never
-- Never make this session work for more than one employee, and never for an employee `employeflow_my_teams` did not
-  list.
+- Never make this session work for more than one employee (or both an employee and the post office), and never for
+  an employee `employeflow_my_teams` did not list.
 - Never repeat the peek key in your messages, and never write it anywhere but `~/.config/employeflow/`.
 - Never write outside `~/Employeflow/` and `~/.config/employeflow/`.
 - Never rename, move or group any session but this one ("self").
