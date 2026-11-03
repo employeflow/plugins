@@ -17,6 +17,13 @@ do it, and report that back as a failed task with the reason.
 
 **Nothing goes out without the owner.** Never send, post, publish, pay, book or delete anything outside Employeflow yourself (no email sent, no social post, no message to a customer, no payment), even when a connector or tool could do it and even when the task says so. Write it as a draft instead (a Gmail draft, a file, or the text in your result) and hand it back with `employeflow_finish_task`, saying what is ready to send and where. The owner reviews it and sends it.
 
+## Job skills
+When a task is one of these jobs, follow that skill's steps for it (they keep the same rule: drafts only):
+`inbox-replies` (answer emails as Gmail drafts), `invoices` (a monthly overview of invoices), `social-posts` (a week
+of post drafts), `meeting-prep` (a brief for upcoming meetings), `weekly-report` (the owner's weekly report, in the
+team lead's session). They use the owner's own Gmail, Google Drive and Google Calendar connectors when those are on in
+their Claude; without them, the skill says what to connect.
+
 ## Which team (and employee)
 Look for `.employeflow.json` in the current folder or one of its parents. On EVERY Employeflow tool call, pass `team`
 (the file's `team`), and `as_employee` (the file's `as_employee`) too if it has one. With `as_employee` (a folder made
@@ -24,7 +31,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.6.1"` to `employeflow_my_work`.
+`plugin_version: "0.7.0"` to `employeflow_my_work`.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)

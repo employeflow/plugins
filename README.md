@@ -34,6 +34,20 @@ Checks that find nothing waiting stop before Claude starts, so they use none of 
 In a terminal instead of the app: `claude plugin marketplace add employeflow/plugins`, then
 `claude plugin install employeflow@employeflow`, then start `claude` and type `/employeflow:start`.
 
+## What your employees can do
+
+Besides the tasks you write in the portal, five job skills come with the plugin. Each one only writes drafts and
+hands the result back to your portal; nothing is sent, posted or paid:
+
+- **inbox-replies**: answers new emails as Gmail drafts.
+- **invoices**: a monthly overview of your invoices from Gmail and Google Drive, with unusual ones flagged.
+- **social-posts**: a week of post drafts in your company's tone.
+- **meeting-prep**: a one-page brief for your upcoming meetings.
+- **weekly-report**: your team's week on one page, with what needs you.
+
+They use your own Gmail, Google Drive and Google Calendar connectors when you have turned them on in your Claude
+(Settings → Connectors). The plugin brings no connectors of its own.
+
 ## Day to day
 
 - Type `/employeflow:work` any time to do what's waiting right now.
