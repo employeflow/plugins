@@ -24,7 +24,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.5.1"` to `employeflow_my_work`.
+`plugin_version: "0.6.0"` to `employeflow_my_work`.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)

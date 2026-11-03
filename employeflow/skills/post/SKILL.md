@@ -13,7 +13,7 @@ Keep it short: the user rarely reads this session. Never repeat a key, token or 
 
 ## One run
 (`/employeflow:post auto` is the same run, started by the schedule. When nothing is new, the plugin stops that run
-before Claude starts, so it costs nothing; once an hour it lets one run through anyway, so step 2 refreshes who has a
+before Claude starts, so it costs almost nothing; once an hour it lets one run through anyway, so step 2 refreshes who has a
 session.)
 1. Read `.employeflow.json` in the current folder: `team`, `team_name`, and `"post_office": true`. If it is missing,
    say "Type /employeflow:start and choose Post office." and stop.

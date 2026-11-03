@@ -1,7 +1,7 @@
 {
   "name": "employeflow",
   "displayName": "Employeflow",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "AI employees that draft your replies, sort your invoices and write your posts in your own Claude, and hand every result back to you before anything goes out.",
   "author": {
     "name": "Employeflow",

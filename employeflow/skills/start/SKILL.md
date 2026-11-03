@@ -5,6 +5,15 @@ description: Make this Claude session one employee of the user's Employeflow tea
 
 # Employeflow: this session becomes one employee
 
+**Set up by the team's setup** (the prompt is `/employeflow:start auto`): this session was created by the team lead's
+session, and `.employeflow.json` in this folder already says who it is. Ask nothing: do step 6 (name and team group),
+step 7 (the key file is normally there already), and then:
+- an employee (`as_employee`): step 8 (their waiting work); no automatic check of its own when the file says
+  `"post_office_ready": true` or the team has a session titled "Post office"; finish with one line "<employee> is ready."
+- the post office (`"post_office": true`): its `CronCreate` as in the `post` skill's "Setting it up" without asking
+  again when the file says `"every_minute": true` (the owner said yes during the setup); run the `post` skill once;
+  finish with one line "Post office is delivering."
+
 One session = one employee. Each employee of the team gets its own session in the Claude app, named after them and
 filed under the team in the sidebar. This session works only its own employee's tasks and messages.
 
@@ -20,8 +29,9 @@ token or file content in your messages.
    - "No team on this account yet": say "Create your team on employeflow.com first, then type /employeflow:start
      again." Stop.
 2. **Already an employee?** If `.employeflow.json` in the current folder has an `as_employee`, this session already
-   is that employee: say "This session is <employee> on <team>." and ask whether to keep it (then go on at step 6) or
-   change it (go on at step 3). Never change it without a yes.
+   is that employee: say "This session is <employee> on <team>." and ask whether to keep it (then go on at step 6;
+   for the team lead that also offers step 6b, the rest of the team) or change it (go on at step 3). Never change it
+   without a yes.
 3. **Which team.** One team: use it, don't ask. Several: show them as a short numbered list (team name only) and ask.
 4. **Which employee.** Show the team's employees as a short numbered list: name and role, the team lead first,
    and as the last line "Post office (brings every new task and message to your employees' sessions within a
@@ -48,6 +58,24 @@ token or file content in your messages.
    (`session_id` "self"). Then call `list_groups`: if a group named exactly like the team exists, use it; otherwise
    create it with `create_group` (the team's name). Move this session into it with `move_sessions`
    (`session_ids` ["self"]). If the app has none of these tools, skip this step and say so in one line at the end.
+6b. **The rest of the team, by itself** (only when this session is the team lead, the one marked "leads" in
+   `employeflow_my_teams`). Call `list_sessions` with `group` = the team name. Every employee of the team with no
+   session titled with their name, and the post office if no session is titled "Post office", is missing. If none
+   is missing, skip this step. Otherwise ask once: "Set up the others too: <names> and the Post office? Each gets its
+   own session, named and filed under <team>, and the Post office brings them new work within a minute while the
+   Claude app is open." Only on yes, for each one that is missing:
+   1. Make its folder as in step 5 (the post office: `~/Employeflow/<team>/Post office/`) and write its
+      `.employeflow.json` there with full paths: an employee `{ "team": "<team_id>", "team_name": "<team>",
+      "as_employee": "<name>", "post_office_ready": true }`, the post office `{ "team": "<team_id>", "team_name":
+      "<team>", "post_office": true, "every_minute": true }`.
+   2. Start its session with the app's `start_session` tool: `initiation` "user_asked", `context` "fresh",
+      `use_worktree` false, `cwd` = that folder, `title` = the employee's name (or "Post office"), `prompt`
+      `/employeflow:start auto`, and as `background`: "Employeflow: this session is <name> on the team <team>,
+      set up by the team lead's session at the owner's request. Its folder's .employeflow.json says who it is."
+   Employees first, the Post office last. If the app has no `start_session` tool, open the app's new-session screen
+   for each one instead (`open "claude://code/new?folder=<folder, url-encoded>&q=%2Femployeflow%3Astart%20auto"`)
+   and tell the user to press Enter once in each. Then say in one line who was set up ("Lena, Jonas, Sara, Tom, Mia
+   and the Post office are being set up: each one names itself and joins <team> in a moment.").
 7. **Free automatic checks.** Only if `~/.config/employeflow/peek-<team_id>.key` does not exist yet: call
    `employeflow_peek_key` with the team id and write the `peek_key` from its answer with one shell command (the key
    only goes into a private file; don't repeat it in your messages): `umask 077; mkdir -p ~/.config/employeflow &&
@@ -75,5 +103,8 @@ token or file content in your messages.
   an employee `employeflow_my_teams` did not list.
 - Never repeat the peek key in your messages, and never write it anywhere but `~/.config/employeflow/`.
 - Never write outside `~/Employeflow/` and `~/.config/employeflow/`.
-- Never rename, move or group any session but this one ("self").
+- Never rename, move or group any session but this one ("self"). Sessions this setup starts (step 6b) name and
+  file themselves.
+- Never start a session for anyone but a missing employee of this team or its post office, and only after the
+  owner's yes in step 6b.
 - Never schedule anything without the user's yes.
