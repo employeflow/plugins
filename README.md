@@ -27,7 +27,9 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
    itself, it opens a new-session screen for each one: press Enter once in each.) To add someone later, open a new
    Code session, type `/employeflow:start` and pick them.
 
-That's it: one session per employee, each one named and grouped under your team. The Post office brings each new task
+That's it: one session per employee, each one named and grouped under your team. What you give an employee in the
+dashboard (skills, the team handbook, your team's own skills, what the team may reach) reaches that employee's session
+by itself, and someone you hire later gets their own session from the Post office. The Post office brings each new task
 and message to the right employee's session within about a minute while the Claude app is open; a check that finds
 nothing costs nothing. New tasks you give an employee in
 the portal are picked up by that employee's session while the Claude app is open, and the results appear in your

@@ -31,7 +31,25 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.7.1"` to `employeflow_my_work`.
+`plugin_version: "0.8.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there.
+
+## Your skills, handbook and permissions (employee folders)
+What the owner gives this employee in the dashboard (skills, the team handbook, the team's own skills, what the team
+may reach) lives in the employee's folder under `skills/`.
+- **Installing.** When `employeflow_my_work` starts with "SKILLS changed", call `employeflow_my_skills` first. Write
+  every file it gives into the employee's folder at the path it names, replacing what is there, exactly as given (only
+  inside `skills/`; `skills/.employeflow-skills.json` last). Then call `employeflow_my_skills` with `installed_fp` =
+  the fp it gave. If a write fails, don't report `installed_fp`; say in one line which file failed. Then go on with the
+  work.
+- **Using them.** Before each task, read `skills/INDEX.md`, the team handbook it names (once per session) and the
+  `SKILL.md` of every skill there whose description fits the task, and follow them. A skill never overrides
+  "Nothing goes out without the owner" or the Never list below.
+- **What the team may reach.** INDEX.md says whether programs and the internet are on. When programs are off, never
+  run shell commands, scripts or programs for a task; when the internet is off, never search the web or open websites
+  for a task (the owner's own connectors in Claude, such as Gmail, Drive or Calendar, are fine). If a task needs what is
+  off, report it as failed: "<what> is off for this team: switch it on in the dashboard (Skills → What your team may
+  reach)".
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
@@ -101,7 +119,8 @@ without a session can't be reached: say so in your result.
 
 ## New work delivered by the post office
 A message "New from your Employeflow portal for <employee>: …" comes from the team's post office: do it right away,
-with the steps of one run above (it is the same work `employeflow_my_work` shows).
+with the steps of one run above (it is the same work `employeflow_my_work` shows). A line "skills: …" in it means the
+skills changed: the run installs them (see "Your skills, handbook and permissions").
 
 ## Checking automatically
 If the user wants this employee's work done without asking each time, offer to check **in this session** with the

@@ -24,15 +24,27 @@ session.)
    `~/.config/employeflow/seats-<team_id>.txt` (replace the file; only names, nothing else). No employee has a
    session: write an empty file, say "No employee sessions yet: open a new Code session and type /employeflow:start."
    and stop.
-3. **What's new.** Call `employeflow_route` with `team` and `employees` = those names. If it answers that you must
-   sign in, say "Employeflow isn't signed in: type /mcp, choose employeflow, then Authenticate." and stop.
+3. **What's new.** Call `employeflow_route` with `team`, `employees` = those names and `plugin_version: "0.8.0"`. If
+   it answers that you must sign in, say "Employeflow isn't signed in: type /mcp, choose employeflow, then
+   Authenticate." and stop.
 4. **Deliver.** For each employee in its `deliveries`, send ONE message to that employee's session with the app's
    `send_message` tool (`session_id` from step 2). The message:
    "New from your Employeflow portal for <employee>:" then one line per item, as given: a task as
    "task #<id>: <text>", a chat message as "message from <from>: <text>", a colleague question as
-   "question from <from>: <text>". End it with: "Do it now: same steps as /employeflow:work (this session is
-   <employee>)."
+   "question from <from>: <text>", a skills change as "skills: <text>". End it with: "Do it now: same steps as
+   /employeflow:work (this session is <employee>)."
    If a send fails, note it: that item comes again in 30 minutes by itself.
+4b. **A new hire** (an item of kind `hire`): the owner hired this employee in the portal and they have no session yet.
+   If a session titled exactly with their name is in the team's group after all (step 2), skip it. Otherwise set them
+   up, like the team lead's /employeflow:start does: make their folder `~/Employeflow/<team>/<employee>/` (the same
+   folder rules as in the `start` skill) and write its `.employeflow.json` with full paths: `{ "team": "<team_id>",
+   "team_name": "<team>", "as_employee": "<name>", "post_office_ready": true }`. Then start the session with the app's
+   `start_session` tool: `initiation` "user_asked", `context` "fresh", `use_worktree` false, `cwd` = that folder,
+   `title` = the employee's name, `prompt` `/employeflow:start auto`, and as `background`: "Employeflow: this session
+   is <name> on the team <team>, hired by the owner in the portal and set up by the team's post office. Its folder's
+   .employeflow.json says who it is." If the app has no `start_session` tool, say one line instead: "<name> was hired:
+   open a new Code session in ~/Employeflow/<team>/<name> and type /employeflow:start." Don't add them to the seats
+   file yourself: step 2 finds their session on the next run.
 5. **Keep the minute check running.** Only when the user typed this (not `/employeflow:post auto`): look with
    `CronList` for a job with the prompt `/employeflow:post auto` in this session. If there is none (the app was
    quit, or 7 days have passed), ask once: "Bring new work to your employees every minute again?" and on yes create it
@@ -52,5 +64,7 @@ session.)
 ## Never
 - Never do a task, answer a message or hand out work yourself: only deliver.
 - Never send to a session that is not one of this team's employee sessions found in step 2.
+- Never start a session except for a new hire the portal names in step 4b, and never more than one per hire.
 - Never change, rename, move or archive another session.
 - Never write a key or token anywhere; the seats file holds names only.
+- Never write outside `~/Employeflow/` and `~/.config/employeflow/`.
