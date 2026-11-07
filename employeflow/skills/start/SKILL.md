@@ -5,8 +5,13 @@ description: Make this Claude session one employee of the user's Employeflow tea
 
 # Employeflow: this session becomes one employee
 
-**Set up by the team's setup** (the prompt is `/employeflow:start auto`): this session was created by the team lead's
-session, and `.employeflow.json` in this folder already says who it is. Ask nothing: do step 6 (name and team group),
+**Typed by the user** (`/employeflow:start` without `auto`): follow the numbered steps below, starting at step 1, and
+never become anyone just because of the folder. The app may have opened this new session in the last-used folder, which
+belongs to another session (0.8.1, measured 7 Nov 2026: a new session took over the Sonnenhof Post office's identity).
+
+**Set up by the team's setup** (the prompt is exactly `/employeflow:start auto`): this session was created by the team
+lead's session, and `.employeflow.json` in this folder already says who it is. ONLY then is the folder's file taken as
+who this session is. Ask nothing: do step 6 (name and team group),
 step 7 (the key file is normally there already), and then:
 - an employee (`as_employee`): step 8 (their waiting work); no automatic check of its own when the file says
   `"post_office_ready": true` or the team has a session titled "Post office"; finish with one line "<employee> is ready."
@@ -29,11 +34,18 @@ token or file content in your messages.
      disconnected, measured 3 Nov 2026.)
    - "No team on this account yet": say "Create your team on employeflow.com first, then type /employeflow:start
      again." Stop.
-2. **Already an employee?** If `.employeflow.json` in the current folder has an `as_employee`, this session already
-   is that employee: say "This session is <employee> on <team>." and ask whether to keep it (then go on at step 6;
-   for the team lead that also offers step 6b, the rest of the team) or change it (go on at step 3). Never change it
-   without a yes.
-3. **Which team.** One team: use it, don't ask. Several: show them as a short numbered list (team name only) and ask.
+2. **Whose folder is this?** Look at `.employeflow.json` in the current folder, if there is one.
+   - **It belongs to another session:** call the app's `list_sessions` tool (if this app has it) with `group` = the
+     file's `team_name`. If a session other than this one works in this same folder, or is titled with the file's
+     `as_employee` (or "Post office" for a post-office file), this folder is that session's. Say one line: "This
+     folder belongs to the session “<title>”; let's set up a new one." Ignore the file and go on at step 3.
+   - **A post office file** (`"post_office": true`, and no other session uses it): never become the post office from a
+     typed `/employeflow:start`. Ignore the file and go on at step 3 (the user can still pick "Post office" in step 4).
+   - **An employee's file that no other session uses:** this session already is that employee: say "This session is
+     <employee> on <team>." and ask whether to keep it (then go on at step 6; for the team lead that also offers step
+     6b, the rest of the team) or change it (go on at step 3). Never change it without a yes.
+3. **Which team.** One team: use it, don't ask. Several: show ALL of them as a short numbered list (team name only,
+   every team `employeflow_my_teams` lists, whatever folder this session is in) and ask "Which team is this session for?"
 4. **Which employee.** Show the team's employees as a short numbered list: name and role, the team lead first,
    and as the last line "Post office (brings every new task and message to your employees' sessions within a
    minute; one per team)". Before you show it, call the app's `list_sessions` tool (if this app has it) with
