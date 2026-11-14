@@ -78,30 +78,24 @@ They use your own Gmail, Google Drive and Google Calendar connectors when you ha
 
 ## What it sends, and what it doesn't
 
-The plugin talks to one address only: `https://employeflow.com/api/mcp`. Signing in happens in your browser on
-employeflow.com; Claude Code only receives a sign-in token for your account.
+The plugin talks to one address only: `https://employeflow.com/api/mcp`, our server, which is also the plugin's declared connector. You sign in on employeflow.com in your browser; Claude Code receives only a sign-in token for your account. Your Claude login never reaches us.
 
-**It sends:**
+**What your Claude sends, when it uses the plugin's tools:**
+- your **sign-in token**, the **team** (and, in an employee's folder, the **employee**) from `.employeflow.json`, and the plugin's version, with every request;
+- when a task starts: its **task id**; when it ends: the **result** (or a summary plus where the file is, at most 600 characters) and, for a text result file (.md .txt .csv .json .html), its **name and text** (at most 100,000 characters);
+- each **chat reply** an employee writes to you;
+- **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
+- **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
+- **progress on a team goal** (a number and one line, at most 300 characters) and **finished deliverables** (a title and a two-line summary with where they are);
+- when the Boss hands out a task you gave him: each part (the employee, a one-line task, its details).
 
-- Your **sign-in token**, with every request, plus the **team** (and, in an employee's folder, the **employee**) from
-  `.employeflow.json`, and the plugin's version.
-- For the automatic check: a **count-only key** that `/employeflow:start` stores in `~/.config/employeflow/` (readable
-  only by you). It can only ask "how much is waiting for this team?", nothing else, and stops working when your account
-  no longer reaches the team.
-- A **task id** when Claude starts a task.
-- The **result you report** when a task is done or failed: the result itself, or a short summary plus where the file
-  is (at most 600 characters).
-- The **result file** of a finished task, when it is a text file (.md .txt .csv .json .html, at most 100,000
-  characters): its name and its text, so you can open it in your portal's Results. Nothing else from your folder.
-- Each **chat reply** Claude writes as an employee.
-- When the Boss hands out a task you gave him: each part (the employee, a one-line task, its details), so it becomes
-  a task for that employee in your portal.
+**Personal data:** when an employee works with your own Gmail, Google Drive or Calendar connectors in Claude (inbox replies, invoices, meeting prep), the results, drafts and the customer's words above can contain names, email text and amounts from your accounts. They are stored in your portal (EU) for as long as your account exists, or until you delete them.
 
-**Nothing goes out without you.** The employees never send, post, publish or pay anything themselves, even when your
-Claude has a Gmail or social media connector: they write drafts and hand them back to your portal, and you send.
+**The automatic checks:** `/employeflow:start` stores a **count-only key** in `~/.config/employeflow/` (readable only by you). A small script (`bin/peek.sh`) runs before a scheduled `/employeflow:work auto` or `/employeflow:post auto` prompt and asks our server "how much is waiting?" with that key, the plugin version and, for the post office, **the names of the employees that have a session**. The post office asks up to 4 times a minute (every 15 seconds) while the Claude app is open. Nothing waiting: the prompt stops before Claude starts, so it uses none of your plan. Every other prompt passes untouched and is never sent anywhere.
 
-**It does not send:** your other prompts, any other file, your transcripts, or your Claude login. Employeflow refuses
-any result, reply or file that looks like a password or key, and stores nothing of it.
+**It does not send:** your other prompts, any other file, your transcripts, or your Claude login. Employeflow refuses any result, reply or file that looks like a password or key, and stores nothing of it.
+
+**Nothing goes out without you.** Employees never send, post, publish or pay anything themselves: things meant for the outside world become drafts in your Approvals, and you decide. Results and chat replies go into your own portal only.
 
 The portal decides what a signed-in account may do: only teams you own or are a member of, only the folder's
 employee's work, and on a team that runs on its owner's own Claude only the owner hands out work.
@@ -110,11 +104,13 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 
 | Part | File | What it does |
 |---|---|---|
-| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Seven tools: your teams, the open work, start a task, finish a task, reply to a chat, (for the Boss) hand a part of a task to an employee, and the count-only key |
-| Skill `start` | [`employeflow/skills/start/SKILL.md`](employeflow/skills/start/SKILL.md) | Connect, pick the team, do the waiting work, turn on the automatic check (`/employeflow:start`) |
-| Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Optional: one folder per employee (`/employeflow:setup`) |
+| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Tools for your teams and open work, starting and finishing a task, chat replies, the employee's skills, handing out and routing work (the Boss), asking you for approval and reading your decision, asking and answering a colleague, goal progress, handing in a deliverable, and the count-only key |
+| Skill `start` | [`employeflow/skills/start/SKILL.md`](employeflow/skills/start/SKILL.md) | Make this session one employee: connect, pick the team and the employee, turn on the automatic check (`/employeflow:start`) |
+| Skill `post` | [`employeflow/skills/post/SKILL.md`](employeflow/skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
-| Hook | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh) | The free idle check: before a scheduled `/employeflow:work auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched and is never sent anywhere |
+| Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report` | [`employeflow/skills/`](employeflow/skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
+| Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
+| Hook | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched and is never sent anywhere |
 
 The plugin never starts anything on its own. Work only runs when you type `/employeflow:work`, or from a scheduled
 task you created yourself.
