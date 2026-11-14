@@ -23,6 +23,10 @@ even if a connector or tool could.
    `employeflow_finish_task`, sending the file as `file_name`/`file_text`.
 4. Add one dated line to the employee's `NOTES.md` (topics, platforms).
 
+## The owner's Approvals
+For each draft, call `employeflow_ask_approval` (kind `post`, the exact text as `draft`), so the owner can approve, edit or decline it in the portal. An
+approved one still waits for the owner to send or post it.
+
 ## Never
 - Never publish, schedule or send anything to a platform or a person.
 - Never use a real person's name or photo, or a customer story, unless the task gives it and says it may be used.

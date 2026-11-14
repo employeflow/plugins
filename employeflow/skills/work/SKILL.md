@@ -31,8 +31,22 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.8.1"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.10.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there.
+
+## Asking the owner first (employee folders)
+Anything that would go out (an email reply, a post, a message to a customer) goes to the owner's Approvals first:
+after writing the draft, call `employeflow_ask_approval` with a one-line `title`, the exact text as `draft`, its
+`kind`, and the customer's own words as `incoming` when it answers someone. To ask the owner something instead, send
+the question as `draft` with `question: true`. Then go on with other work; don't wait.
+
+The owner's answer comes back in `employeflow_my_work` as DECISION <id>:
+- **APPROVED:** make the draft exactly the approved text (an email: replace the Gmail draft's text with it) and tell
+  the owner in one line, in the task's result or your notes, that it is ready to send and where. Never send it
+  yourself: the owner presses Send.
+- **DECLINED:** leave it unsent; note the owner's note in `NOTES.md` and use it next time.
+- **Answered question:** carry on with the answer.
+Then call `employeflow_decision_done` with the id (`ok: false` if you could not act on it, and say why).
 
 ## Your skills, handbook and permissions (employee folders)
 What the owner gives this employee in the dashboard (skills, the team handbook, the team's own skills, what the team
@@ -110,17 +124,28 @@ may reach) lives in the employee's folder under `skills/`.
 Respect the team goals shown in the work: when a task belongs to a goal, keep that goal in mind.
 
 ## Your colleagues
-Each colleague on the team has their own session in the Claude app (in the team's group in the sidebar). When a task
-needs a colleague's part or answer, message them directly: find their session with the app's `list_sessions` tool
-(`group` = the team name, title = the colleague's name) and send them one short message with `send_message`: who you
-are ("Lena from <team>"), what you need, and by when. Their session lights up and answers you the same way. Use it for
-real needs of the task only, never for chatter, and never to pass on work the owner did not ask for. A colleague
-without a session can't be reached: say so in your result.
+When a task needs a colleague's part or answer, ask them with `employeflow_ask_colleague` (their exact name, and in
+the message who you are, what you need and by when). It shows in the owner's Team Chat, and the post office brings it
+to their session. A QUESTION from a colleague in `employeflow_my_work`: answer it with `employeflow_answer_colleague`
+(its id). An ANSWER to your own question comes back the same way; use it, and note what you learned in `NOTES.md`.
+Real needs of a task only, never chatter, and never to pass on work the owner did not ask for. In an older
+whole-team folder, or when those tools aren't there, message the colleague's session directly with the app's
+`send_message` instead (find it with `list_sessions`, `group` = the team name).
+
+## Goals and finished work
+- **Goals.** In the team lead's session (or as the goal's owner): when finished work moves a team goal, report it with
+  `employeflow_goal_progress` (the goal id from the work, `done` = the real total so far if the goal counts something,
+  and one line on what moved it). Never a guess.
+- **Finished work that was not a task** (for example something made in a chat with the owner): put it in the owner's
+  Results with `employeflow_deliver` (title, two lines with where it is; `milestone: true` for a milestone). A task's
+  result goes with `employeflow_finish_task` only, never both.
 
 ## New work delivered by the post office
 A message "New from your Employeflow portal for <employee>: …" comes from the team's post office: do it right away,
 with the steps of one run above (it is the same work `employeflow_my_work` shows). A line "skills: …" in it means the
-skills changed: the run installs them (see "Your skills, handbook and permissions").
+skills changed: the run installs them (see "Your skills, handbook and permissions"). A line "decision: …" means
+the owner decided on something you asked: the run acts on it (see "Asking the owner first"). "question from …" and
+"answer from …" are your colleagues (see "Your colleagues").
 
 ## Checking automatically
 If the user wants this employee's work done without asking each time, offer to check **in this session** with the

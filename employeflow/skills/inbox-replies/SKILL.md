@@ -27,6 +27,11 @@ The owner reads each draft in Gmail and sends it.
 5. Add one dated line to the employee's `NOTES.md`: how many drafts, and anything worth remembering (a regular
    sender, a recurring question).
 
+## The owner's Approvals
+For each draft, call `employeflow_ask_approval` (kind `email`, the exact text as `draft`, the
+customer's email as `incoming`), so the owner can approve, edit or decline it in the portal. An
+approved one still waits for the owner to send it from Gmail.
+
 ## Never
 - Never send, forward, delete, archive or label an email, and never change Gmail settings or filters.
 - Never put a password, code or bank detail from an email into a draft or a result.
