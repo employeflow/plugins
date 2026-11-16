@@ -19,7 +19,7 @@ claude plugin install employeflow --marketplace employeflow/plugins
 ```
 
 (Claude Code 2.1.275 or newer; older versions use the two lines further down.) **Help:** open **Support** at the bottom right of any page on
-[employeflow.com](https://employeflow.com).
+[employeflow.com](https://employeflow.com), or email support@employeflow.com.
 
 ## What you need
 
@@ -153,4 +153,4 @@ result files and notes stay where they are; you can delete `~/.config/employeflo
 ## Questions and security reports
 
 Open **Support** at the bottom right of any page on [employeflow.com](https://employeflow.com) and write us there.
-For a security report, start your message with "Security". Our support mailbox is not set up yet.
+For a security report, start your message with "Security". Or email [support@employeflow.com](mailto:support@employeflow.com).
