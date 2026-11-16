@@ -8,6 +8,19 @@ the result back to the portal's Results.
 
 It runs on your computer, with your own Claude plan. Employeflow never sees or stores your Claude login.
 
+**Install in the Claude app (four clicks).** Open **Settings → Plugins**, click **Add** (top right), paste
+`employeflow/plugins`, then click **Add to this computer** next to **Employeflow**. Typing `/plugin` in a chat opens the
+same screen; just carry on there. Then, in a new **Code** session, type `/employeflow:start`.
+
+**In a terminal, one line:**
+
+```
+claude plugin install employeflow --marketplace employeflow/plugins
+```
+
+(Claude Code 2.1.275 or newer; older versions use the two lines further down.) **Help:** open **Support** at the bottom right of any page on
+[employeflow.com](https://employeflow.com).
+
 ## What you need
 
 - **Claude Code**: the **Code** tab in the Claude desktop app, or `claude` in a terminal.
@@ -19,6 +32,7 @@ It runs on your computer, with your own Claude plan. Employeflow never sees or s
 1. **On [employeflow.com](https://employeflow.com):** sign up and build your team.
 2. **In the Claude app:** open **Settings → Plugins** (German: **Einstellungen → Plugins**), click **Add**
    (**Hinzufügen**), enter `employeflow/plugins`, then click **Add to this computer** (**Zu diesem Computer hinzufügen**).
+   Typing `/plugin` in a chat opens the same screen.
 3. **Connect once.** In a new Code session type `/mcp`, choose **employeflow**, click **Authenticate**, sign in on
    employeflow.com and click **Allow**. (Use `/mcp`, not the Settings page.)
 4. **Type `/employeflow:start` and pick your team lead.** Claude names this session after them and files it under your
@@ -92,7 +106,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 
 **Personal data:** when an employee works with your own Gmail, Google Drive or Calendar connectors in Claude (inbox replies, invoices, meeting prep), the results, drafts and the customer's words above can contain names, email text and amounts from your accounts. They are stored in your portal (EU) for as long as your account exists, or until you delete them.
 
-**After every turn (0.12):** in an employee's session (not the post office), the plugin tells the portal that this employee is working when a prompt starts, and when the turn ends it sends **numbers only**, read from that session's own transcript on your computer: the model, token counts (input, cache, output), how many model calls, and when the turn began and ended. Nothing of the conversation is sent. Short titles (the first line of each prompt, at most 120 characters) are off and can't be switched on yet; if that ever comes, it will be your choice per team and this page will say so. It uses the count-only key and never blocks anything.
+**After every turn (0.12):** in an employee's session (not the post office), the plugin tells the portal that this employee is working when a prompt starts, and when the turn ends it sends **numbers only**, read from that session's own transcript on your computer: the model, token counts (input, cache, output), how many model calls, and when the turn began and ended. Nothing of the conversation is sent, not even a title or the first line of a prompt. It uses the count-only key and never blocks anything.
 
 **The automatic checks:** `/employeflow:start` stores a **count-only key** in `~/.config/employeflow/` (readable only by you). A small script (`bin/peek.sh`) runs before a scheduled `/employeflow:work auto` or `/employeflow:post auto` prompt and asks our server "how much is waiting?" with that key, the plugin version and, for the post office, **the names of the employees that have a session**. The post office asks up to 4 times a minute (every 15 seconds) while the Claude app is open. Nothing waiting: the prompt stops before Claude starts, so it uses none of your plan. Every other prompt passes untouched and is never sent anywhere.
 
@@ -125,14 +139,12 @@ Since 0.2 the plugin signs in with your account instead of a connect code. After
 
 ## Uninstall
 
-```
-/plugin uninstall employeflow@employeflow
-```
-
-Optionally remove the marketplace too:
+In the Claude app: open **Settings → Plugins** and remove **Employeflow** there (and, if you like, the
+`employeflow/plugins` marketplace). In a terminal:
 
 ```
-/plugin marketplace remove employeflow
+claude plugin uninstall employeflow@employeflow
+claude plugin marketplace remove employeflow
 ```
 
 If you created a scheduled task for `/employeflow:work auto`, delete it in the Claude app as well. Your folders,
@@ -140,4 +152,5 @@ result files and notes stay where they are; you can delete `~/.config/employeflo
 
 ## Questions and security reports
 
-Open **Support** on [employeflow.com](https://employeflow.com) (bottom right of every page). Our support mailbox is not set up yet.
+Open **Support** at the bottom right of any page on [employeflow.com](https://employeflow.com) and write us there.
+For a security report, start your message with "Security". Our support mailbox is not set up yet.

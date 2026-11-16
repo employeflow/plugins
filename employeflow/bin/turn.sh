@@ -1,9 +1,9 @@
 #!/bin/sh
 # turn.sh start|stop: Employeflow's turn report (0.12.0, Malte 16 Nov 2026: "session work lands in the portal by
-# itself"). It runs as a hook in an EMPLOYEE's session only (a folder whose .employeflow.json names as_employee), never
+# itself"; 0.12.1: the switch for prompt titles is gone, nothing of a prompt is ever sent). It runs as a hook in
+# an EMPLOYEE's session only (a folder whose .employeflow.json names as_employee), never
 # in the post office, never anywhere else.
-#   start (UserPromptSubmit): tells the portal "<employee> is working now". Nothing of the prompt is sent, unless the
-#         owner switched on short titles in the portal; then only its first line, at most 120 characters.
+#   start (UserPromptSubmit): tells the portal "<employee> is working now". Nothing of the prompt is sent.
 #   stop  (Stop): reads THIS session's own transcript (the path Claude Code hands the hook) and sends NUMBERS only for
 #         the turn that just ended: the model, token counts, how many model calls, and when it began and ended.
 # It uses the same count-only key as the free check. Any doubt (no folder file, no key, no answer): it does nothing.
@@ -24,21 +24,14 @@ case "$KEY" in efp_*) ;; *) exit 0 ;; esac
 case "$KEY" in *[!A-Za-z0-9_-]*) exit 0 ;; esac
 ROOT=$(cd "$(dirname "$0")/.." 2>/dev/null && pwd)
 VER=$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)".*/\1/p' "$ROOT/.claude-plugin/plugin.json" 2>/dev/null | head -n 1)
-TF="$HOME/.config/employeflow/titles-$TEAM"
-send() {   # the key goes to curl on stdin, never on its command line; the answer may switch short titles on or off
-  OUT=$(printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 8 -H @- --data-urlencode "as_employee=$EMP" --data-urlencode "v=$VER" "$@" "$URL?turn=1" 2>/dev/null) || exit 0
-  case "$OUT" in *'"titles":true'*) (umask 077; mkdir -p "$HOME/.config/employeflow" && : > "$TF") ;; *'"titles":false'*) rm -f "$TF" ;; esac
+send() {   # the key goes to curl on stdin, never on its command line; the answer is not needed
+  printf 'Authorization: Bearer %s\n' "$KEY" | curl -s -m 8 -o /dev/null -H @- --data-urlencode "as_employee=$EMP" --data-urlencode "v=$VER" "$@" "$URL?turn=1" 2>/dev/null
 }
 if [ "$MODE" = start ]; then
   P=$(printf '%s' "$IN" | sed -n 's/.*"prompt"[[:space:]]*:[[:space:]]*"\(.*\)".*/\1/p' | head -n 1)
   # the scheduled checks are not work by themselves: the free check handles them, and a real run reports at its end
   case "$P" in "/employeflow:work auto"*|"/employeflow:post auto"*) exit 0 ;; esac
-  if [ -f "$TF" ]; then
-    T=$(printf '%s' "$P" | sed 's/\\n.*//; s/\\"/"/g' | cut -c1-120)
-    send --data-urlencode "event=start" --data-urlencode "title=$T"
-  else
-    send --data-urlencode "event=start"
-  fi
+  send --data-urlencode "event=start"
   exit 0
 fi
 [ "$MODE" = stop ] || exit 0
