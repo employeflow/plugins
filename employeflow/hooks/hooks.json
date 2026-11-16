@@ -2,7 +2,13 @@
   "hooks": {
     "UserPromptSubmit": [
       { "hooks": [ { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/bin/peek.sh",
-                     "args": [], "timeout": 58 } ] }
+                     "args": [], "timeout": 58 },
+                   { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/bin/turn.sh",
+                     "args": ["start"], "timeout": 10 } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/bin/turn.sh",
+                     "args": ["stop"], "timeout": 15 } ] }
     ]
   }
 }

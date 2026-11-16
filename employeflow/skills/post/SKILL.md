@@ -24,14 +24,14 @@ session.)
    `~/.config/employeflow/seats-<team_id>.txt` (replace the file; only names, nothing else). No employee has a
    session: write an empty file, say "No employee sessions yet: open a new Code session and type /employeflow:start."
    and stop.
-3. **What's new.** Call `employeflow_route` with `team`, `employees` = those names and `plugin_version: "0.10.1"`. If
+3. **What's new.** Call `employeflow_route` with `team`, `employees` = those names and `plugin_version: "0.12.0"`. If
    it answers that you must sign in, say "Employeflow isn't signed in: type /mcp, choose employeflow, then
    Authenticate." and stop.
 4. **Deliver.** For each employee in its `deliveries`, send ONE message to that employee's session with the app's
    `send_message` tool (`session_id` from step 2). The message:
    "New from your Employeflow portal for <employee>:" then one line per item, as given: a task as
    "task #<id>: <text>", a chat message as "message from <from>: <text>", a colleague question as
-   "question from <from>: <text>", a skills change as "skills: <text>", the owner's decision as "decision: <text>", a colleague's answer as "answer from <from>: <text>". End it with: "Do it now: same steps as
+   "question from <from>: <text>", a skills change as "skills: <text>", the owner's decision as "decision: <text>", a colleague's answer as "answer from <from>: <text>", a goal to get ready for as "goal: <text>", a goal that started as "goal started: <text>". End it with: "Do it now: same steps as
    /employeflow:work (this session is <employee>)."
    If a send fails, note it: that item comes again in 30 minutes by itself.
 4b. **A new hire** (an item of kind `hire`): the owner hired this employee in the portal and they have no session yet.

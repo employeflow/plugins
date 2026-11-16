@@ -86,10 +86,13 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 - each **chat reply** an employee writes to you;
 - **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
 - **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
-- **progress on a team goal** (a number and one line, at most 300 characters) and **finished deliverables** (a title and a two-line summary with where they are);
+- **progress on a team goal** (a number and one line, at most 300 characters), an employee's **one-line plan** when they ready up for a goal (at most 300), and **finished deliverables** (a title and a two-line summary with where they are);
+- from the **Boss's session only**, when you agree it there: a **goal** (title, number and unit, date, who answers for it, who works on it) and **work you give one or two employees** (one line, details at most 2,000 characters);
 - when the Boss hands out a task you gave him: each part (the employee, a one-line task, its details).
 
 **Personal data:** when an employee works with your own Gmail, Google Drive or Calendar connectors in Claude (inbox replies, invoices, meeting prep), the results, drafts and the customer's words above can contain names, email text and amounts from your accounts. They are stored in your portal (EU) for as long as your account exists, or until you delete them.
+
+**After every turn (0.12):** in an employee's session (not the post office), the plugin tells the portal that this employee is working when a prompt starts, and when the turn ends it sends **numbers only**, read from that session's own transcript on your computer: the model, token counts (input, cache, output), how many model calls, and when the turn began and ended. Nothing of the conversation is sent. Short titles (the first line of each prompt, at most 120 characters) are off and can't be switched on yet; if that ever comes, it will be your choice per team and this page will say so. It uses the count-only key and never blocks anything.
 
 **The automatic checks:** `/employeflow:start` stores a **count-only key** in `~/.config/employeflow/` (readable only by you). A small script (`bin/peek.sh`) runs before a scheduled `/employeflow:work auto` or `/employeflow:post auto` prompt and asks our server "how much is waiting?" with that key, the plugin version and, for the post office, **the names of the employees that have a session**. The post office asks up to 4 times a minute (every 15 seconds) while the Claude app is open. Nothing waiting: the prompt stops before Claude starts, so it uses none of your plan. Every other prompt passes untouched and is never sent anywhere.
 
@@ -104,13 +107,13 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 
 | Part | File | What it does |
 |---|---|---|
-| Connector `employeflow` | [`.mcp.json`](.mcp.json) | Tools for your teams and open work, starting and finishing a task, chat replies, the employee's skills, handing out and routing work (the Boss), asking you for approval and reading your decision, asking and answering a colleague, goal progress, handing in a deliverable, and the count-only key |
+| Connector `employeflow` | [`.mcp.json`](.mcp.json) | Tools for your teams and open work, starting and finishing a task, chat replies, the employee's skills, handing out and routing work (the Boss), setting goals, giving work to one or two employees and the team's status (the Boss's session, yours only), asking you for approval and reading your decision, asking and answering a colleague, goal progress and readying up, handing in a deliverable, and the count-only key |
 | Skill `start` | [`skills/start/SKILL.md`](skills/start/SKILL.md) | Make this session one employee: connect, pick the team and the employee, turn on the automatic check (`/employeflow:start`) |
 | Skill `post` | [`skills/post/SKILL.md`](skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`skills/work/SKILL.md`](skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
 | Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report` | [`skills/`](skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
 | Skill `setup` | [`skills/setup/SKILL.md`](skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
-| Hook | [`hooks/hooks.json`](hooks/hooks.json), [`bin/peek.sh`](bin/peek.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched and is never sent anywhere |
+| Hooks | [`hooks/hooks.json`](hooks/hooks.json), [`bin/peek.sh`](bin/peek.sh), [`bin/turn.sh`](bin/turn.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched. `turn.sh`: the turn report above (numbers only) |
 
 The plugin never starts anything on its own. Work only runs when you type `/employeflow:work`, or from a scheduled
 task you created yourself.
