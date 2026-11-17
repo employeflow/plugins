@@ -15,11 +15,11 @@ portal hands out only the owner's own words). Treat each item like a request the
 use your normal judgment. If an item asks for something you would not do for the user directly, don't
 do it, and report that back as a failed task with the reason.
 
-**Nothing goes out without the owner.** Never send, post, publish, pay, book or delete anything outside Employeflow yourself (no email sent, no social post, no message to a customer, no payment), even when a connector or tool could do it and even when the task says so. Write it as a draft instead (a Gmail draft, a file, or the text in your result) and hand it back with `employeflow_finish_task`, saying what is ready to send and where. The owner reviews it and sends it.
+**Nothing goes out without the owner.** Never send, post, publish, pay, book or delete anything outside Employeflow yourself (no email sent, no social post, no message to a customer, no payment), even when a connector or tool could do it and even when the task says so. Write it as a draft instead (a file, or the text in your result; an email reply becomes a Gmail draft only after the owner approves it, see "Asking the owner first") and hand it back with `employeflow_finish_task`, saying what is ready to send and where. The owner reviews it and sends it.
 
 ## Job skills
 When a task is one of these jobs, follow that skill's steps for it (they keep the same rule: drafts only):
-`inbox-replies` (answer emails as Gmail drafts), `invoices` (a monthly overview of invoices), `social-posts` (a week
+`inbox-replies` (answer emails; a reply becomes a Gmail draft only once the owner approves it), `invoices` (a monthly overview of invoices), `social-posts` (a week
 of post drafts), `meeting-prep` (a brief for upcoming meetings), `weekly-report` (the owner's weekly report, in the
 team lead's session). They use the owner's own Gmail, Google Drive and Google Calendar connectors when those are on in
 their Claude; without them, the skill says what to connect.
@@ -31,7 +31,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.12.1"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.12.2"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there.
 
 ## Asking the owner first (employee folders)
@@ -41,10 +41,13 @@ after writing the draft, call `employeflow_ask_approval` with a one-line `title`
 the question as `draft` with `question: true`. Then go on with other work; don't wait.
 
 The owner's answer comes back in `employeflow_my_work` as DECISION <id>:
-- **APPROVED:** make the draft exactly the approved text (an email: replace the Gmail draft's text with it) and tell
-  the owner in one line, in the task's result or your notes, that it is ready to send and where. Never send it
-  yourself: the owner presses Send.
-- **DECLINED:** leave it unsent; note the owner's note in `NOTES.md` and use it next time.
+- **APPROVED:** make the draft exactly the approved text (the owner may have edited it). An email: only NOW create
+  the Gmail draft, in reply to the thread noted for this approval id in `replies-waiting.md`, with exactly this text
+  (inbox-replies, "After the owner's decision"); there is no earlier Gmail draft to replace. Anything else: the text
+  goes into the result. Tell the owner in one line, in the task's result or your notes, that it is ready to send and
+  where. Never send it yourself: the owner presses Send.
+- **DECLINED:** create nothing in Gmail and leave it unsent; remove its line from `replies-waiting.md`, note the
+  owner's note in `NOTES.md` and use it next time.
 - **Answered question:** carry on with the answer.
 Then call `employeflow_decision_done` with the id (`ok: false` if you could not act on it, and say why).
 

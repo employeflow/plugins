@@ -58,7 +58,8 @@ In a terminal instead of the app: `claude plugin marketplace add employeflow/plu
 Besides the tasks you write in the portal, five job skills come with the plugin. Each one only writes drafts and
 hands the result back to your portal; nothing is sent, posted or paid:
 
-- **inbox-replies**: answers new emails as Gmail drafts.
+- **inbox-replies**: answers new emails. Each reply waits in your portal's Approvals first; only one you approve
+  becomes a Gmail draft, with exactly the approved text. A declined reply never reaches Gmail.
 - **invoices**: a monthly overview of your invoices from Gmail and Google Drive, with unusual ones flagged.
 - **social-posts**: a week of post drafts in your company's tone.
 - **meeting-prep**: a one-page brief for your upcoming meetings.
