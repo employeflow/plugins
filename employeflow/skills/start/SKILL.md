@@ -81,13 +81,18 @@ token or file content in your messages.
       Only call a tool connected when you can really use it now; never guess.
    2. **Propose the team.** Ask once: "What eats the most time in your business every week?" From that answer and
       what the company does, propose 2 to 5 employees, one line each: a human first name · a job title · what they do
-      for the owner, in one sentence · the tools they work with, each marked ✓ connected or "missing". For example:
-      "Lena · Inbox · answers customer emails; you approve every reply before it goes out · Gmail ✓". Then ask:
+      for the owner, in one sentence · the tools they work with, each marked ✓ connected or "missing". Say truthfully
+      what they do: they prepare, and anything that would go out waits for the owner's yes, then the owner sends or
+      posts it themselves. For example: "Lena · Inbox · drafts the answers to your customer emails; each one waits for
+      your yes, then you press Send in Gmail · Gmail ✓". Then ask:
       "Shall I hire them and give each one their own session? Change any name or job, or leave someone out."
    3. **Hire on their yes**, with their changes: call `employeflow_add_employee` once per employee (`name`, `role`,
       `job`, `tools`). If one fails, say its sentence and go on with the others.
    4. **Missing tools:** for each tool that is missing, one line: "To connect <tool>: in the Claude app, Settings →
-      Connectors → <tool> → Connect. Your employees can use it from their next task."
+      Connectors → <tool> → Connect. Your employees can use it from their next task." Only say that for a tool that
+      has a connector there (Google Calendar, Google Drive, Gmail, Notion, Slack and the like). For one that may have
+      none (for example Instagram), say instead: "There's no ready connector for <tool> in Claude yet: <name> prepares
+      the work and you post it yourself."
    5. Go on at step 6b. The owner's yes in step 2 counts there: don't ask a second time.
 6b. **The rest of the team, by itself** (only when this session is the team lead, the one marked "leads" in
    `employeflow_my_teams`; on a team where nobody is marked "leads", in the first session of the team, when no other
