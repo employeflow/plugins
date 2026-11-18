@@ -31,7 +31,8 @@ claude plugin install employeflow --marketplace employeflow/plugins
 
 ## Start in 4 steps
 
-1. **On [employeflow.com](https://employeflow.com):** sign up and build your team.
+1. **On [employeflow.com](https://employeflow.com):** sign up. Build your team there, or let your Boss build it with you
+   in step 4.
 2. **In the Claude app:** open **Settings → Plugins** (German: **Einstellungen → Plugins**), click **Add**
    (**Hinzufügen**), enter `employeflow/plugins`, then click **Add to this computer** (**Zu diesem Computer hinzufügen**).
    Typing `/plugin` in a chat opens the same screen.
@@ -40,8 +41,14 @@ claude plugin install employeflow --marketplace employeflow/plugins
 4. **Type `/employeflow:start` and pick your team lead.** Claude names this session after them and files it under your
    team in the sidebar. Then it offers once to set up everyone else and the Post office: say yes. Each one gets its own
    session, names itself, joins your team and starts on its waiting work. (If your Claude app can't open sessions by
-   itself, it opens a new-session screen for each one: press Enter once in each.) To add someone later, open a new
-   Code session, type `/employeflow:start` and pick them.
+   itself, it opens a new-session screen for each one: press Enter once in each.) To add someone later, tell your Boss
+   ("I need someone for the invoices"), or open a new Code session, type `/employeflow:start` and pick them.
+
+   **No team yet?** `/employeflow:start` makes it right in the chat, and that session becomes your Boss. He asks what
+   eats your time every week and proposes employees: a name, a job, and which of your tools each one works with (Gmail,
+   Google Drive, Calendar…), each marked connected or missing. On your yes he hires them and gives each one its own
+   session. Each employee is told to work only with the tools listed for them. (Your connectors belong to your whole
+   Claude account, so this is an instruction to the employee, not a lock.)
 
 That's it: one session per employee, each one named and grouped under your team. What you give an employee in the
 dashboard (skills, the team handbook, your team's own skills, what the team may reach) reaches that employee's session
@@ -89,7 +96,7 @@ They use your own Gmail, Google Drive and Google Calendar connectors when you ha
 | You see | What it means |
 |---|---|
 | "Connect Employeflow first" | Do step 3: `/mcp` → employeflow → Authenticate, in a new session. |
-| "Create your team on employeflow.com first" | Your account has no team yet. |
+| "You don't have a team yet, so I'll make it right here" | Your account has no team yet: answer two questions and your Boss sets it up. |
 | "Type /employeflow:start to pick your team" | Your account reaches several teams; start picks one for this folder. |
 | "nothing waiting" | Connected; no open work right now. |
 
