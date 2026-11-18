@@ -47,8 +47,21 @@ claude plugin install employeflow --marketplace employeflow/plugins
    **No team yet?** `/employeflow:start` makes it right in the chat, and that session becomes your Boss. He asks what
    eats your time every week and proposes employees: a name, a job, and which of your tools each one works with (Gmail,
    Google Drive, Calendar…), each marked connected or missing. On your yes he hires them and gives each one its own
-   session. Each employee is told to work only with the tools listed for them. (Your connectors belong to your whole
-   Claude account, so this is an instruction to the employee, not a lock.)
+   session.
+
+   **Each employee gets only the tools its job needs.** When an employee's session starts, it writes a small rule file
+   into its own folder (`.claude/settings.json`; your Claude app asks you once to allow it), and from then on the Claude
+   app itself refuses that employee your other tools. Each employee also has a level, which you can change any time by
+   telling your Boss:
+   - **Shows you first** (everyone starts here): it prepares; sending, posting and sharing are locked; you send or post
+     it yourself.
+   - **Asks, then does it:** it puts what would go out into your Approvals and does it after your yes, exactly as approved.
+   - **Does it alone:** it sends and posts on its own and reports each one.
+
+   **Paying and deleting always ask you first,** at every level: the Claude app asks you before such a tool runs. After 20
+   good results at a level, your Boss offers you the next one; nothing changes without your yes. What the lock can't
+   stop: you changing the file yourself, and a Claude add-on (a "mod") that approves calls. In the mode that never asks
+   ("don't ask"), paying and deleting are refused instead of asked.
 
 That's it: one session per employee, each one named and grouped under your team. What you give an employee in the
 dashboard (skills, the team handbook, your team's own skills, what the team may reach) reaches that employee's session

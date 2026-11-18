@@ -11,7 +11,7 @@ belongs to another session (0.8.1, measured 7 Nov 2026: a new session took over 
 
 **Set up by the team's setup** (the prompt is exactly `/employeflow:start auto`): this session was created by the team
 lead's session, and `.employeflow.json` in this folder already says who it is. ONLY then is the folder's file taken as
-who this session is. Ask nothing: do step 6 (name and team group),
+who this session is. Ask nothing: do step 6 (name and team group), for an employee step 5b (the lock on its tools),
 step 7 (the key file is normally there already), and then:
 - an employee (`as_employee`): step 8 (their waiting work); no automatic check of its own when the file says
   `"post_office_ready": true` or the team has a session titled "Post office"; finish with one line "<employee> is ready."
@@ -70,6 +70,19 @@ token or file content in your messages.
      From here on use full paths: the move takes effect when this turn ends.
    - If the app has no `change_directory` tool, or the user declines: say "Open a new Code session in the folder
      ~/Employeflow/<team>/<employee> and type /employeflow:start there." and stop.
+5b. **The lock on this employee's tools** (an employee's folder only: never the Boss, never the Post office). Each
+   employee works only with the tools its job needs, and the Claude app itself enforces it through a rule file in this
+   folder.
+   1. List the owner's connectors this session can use, from your own tool names `mcp__<id>__<tool>`: for each
+      connector (Gmail, Google Drive, Google Calendar, Notion, Slack, …) its name and its `<id>`. Leave out
+      Employeflow's own tools and the Claude app's own tools.
+   2. Call `employeflow_my_lock` with those `connectors`.
+   3. Write the `settings` it gives, exactly, to `<this folder>/.claude/settings.json` (make `.claude/` first), then
+      the `marker` to `<this folder>/.claude/.employeflow-lock.json`. The app may ask the owner to allow writing these
+      two files; say once: "This puts the lock on <employee>'s tools: please allow it."
+   4. Tell the owner its `owner_line` in one line. The lock works from this session's next turn on.
+   If the owner doesn't allow the files: say "Without the lock, <employee> keeps to its tools as a rule, but nothing
+   stops it technically." and go on.
 6. **Name and team group.** Rename this session to the employee's name with the app's `set_session_title` tool
    (`session_id` "self"). Then call `list_groups`: if a group named exactly like the team exists, use it; otherwise
    create it with `create_group` (the team's name). Move this session into it with `move_sessions`
@@ -84,10 +97,13 @@ token or file content in your messages.
       for the owner, in one sentence · the tools they work with, each marked ✓ connected or "missing". Say truthfully
       what they do: they prepare, and anything that would go out waits for the owner's yes, then the owner sends or
       posts it themselves. For example: "Lena · Inbox · drafts the answers to your customer emails; each one waits for
-      your yes, then you press Send in Gmail · Gmail ✓". Then ask:
+      your yes, then you press Send in Gmail · Gmail ✓". Give each one only the tools its job needs: the owner's
+      other tools are locked for that employee (step 5b). Add one line: "Everyone starts at 'Shows you first': they
+      prepare, you send or post. Paying and deleting always ask you first. After 20 good results I'll offer you more
+      freedom for that person." Then ask:
       "Shall I hire them and give each one their own session? Change any name or job, or leave someone out."
    3. **Hire on their yes**, with their changes: call `employeflow_add_employee` once per employee (`name`, `role`,
-      `job`, `tools`). If one fails, say its sentence and go on with the others.
+      `job`, `tools`; leave `level` out unless the owner chose one: the default is "Shows you first"). If one fails, say its sentence and go on with the others.
    4. **Missing tools:** for each tool that is missing, one line: "To connect <tool>: in the Claude app, Settings →
       Connectors → <tool> → Connect. Your employees can use it from their next task." Only say that for a tool that
       has a connector there (Google Calendar, Google Drive, Gmail, Notion, Slack and the like). For one that may have
