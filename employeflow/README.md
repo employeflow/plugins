@@ -24,6 +24,8 @@ claude plugin install employeflow --marketplace employeflow/plugins
 ## What you need
 
 - **Claude Code**: the **Code** tab in the Claude desktop app, or `claude` in a terminal.
+- **A Claude plan for business:** your company's Claude **Team** or **Enterprise** plan, or (in a terminal) your company's
+  own Anthropic API key. Claude Pro and Max are personal plans, and Anthropic's terms don't allow them for business use.
 - An **Employeflow account** ([employeflow.com](https://employeflow.com)) that owns a team or is a member of one.
   You sign in with it once; there is no code to copy.
 

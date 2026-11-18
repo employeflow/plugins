@@ -41,8 +41,10 @@ as read.
 ## After the owner's decision
 The decision comes back in `employeflow_my_work` as `DECISION <id> · APPROVED` (with "Approved text (exactly
 this)") or `DECISION <id> · DECLINED`. Find `<id>` in `replies-waiting.md`.
-- **APPROVED:** create ONE Gmail draft in reply to that thread (to that message's sender, same subject), whose body
-  is exactly the approved text, character for character; the owner may have edited it. Then remove the line from
+- **APPROVED:** first look in Gmail Drafts: if that thread already has a draft with exactly this text (a run that
+  stopped halfway made it), don't make another; otherwise create ONE Gmail draft in reply to that thread (to that
+  message's sender, same subject), whose body is exactly the approved text, character for character; the owner may
+  have edited it. Then remove the line from
   `replies-waiting.md` and call `employeflow_decision_done` with the id.
 - **DECLINED:** create nothing in Gmail. Remove the line, note the owner's note in `NOTES.md` for next time, and call
   `employeflow_decision_done` with the id.
