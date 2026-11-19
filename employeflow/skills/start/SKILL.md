@@ -71,8 +71,8 @@ token or file content in your messages.
    - If the app has no `change_directory` tool, or the user declines: say "Open a new Code session in the folder
      ~/Employeflow/<team>/<employee> and type /employeflow:start there." and stop.
 5b. **The lock on this employee's tools** (an employee's folder only: never the Boss, never the Post office). Each
-   employee works only with the tools its job needs, and the Claude app itself enforces it through a rule file in this
-   folder.
+   employee works with all the owner's connected tools (unless the owner locked them to fewer), and the Claude app
+   itself enforces the employee's level through a rule file in this folder: sending, paying and deleting are guarded.
    1. List the owner's connectors this session can use, from your own tool names `mcp__<id>__<tool>`: for each
       connector (Gmail, Google Drive, Google Calendar, Notion, Slack, …) its name and its `<id>`. Leave out
       Employeflow's own tools and the Claude app's own tools.
@@ -94,16 +94,18 @@ token or file content in your messages.
       Only call a tool connected when you can really use it now; never guess.
    2. **Propose the team.** Ask once: "What eats the most time in your business every week?" From that answer and
       what the company does, propose 2 to 5 employees, one line each: a human first name · a job title · what they do
-      for the owner, in one sentence · the tools they work with, each marked ✓ connected or "missing". Say truthfully
+      for the owner, in one sentence · the tools that job uses, each marked ✓ connected or "missing". Say truthfully
       what they do: they prepare, and anything that would go out waits for the owner's yes, then the owner sends or
       posts it themselves. For example: "Lena · Inbox · drafts the answers to your customer emails; each one waits for
-      your yes, then you press Send in Gmail · Gmail ✓". Give each one only the tools its job needs: the owner's
-      other tools are locked for that employee (step 5b). Add one line: "Everyone starts at 'Shows you first': they
-      prepare, you send or post. Paying and deleting always ask you first. After 20 good results I'll offer you more
-      freedom for that person." Then ask:
+      your yes, then you press Send in Gmail · Gmail ✓". Every employee works with all the tools the owner connected;
+      don't pick tools per person. Add one line: "Everyone works with all your connected tools and starts at 'Shows you
+      first': they prepare, you send or post. Paying and deleting always ask you first. After 20 good results I'll offer
+      you more freedom for that person. If you'd rather lock someone to fewer tools, just tell me." Then ask:
       "Shall I hire them and give each one their own session? Change any name or job, or leave someone out."
    3. **Hire on their yes**, with their changes: call `employeflow_add_employee` once per employee (`name`, `role`,
-      `job`, `tools`; leave `level` out unless the owner chose one: the default is "Shows you first"). If one fails, say its sentence and go on with the others.
+      `job`; leave `tools` out: they get every tool the team has. Pass `tools` only if the owner asked to lock that
+      person to some tools. Leave `level` out unless the owner chose one: the default is "Shows you first"). If one
+      fails, say its sentence and go on with the others.
    4. **Missing tools:** for each tool that is missing, one line: "To connect <tool>: in the Claude app, Settings →
       Connectors → <tool> → Connect. Your employees can use it from their next task." Only say that for a tool that
       has a connector there (Google Calendar, Google Drive, Gmail, Notion, Slack and the like). For one that may have

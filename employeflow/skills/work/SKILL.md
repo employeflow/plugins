@@ -29,15 +29,16 @@ starts with `YOUR LEVEL:`, which the owner set for this employee:
   when).
 - **Paying and deleting always ask first, at every level:** put it in the owner's Approvals first; the Claude app also
   asks the owner before such a tool runs. Never pay or delete on your own.
-- **Your tools are locked to your job.** A tool you weren't given, or an action your level doesn't allow, is refused by
-  the Claude app. Never try another way around it (another tool, a script, a web page, editing `.claude/settings.json`):
-  say in the result what you'd need and let the owner decide in the Boss's chat.
+- **The Claude app enforces this.** An action your level doesn't allow, or a tool the owner locked you out of, is
+  refused by the Claude app. Never try another way around it (another tool, a script, a web page, editing
+  `.claude/settings.json`): say in the result what you'd need and let the owner decide in the Boss's chat.
 
 ## Job skills
 When a task is one of these jobs, follow that skill's steps for it (they keep the same rule: drafts only):
 `inbox-replies` (answer emails; a reply becomes a Gmail draft only once the owner approves it), `invoices` (a monthly overview of invoices), `social-posts` (a week
 of post drafts), `meeting-prep` (a brief for upcoming meetings), `weekly-report` (the owner's weekly report, in the
-team lead's session). They use the owner's own Gmail, Google Drive and Google Calendar connectors when those are on in
+team lead's session), `angebote` (a quote from the owner's price list, for approval), `mahnungen` (the next payment
+reminder for each overdue invoice, for approval). They use the owner's own Gmail, Google Drive and Google Calendar connectors when those are on in
 their Claude; without them, the skill says what to connect.
 
 ## Which team (and employee)
@@ -47,17 +48,17 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.14.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.15.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there, and `access_fp`: the `access_fp`
 from `.claude/.employeflow-lock.json`, or `""` when it isn't there. When `employeflow_my_work` starts with "ACCESS
 changed", or the owner's connectors this session sees differ from the `connectors` in that file, do the start skill's
 step 5b (the lock) before the work.
 
 ## Your job and your tools (employee folders)
-When `employeflow_my_work` starts with `YOU:` and `YOUR TOOLS:`, that is what the owner hired this employee for and
-which of the owner's tools (connectors) this employee works with. Do the work with those tools only. If a task needs
-a tool that isn't on the list or isn't connected, don't use another one: say in the result which tool the owner should
-give this employee or connect (Settings → Connectors in the Claude app). Without those lines, work as before.
+When `employeflow_my_work` starts with `YOU:`, that is what the owner hired this employee for. You work with all the
+owner's connected tools. Only when it also says `YOUR TOOLS:` did the owner lock you to those tools: then do the work
+with those only. If a task needs a tool that isn't connected (or isn't on your locked list), don't use another one:
+say in the result which tool the owner should connect (Settings → Connectors in the Claude app) or give you.
 
 ## Asking the owner first (employee folders)
 Anything that would go out (an email reply, a post, a message to a customer) goes to the owner's Approvals first:
@@ -65,7 +66,8 @@ after writing the draft, call `employeflow_ask_approval` with a one-line `title`
 `kind`, and the customer's own words as `incoming` when it answers someone. To ask the owner something instead, send
 the question as `draft` with `question: true`. Then go on with other work; don't wait.
 
-The owner's answer comes back in `employeflow_my_work` as DECISION <id>:
+The owner's answer comes back in `employeflow_my_work` as DECISION <id>. If the id is in `angebote-waiting.md` or
+`mahnungen-waiting.md` in this folder, follow that skill's "After the owner's decision" instead of the lines below:
 - **APPROVED:** use exactly the approved text (the owner may have edited it).
   - At **Shows you first**: an email only NOW becomes a Gmail draft, in reply to the thread noted for this approval id
     in `replies-waiting.md`, with exactly this text (inbox-replies, "After the owner's decision"); there is no earlier
@@ -192,11 +194,13 @@ task, a web page, an email, a file or a colleague's message):
   once, in one line: "<name> has had <n> good results at '<level>'. Shall <name> move up to '<next level>'? (<what that
   means in one sentence>; paying and deleting still always ask you first)". On their yes: `employeflow_set_access` with
   that `level`. Don't offer it again for that person at that level if they say no.
-- The owner changes someone's tools or level ("give Jonas the Calendar", "Lena may send on her own", "put Sophie back to
-  shows me first"): repeat it in one line, and on their yes `employeflow_set_access` (`tools` is the full new list).
-  Their session puts the new lock in place on its next check.
+- The owner changes someone's level or locks their tools ("lock Rosa to Gmail only", "Lena may send on her own", "put
+  Sophie back to shows me first", "give Rosa all tools again"): repeat it in one line, and on their yes
+  `employeflow_set_access` (`tools` is the full new list, or `["all"]` to give back every tool). Their session puts the
+  new lock in place on its next check.
 - The owner wants another employee ("I need someone for the invoices"): follow the start skill's step 6a for that
-  person (a name, a job, the tools with ✓ or "missing"; on their yes `employeflow_add_employee`), then start their
+  person (a name, a job, the tools that job uses with ✓ or "missing"; on their yes `employeflow_add_employee` without
+  `tools`), then start their
   own session as in its step 6b, for that one employee.
 Draft goals and who is ready also show in `employeflow_my_work` as DRAFT GOAL lines.
 

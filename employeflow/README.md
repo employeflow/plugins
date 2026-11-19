@@ -45,14 +45,15 @@ claude plugin install employeflow --marketplace employeflow/plugins
    ("I need someone for the invoices"), or open a new Code session, type `/employeflow:start` and pick them.
 
    **No team yet?** `/employeflow:start` makes it right in the chat, and that session becomes your Boss. He asks what
-   eats your time every week and proposes employees: a name, a job, and which of your tools each one works with (Gmail,
-   Google Drive, Calendar…), each marked connected or missing. On your yes he hires them and gives each one its own
+   eats your time every week and proposes employees: a name and a job each. He checks which of your tools are connected
+   (Gmail, Google Drive, Calendar…) and says what's missing. On your yes he hires them and gives each one its own
    session.
 
-   **Each employee gets only the tools its job needs.** When an employee's session starts, it writes a small rule file
-   into its own folder (`.claude/settings.json`; your Claude app asks you once to allow it), and from then on the Claude
-   app itself refuses that employee your other tools. Each employee also has a level, which you can change any time by
-   telling your Boss:
+   **Every employee works with all the tools you connected, and nothing goes out without you.** When an employee's
+   session starts, it writes a small rule file into its own folder (`.claude/settings.json`; your Claude app asks you
+   once to allow it), and from then on the Claude app itself enforces that employee's level. If you want, tell your Boss
+   to lock someone to fewer tools ("lock Rosa to Gmail only"); the app then refuses that employee your other tools. Each
+   employee has a level, which you can change any time by telling your Boss:
    - **Shows you first** (everyone starts here): it prepares; sending, posting and sharing are locked; you send or post
      it yourself.
    - **Asks, then does it:** it puts what would go out into your Approvals and does it after your yes, exactly as approved.
@@ -77,8 +78,8 @@ In a terminal instead of the app: `claude plugin marketplace add employeflow/plu
 
 ## What your employees can do
 
-Besides the tasks you write in the portal, five job skills come with the plugin. Each one only writes drafts and
-hands the result back to your portal; nothing is sent, posted or paid:
+Besides the tasks you write in the portal, seven job skills come with the plugin. Each one only writes drafts and
+hands the result back to your portal; nothing is sent, posted or paid without your yes:
 
 - **inbox-replies**: answers new emails. Each reply waits in your portal's Approvals first; only one you approve
   becomes a Gmail draft, with exactly the approved text. A declined reply never reaches Gmail.
@@ -86,6 +87,11 @@ hands the result back to your portal; nothing is sent, posted or paid:
 - **social-posts**: a week of post drafts in your company's tone.
 - **meeting-prep**: a one-page brief for your upcoming meetings.
 - **weekly-report**: your team's week on one page, with what needs you.
+- **angebote** (quotes, German first): turns a customer inquiry into a quote from your own price list and template;
+  prices and terms come only from your data (`firma.md` and your price list). It waits for your approval.
+- **mahnungen** (payment reminders, German first): checks your open invoices each week and drafts the next step,
+  Zahlungserinnerung → 1. Mahnung → 2. Mahnung. Each letter waits for your approval; no invented fees, no threats,
+  interest only where the law allows it. It's a drafting tool, not legal advice.
 
 They use your own Gmail, Google Drive and Google Calendar connectors when you have turned them on in your Claude
 (Settings → Connectors). The plugin brings no connectors of its own.
@@ -148,7 +154,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 | Skill `start` | [`skills/start/SKILL.md`](skills/start/SKILL.md) | Make this session one employee: connect, pick the team and the employee, turn on the automatic check (`/employeflow:start`) |
 | Skill `post` | [`skills/post/SKILL.md`](skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`skills/work/SKILL.md`](skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
-| Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report` | [`skills/`](skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
+| Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen` | [`skills/`](skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
 | Skill `setup` | [`skills/setup/SKILL.md`](skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
 | Hooks | [`hooks/hooks.json`](hooks/hooks.json), [`bin/peek.sh`](bin/peek.sh), [`bin/turn.sh`](bin/turn.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched. `turn.sh`: the turn report above (numbers only) |
 
