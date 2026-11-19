@@ -78,7 +78,7 @@ In a terminal instead of the app: `claude plugin marketplace add employeflow/plu
 
 ## What your employees can do
 
-Besides the tasks you write in the portal, seven job skills come with the plugin. Each one only writes drafts and
+Besides the tasks you write in the portal, twelve job skills come with the plugin. Each one only writes drafts and
 hands the result back to your portal; nothing is sent, posted or paid without your yes:
 
 - **inbox-replies**: answers new emails. Each reply waits in your portal's Approvals first; only one you approve
@@ -92,6 +92,21 @@ hands the result back to your portal; nothing is sent, posted or paid without yo
 - **mahnungen** (payment reminders, German first): checks your open invoices each week and drafts the next step,
   Zahlungserinnerung → 1. Mahnung → 2. Mahnung. Each letter waits for your approval; no invented fees, no threats,
   interest only where the law allows it. It's a drafting tool, not legal advice.
+- **morning-brief**: one short message each morning: what needs you, today's appointments, the important new emails,
+  what the team did.
+- **meeting-notes**: a transcript or notes become a summary, decisions and to-dos; each colleague's to-do is handed to
+  that colleague as a task; a follow-up email waits for your approval.
+- **lead-follow-up**: answers new inquiries fast and follows up after 3 and 7 days, then stops; every email waits for
+  your approval. Only people who wrote to you first; never cold outreach.
+- **content-pipeline**: research → posts → your yes. The writer hands the research to the research colleague and gets
+  the brief back.
+- **research-brief**: a question becomes a one-page answer with sources, handed to the colleague who needs it.
+
+**Your employees hand work to each other.** When one employee's result is the next one's job (the research for the
+posts, a meeting's to-dos, a lead that wants a quote), it becomes that colleague's task in your portal, linked to the
+first one. You see the whole chain, and still approve everything that goes out.
+
+All five new jobs work in English and German.
 
 They use your own Gmail, Google Drive and Google Calendar connectors when you have turned them on in your Claude
 (Settings → Connectors). The plugin brings no connectors of its own.
@@ -154,7 +169,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 | Skill `start` | [`employeflow/skills/start/SKILL.md`](employeflow/skills/start/SKILL.md) | Make this session one employee: connect, pick the team and the employee, turn on the automatic check (`/employeflow:start`) |
 | Skill `post` | [`employeflow/skills/post/SKILL.md`](employeflow/skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
-| Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen` | [`employeflow/skills/`](employeflow/skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
+| Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen`, `morning-brief`, `meeting-notes`, `lead-follow-up`, `content-pipeline`, `research-brief` | [`employeflow/skills/`](employeflow/skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
 | Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
 | Hooks | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh), [`employeflow/bin/turn.sh`](employeflow/bin/turn.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched. `turn.sh`: the turn report above (numbers only) |
 
