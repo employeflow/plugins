@@ -49,7 +49,7 @@ claude plugin install employeflow --marketplace employeflow/plugins
    (Gmail, Google Drive, Calendar…) and says what's missing. On your yes he hires them and gives each one its own
    session.
 
-   **Every employee works with all the tools you connected, and nothing goes out without you.** When an employee's
+   **Every employee works with all the tools you connected, and nothing goes out without you unless you move that employee to "Does it alone".** When an employee's
    session starts, it writes a small rule file into its own folder (`.claude/settings.json`; your Claude app asks you
    once to allow it), and from then on the Claude app itself enforces that employee's level. If you want, tell your Boss
    to lock someone to fewer tools ("lock Rosa to Gmail only"); the app then refuses that employee your other tools. Each
@@ -104,7 +104,15 @@ hands the result back to your portal; nothing is sent, posted or paid without yo
 
 **Your employees hand work to each other.** When one employee's result is the next one's job (the research for the
 posts, a meeting's to-dos, a lead that wants a quote), it becomes that colleague's task in your portal, linked to the
-first one. You see the whole chain, and still approve everything that goes out.
+first one. You see the whole chain, and quotes, follow-ups and posts still wait for your yes. They talk to each other while they do
+it ("Leo, can you find me the 2026 numbers by Wednesday?" · "On it." · "Done: the brief is in Results"), and you read
+along in your Team Chat, or ask your Boss "what did the team talk about today?".
+
+**Your approvals, right in Claude.** Ask your Boss "what's waiting for me?" or "show me Paula's quote", then say
+"approve it", "approve it, but change the second sentence to …", "decline it: too stiff", or answer an employee's
+question. It counts exactly like a click in your portal, one decision per item, and only on what you type in your
+Boss's chat. When you change a text, your Boss shows you the new version first, and anything that would go out at once
+is confirmed with you in one line.
 
 All five new jobs work in English and German.
 
@@ -144,6 +152,8 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 - each **chat reply** an employee writes to you;
 - **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
 - **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
+- **your decisions from your Boss's chat**: the item, approve / decline / answer, your changed text or answer, and your message as your Boss quoted it (stored with the decision, as your record);
+- **team talk**: the one-line message an employee writes when it hands work to a colleague, takes it over, or hands it back (at most 300 characters), shown in your Team Chat;
 - **progress on a team goal** (a number and one line, at most 300 characters), an employee's **one-line plan** when they ready up for a goal (at most 300), and **finished deliverables** (a title and a two-line summary with where they are);
 - from the **Boss's session only**, when you agree it there: a **goal** (title, number and unit, date, who answers for it, who works on it) and **work you give one or two employees** (one line, details at most 2,000 characters);
 - when the Boss hands out a task you gave him: each part (the employee, a one-line task, its details).
@@ -156,7 +166,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 
 **It does not send:** your other prompts, any other file, your transcripts, or your Claude login. Employeflow refuses any result, reply or file that looks like a password or key, and stores nothing of it.
 
-**Nothing goes out without you.** Employees never send, post, publish or pay anything themselves: things meant for the outside world become drafts in your Approvals, and you decide. Results and chat replies go into your own portal only.
+**Nothing goes out without you, at the level you choose.** At "Shows you first" (where everyone starts), employees never send, post or publish: outside things become drafts in your Approvals. At "Asks, then does it" they do it after your yes, exactly as approved; at "Does it alone" they do it and report each one. Paying and deleting always ask you first. Results and chat replies go into your own portal only.
 
 The portal decides what a signed-in account may do: only teams you own or are a member of, only the folder's
 employee's work, and on a team that runs on its owner's own Claude only the owner hands out work.
@@ -165,7 +175,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 
 | Part | File | What it does |
 |---|---|---|
-| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Tools for your teams and open work, starting and finishing a task, chat replies, the employee's skills, handing out and routing work (the Boss), setting goals, giving work to one or two employees and the team's status (the Boss's session, yours only), asking you for approval and reading your decision, asking and answering a colleague, goal progress and readying up, handing in a deliverable, and the count-only key |
+| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Tools for your teams and open work, starting and finishing a task, chat replies, the employee's skills, handing out and routing work (the Boss), setting goals, giving work to one or two employees and the team's status (the Boss's session, yours only), asking you for approval and reading your decision, your approvals from the Boss's chat, asking and answering a colleague, goal progress and readying up, handing in a deliverable, and the count-only key |
 | Skill `start` | [`employeflow/skills/start/SKILL.md`](employeflow/skills/start/SKILL.md) | Make this session one employee: connect, pick the team and the employee, turn on the automatic check (`/employeflow:start`) |
 | Skill `post` | [`employeflow/skills/post/SKILL.md`](employeflow/skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |

@@ -17,7 +17,8 @@ without the owner's yes. One run = one brief.
 ## Steps
 1. **Needs you.** `employeflow_team_status` lists what waits for the owner in Approvals ("WAITING FOR THE OWNER":
    drafts to approve and questions, oldest first). Add anything stuck or failed from it, and any urgent email from
-   step 3. One line each, the most urgent first. Nothing → "Nothing waiting for you."
+   step 3. One line each, the most urgent first, with its id ("AP-088"), so the owner can say "show me AP-088" or
+   "approve AP-088" in the Boss's chat. Nothing → "Nothing waiting for you."
 2. **Today.** If Google Calendar is connected: today's appointments (time · title · with whom · where), and anything
    that clashes or has no time to get there. Not connected → one line: "Connect Google Calendar for your day here."
 3. **New since yesterday.** If Gmail is connected: at most 5 emails from real people in the last 24 hours that look
@@ -25,7 +26,7 @@ without the owner's yes. One run = one brief.
    Skip newsletters, notifications and anything a colleague is already answering. Not connected → one line.
 4. **The team.** From `employeflow_team_status`: per employee in one line what they finished yesterday and what
    they're on now; who hasn't checked in for more than 35 minutes while the app was open. Hand-offs between colleagues count too ("Lena → Max: the research for the
-   posts").
+   posts"); add the one or two TEAM TALK lines that matter (who waits on whom).
 5. **Open money and leads** (only if the files exist in the team's folders): open quotes (`angebote.md`), reminders
    waiting (`mahnungen.md`), leads waiting for an answer (`leads.md`). One line each, totals only.
 6. **The brief.** At most 15 lines, each heading at the start of its first line, in this order:
