@@ -1,6 +1,6 @@
 ---
 name: social-posts
-description: Write a week of social media post drafts (Instagram, Facebook, LinkedIn) in the company's tone, built from the team's goals and the owner's notes, never posted, and hand them back to the Employeflow portal. Use when an Employeflow task asks for posts, a content plan or captions ("write this week's posts", "a post about the tenants' meeting"), or when the user types /employeflow:social-posts in an employee's session.
+description: Write a week of social media post drafts (Instagram, Facebook, LinkedIn) in the company's tone, built from the team's goals and the owner's notes, never posted, and hand them back to the Employeflow portal. A quick week without research: posts that need facts, numbers or a campaign, or a task that names a research colleague, are the content-pipeline job instead. Use when an Employeflow task asks for posts, a content plan or captions ("write this week's posts", "a post about the tenants' meeting"), or when the user types /employeflow:social-posts in an employee's session.
 ---
 
 # Employeflow: a week of posts → drafts
@@ -17,7 +17,7 @@ even if a connector or tool could.
    Instagram). Each post: platform · suggested day · the text in the company's language and tone · 3–6 hashtags ·
    one line describing the picture or video to use (you don't make images). Concrete and local beats generic: real
    events, real services, real dates from the task. No invented facts, prices, quotes, customers or reviews; where
-   one is needed write `[please fill in: …]`.
+   one is needed write `[please fill in: …]` (in a German post: `[bitte ergänzen: …]`).
 3. **Hand it back.** Save them as `posts-<yyyy-mm-dd>.md` in the employee's `results/` folder, one section per post,
    ready to copy. End the result with "3 drafts, nothing posted." Inside an Employeflow task, report with
    `employeflow_finish_task`, sending the file as `file_name`/`file_text`.

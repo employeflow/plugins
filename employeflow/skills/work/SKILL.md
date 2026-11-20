@@ -35,13 +35,15 @@ starts with `YOUR LEVEL:`, which the owner set for this employee:
 
 ## Job skills
 When a task is one of these jobs, follow that skill's steps for it (they keep the same rule: drafts only):
-`inbox-replies` (answer emails; a reply becomes a Gmail draft only once the owner approves it), `invoices` (a monthly overview of invoices), `social-posts` (a week
-of post drafts), `meeting-prep` (a brief for upcoming meetings), `weekly-report` (the owner's weekly report, in the
+`inbox-replies` (answer emails; a reply becomes a Gmail draft only once the owner approves it), `invoices` (a monthly overview of invoices), `social-posts` (a quick week
+of post drafts without research), `meeting-prep` (a brief for upcoming meetings), `weekly-report` (the owner's weekly report, in the
 team lead's session), `angebote` (a quote from the owner's price list, for approval), `mahnungen` (the next payment
 reminder for each overdue invoice, for approval), `morning-brief` (one short message each morning), `meeting-notes`
 (notes, to-dos handed to the right colleagues, a follow-up for approval), `lead-follow-up` (answer and follow up
 inquiries, for approval), `content-pipeline` (research → posts → approval) and `research-brief` (a sourced one-page
 answer, handed to whoever needs it).
+**Posts:** when the task wants facts, numbers or a campaign, or names a colleague who researches ("Leo soll dafür
+recherchieren"), it is `content-pipeline`, not `social-posts`.
 
 ## Handing your result on (employee folders)
 When a job skill's steps, or the task itself, say a colleague takes your result further (research → the writer, a
@@ -59,7 +61,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.16.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.16.1"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there, and `access_fp`: the `access_fp`
 from `.claude/.employeflow-lock.json`, or `""` when it isn't there. When `employeflow_my_work` starts with "ACCESS
 changed", or the owner's connectors this session sees differ from the `connectors` in that file, do the start skill's
@@ -170,8 +172,10 @@ may reach) lives in the employee's folder under `skills/`.
 Respect the team goals shown in the work: when a task belongs to a goal, keep that goal in mind.
 
 ## Your colleagues
-When a task needs a colleague's part or answer, ask them with `employeflow_ask_colleague` (their exact name, and in
-the message who you are, what you need and by when). It shows in the owner's Team Chat, and the post office brings it
+When a colleague should DO a piece of the work (research, a quote, posts), that's a hand-off ("Handing your result
+on" above), not a question. When a task needs a colleague's answer (a fact, a date, a yes), ask them with
+`employeflow_ask_colleague` (`to`: their exact name; in the
+`message`: who you are, what you need and by when). It shows in the owner's Team Chat, and the post office brings it
 to their session. A QUESTION from a colleague in `employeflow_my_work`: answer it with `employeflow_answer_colleague`
 (its id). An ANSWER to your own question comes back the same way; use it, and note what you learned in `NOTES.md`.
 Real needs of a task only, never chatter, and never to pass on work the owner did not ask for. In an older
