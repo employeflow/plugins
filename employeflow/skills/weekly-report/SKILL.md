@@ -9,7 +9,9 @@ Best run in the team lead's session (the Boss). It only reads and writes the rep
 
 1. **What was done.** Every employee of this team has a folder `~/Employeflow/<team>/<employee>/` with a `NOTES.md`
    (one dated line per finished task) and a `results/` folder. Read the lines and file names of the last 7 days (or
-   the period the task names). An employee without a folder or without lines this week: "no work this week".
+   the period the task names). An employee without a folder or without lines this week: "no work this week". A
+   ready-made employee's own weekly report (`results/ads-<week>.md`, `results/service-<week>.md`) gives its 1–3 lines;
+   for the Ads Manager always the month's spend against its monthly limit.
 2. **What's open, and the goals.** Call `employeflow_my_work` with `team` (and `as_employee` of this session): its
    goals, and its open tasks and messages. In an employee's session it shows only that employee's open work: say so
    in the report.

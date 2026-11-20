@@ -28,7 +28,8 @@ without the owner's yes. One run = one brief.
    they're on now; who hasn't checked in for more than 35 minutes while the app was open. Hand-offs between colleagues count too ("Lena → Max: the research for the
    posts"); add the one or two TEAM TALK lines that matter (who waits on whom).
 5. **Open money and leads** (only if the files exist in the team's folders): open quotes (`angebote.md`), reminders
-   waiting (`mahnungen.md`), leads waiting for an answer (`leads.md`). One line each, totals only.
+   waiting (`mahnungen.md`), leads waiting for an answer (`leads.md`), and the ads (`ads.md`: spent this month
+   against the monthly limit, and proposals waiting). One line each, totals only.
 6. **The brief.** At most 15 lines, each heading at the start of its first line, in this order:
    - English: "Needs you" · "Today" · "New" · "Team" · "Open"
    - German: "Braucht dich" · "Heute" · "Neu" · "Team" · "Offen"

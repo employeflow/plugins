@@ -114,6 +114,12 @@ question. It counts exactly like a click in your portal, one decision per item, 
 Boss's chat. When you change a text, your Boss shows you the new version first, and anything that would go out at once
 is confirmed with you in one line.
 
+**Ready-made employees.** Some jobs come ready: ask your Boss "what employees can I hire?" and say "I want an ads
+manager". He introduces himself, tells you the one connection to make (for the Ads Manager: your Meta ad account) and
+checks that it works. Then he does the job: every week he reviews your ads and proposes what to stop, what to scale and
+what to try, and every launch, pause and budget change waits for your yes, and he plans inside a monthly limit only you set. Ready
+today: **Ads Manager** and **Customer Service**. More are coming (office paperwork, email marketing and others).
+
 All five new jobs work in English and German.
 
 They use your own Gmail, Google Drive and Google Calendar connectors when you have turned them on in your Claude
@@ -153,6 +159,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 - **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
 - **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
 - **your decisions from your Boss's chat**: the item, approve / decline / answer, your changed text or answer, and your message as your Boss quoted it (stored with the decision, as your record);
+- **a ready-made employee's role and monthly limit** (for example "Ads Manager", €500 a month), stored with the employee in your portal;
 - **team talk**: the one-line message an employee writes when it hands work to a colleague, takes it over, or hands it back (at most 300 characters), shown in your Team Chat;
 - **progress on a team goal** (a number and one line, at most 300 characters), an employee's **one-line plan** when they ready up for a goal (at most 300), and **finished deliverables** (a title and a two-line summary with where they are);
 - from the **Boss's session only**, when you agree it there: a **goal** (title, number and unit, date, who answers for it, who works on it) and **work you give one or two employees** (one line, details at most 2,000 characters);
@@ -180,6 +187,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 | Skill `post` | [`employeflow/skills/post/SKILL.md`](employeflow/skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
 | Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen`, `morning-brief`, `meeting-notes`, `lead-follow-up`, `content-pipeline`, `research-brief` | [`employeflow/skills/`](employeflow/skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
+| Skills `hire`, `ads-manager`, `customer-service` | [`employeflow/skills/`](employeflow/skills/) | Ready-made employees: the Boss hires one on your word; each introduces itself, names the one connection, and waits for your yes on everything that goes out or costs money |
 | Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
 | Hooks | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh), [`employeflow/bin/turn.sh`](employeflow/bin/turn.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched. `turn.sh`: the turn report above (numbers only) |
 

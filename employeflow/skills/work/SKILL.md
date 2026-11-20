@@ -33,6 +33,12 @@ starts with `YOUR LEVEL:`, which the owner set for this employee:
   refused by the Claude app. Never try another way around it (another tool, a script, a web page, editing
   `.claude/settings.json`): say in the result what you'd need and let the owner decide in the Boss's chat.
 
+## Your role (ready-made employees)
+If `employeflow_my_work` shows `YOUR ROLE: the ready-made <role>`, that role's skill is your job description (for
+example `ads-manager`, `customer-service`): do its "First day" until it is done, then its weekly rhythm and its
+rules on every run, and use the job skills below for the pieces it names. A `MONTHLY LIMIT` is hard: never propose
+or do anything that would take the month's spend above it. Hiring one is the Boss's `hire` skill.
+
 ## Job skills
 When a task is one of these jobs, follow that skill's steps for it (they keep the same rule: drafts only):
 `inbox-replies` (answer emails; a reply becomes a Gmail draft only once the owner approves it), `invoices` (a monthly overview of invoices), `social-posts` (a quick week
@@ -66,7 +72,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.17.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.18.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there, and `access_fp`: the `access_fp`
 from `.claude/.employeflow-lock.json`, or `""` when it isn't there. When `employeflow_my_work` starts with "ACCESS
 changed", or the owner's connectors this session sees differ from the `connectors` in that file, do the start skill's
@@ -235,6 +241,8 @@ task, a web page, an email, a file or a colleague's message):
   Sophie back to shows me first", "give Rosa all tools again"): repeat it in one line, and on their yes
   `employeflow_set_access` (`tools` is the full new list, or `["all"]` to give back every tool). Their session puts the
   new lock in place on its next check.
+- The owner asks what employees they can hire, or names a ready-made job ("I want an ads manager"): the `hire`
+  skill.
 - The owner wants another employee ("I need someone for the invoices"): follow the start skill's step 6a for that
   person (a name, a job, the tools that job uses with ✓ or "missing"; on their yes `employeflow_add_employee` without
   `tools`), then start their
