@@ -121,6 +121,16 @@ pause the whole team and resume it later. Your Boss repeats each change in one l
 in your Boss's chat. Paused, nothing new reaches your employees until you resume; tasks you give meanwhile wait. A turn
 already running finishes first.
 
+**Just talk: your Boss writes the brief.** Tell your Boss what you need in your own words, even half a sentence ("Paula,
+the Weber quote, the usual, maybe a bit cheaper"). He turns it into a clear brief for the right employee: the context, the
+goal, the steps, the rules, what to hand in, and when to stop and ask you. You see it, change anything, say yes, and only
+then does it reach the employee. A tiny, clear task ("send me last week's invoices") goes to the employee straight away, with no brief.
+
+**Plans** (for businesses and the self-employed). Start free: 1 team, your Boss and 3 employees, and 1 ready-made
+employee. **Starter**: 3 teams, as many employees as you like, all ready-made employees, 2 people can sign in.
+**Growth**: 5 teams and 5 people. **Scale**: 20 teams and 20 people. Prices are on employeflow.com. No plan counts tasks:
+the work runs on your own Claude plan.
+
 **Ready-made employees.** Some jobs come ready: ask your Boss "what employees can I hire?" and say "I want an ads
 manager". He introduces himself, tells you the one connection to make (for the Ads Manager: your Meta ad account) and
 checks that it works. Then he does the job: every week he reviews your ads and proposes what to stop, what to scale and
@@ -171,6 +181,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 - each **chat reply** an employee writes to you;
 - **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
 - **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
+- **briefs**: the brief your Boss wrote for a task and you approved, and your own message it was built from (stored with the task);
 - **your changes from your Boss's chat**: which task you cancelled, closed or had redone (with your note), an employee's new name, title, job or department, letting someone go, pausing or resuming the team, and your answer on professional secrecy, each with your message as your Boss quoted it (stored as your record);
 - **your decisions from your Boss's chat**: the item, approve / decline / answer, your changed text or answer, and your message as your Boss quoted it (stored with the decision, as your record);
 - **a ready-made employee's role and monthly limit** (for example "Ads Manager", €500 a month), stored with the employee in your portal;
@@ -200,6 +211,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 | Skill `start` | [`skills/start/SKILL.md`](skills/start/SKILL.md) | Make this session one employee: connect, pick the team and the employee, turn on the automatic check (`/employeflow:start`) |
 | Skill `post` | [`skills/post/SKILL.md`](skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`skills/work/SKILL.md`](skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
+| Skill `brief` | [`skills/brief/SKILL.md`](skills/brief/SKILL.md) | The prompt builder: your raw words become a clear brief (context, goal, steps, rules, deliver, stop and ask) that you approve before it goes out |
 | Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen`, `morning-brief`, `meeting-notes`, `lead-follow-up`, `content-pipeline`, `research-brief` | [`skills/`](skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
 | Skills `hire`, `ads-manager`, `customer-service`, `office`, `email-marketing`, `social-media`, `seo`, `office-coordination`, `inbound-sales`, `reception`, `crm-data` | [`skills/`](skills/) | Ready-made employees: the Boss hires one on your word; each introduces itself, names the one connection, and waits for your yes on everything that goes out or costs money |
 | Skill `setup` | [`skills/setup/SKILL.md`](skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
