@@ -115,6 +115,12 @@ question. It counts exactly like a click in your portal, one decision per item, 
 Boss's chat. When you change a text, your Boss shows you the new version first, and anything that would go out at once
 is confirmed with you in one line.
 
+**Run your team from Claude.** Ask your Boss "what are they working on?", then cancel, close or redo a task ("do the
+Weber quote again, with 5 % off", "give it to Leo instead"), rename someone or change their job, let someone go, or
+pause the whole team and resume it later. Your Boss repeats each change in one line and makes it only on what you type
+in your Boss's chat. Paused, nothing new reaches your employees until you resume; tasks you give meanwhile wait. A turn
+already running finishes first.
+
 **Ready-made employees.** Some jobs come ready: ask your Boss "what employees can I hire?" and say "I want an ads
 manager". He introduces himself, tells you the one connection to make (for the Ads Manager: your Meta ad account) and
 checks that it works. Then he does the job: every week he reviews your ads and proposes what to stop, what to scale and
@@ -123,7 +129,9 @@ today: **Ads Manager**, **Customer Service**, **Office** (quotes, invoices, remi
 **Email Marketing** (your newsletter, only to people who agreed, and you press send), **Social Media Manager**, **SEO and
 Website**, **Office Coordinator**, **Inbound Sales**, **Reception and Bookings** (not yet for medical or therapy practices,
 lawyers or tax advisers) and **CRM and Data**. Not yet for practices bound by professional secrecy (medical, therapy, law or
-tax offices): for them only SEO, Social Media and Ads for now.
+tax offices): for them only SEO, Social Media and Ads for now. Your answer to that question is stored with your team.
+The portal then refuses to hire or give work to the ready-made roles that read clients' details, and every employee's
+work instructions stop any job that would.
 
 All five new jobs work in English and German.
 
@@ -163,6 +171,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 - each **chat reply** an employee writes to you;
 - **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
 - **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
+- **your changes from your Boss's chat**: which task you cancelled, closed or had redone (with your note), an employee's new name, title, job or department, letting someone go, pausing or resuming the team, and your answer on professional secrecy, each with your message as your Boss quoted it (stored as your record);
 - **your decisions from your Boss's chat**: the item, approve / decline / answer, your changed text or answer, and your message as your Boss quoted it (stored with the decision, as your record);
 - **a ready-made employee's role and monthly limit** (for example "Ads Manager", €500 a month), stored with the employee in your portal;
 - **team talk**: the one-line message an employee writes when it hands work to a colleague, takes it over, or hands it back (at most 300 characters), shown in your Team Chat;
@@ -187,7 +196,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 
 | Part | File | What it does |
 |---|---|---|
-| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Tools for your teams and open work, starting and finishing a task, chat replies, the employee's skills, handing out and routing work (the Boss), setting goals, giving work to one or two employees and the team's status (the Boss's session, yours only), asking you for approval and reading your decision, your approvals from the Boss's chat, asking and answering a colleague, goal progress and readying up, handing in a deliverable, and the count-only key |
+| Connector `employeflow` | [`employeflow/.mcp.json`](employeflow/.mcp.json) | Tools for your teams and open work, starting and finishing a task, chat replies, the employee's skills, handing out and routing work (the Boss), setting goals, giving work to one or two employees and the team's status (the Boss's session, yours only), asking you for approval and reading your decision, your approvals from the Boss's chat, cancelling, closing or redoing a task, changing or letting go an employee, pausing the team and your professional-secrecy answer (the Boss's session), asking and answering a colleague, goal progress and readying up, handing in a deliverable, and the count-only key |
 | Skill `start` | [`employeflow/skills/start/SKILL.md`](employeflow/skills/start/SKILL.md) | Make this session one employee: connect, pick the team and the employee, turn on the automatic check (`/employeflow:start`) |
 | Skill `post` | [`employeflow/skills/post/SKILL.md`](employeflow/skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |

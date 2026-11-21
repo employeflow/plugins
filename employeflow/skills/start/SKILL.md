@@ -94,7 +94,8 @@ token or file content in your messages.
       Only call a tool connected when you can really use it now; never guess.
    2. **Propose the team.** First, once, in the same message: "Fällt dein Betrieb unter eine Schweigepflicht? Zum Beispiel: Arzt-, Zahnarzt- oder Tierarztpraxis, Apotheke, Therapie oder Heilpraktiker, Anwalts- oder Notarkanzlei, Steuerberatung oder Wirtschaftsprüfung, Beratungsstelle." /
       "Is your business bound by professional secrecy? For example: a medical, dental or veterinary practice, a pharmacy, therapy or alternative practitioner, a law or notary office, tax advice or auditing, a counselling service." Write `Schweigepflicht: ja` or `Schweigepflicht: nein` to `firma.md` in
-      the team folder (create it if missing). If yes, propose only SEO, Social Media and Ads employees and say why in one
+      the team folder (create it if missing), and record it for the team with `employeflow_secrecy` (`answer` ja or nein,
+      `owner_words` = their answer, quoted): with ja, the portal itself then lets only SEO, Social Media and Ads be hired. If yes, propose only SEO, Social Media and Ads employees and say why in one
       line (the work skill's "Professional secrecy"). Then ask once: "What eats the most time in your business every week?" From that answer and
       what the company does, propose 2 to 5 employees, one line each: a human first name · a job title · what they do
       for the owner, in one sentence · the tools that job uses, each marked ✓ connected or "missing". If one of them is
