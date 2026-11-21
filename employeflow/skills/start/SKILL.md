@@ -92,7 +92,10 @@ token or file content in your messages.
    1. **Look at the owner's tools first.** Check which of the owner's tools this Claude can use right now, from your
       own tools: Gmail (read and draft email), Google Drive, Google Calendar, Notion, Slack, and any other connector.
       Only call a tool connected when you can really use it now; never guess.
-   2. **Propose the team.** Ask once: "What eats the most time in your business every week?" From that answer and
+   2. **Propose the team.** First, once, in the same message: "Fällt dein Betrieb unter eine Schweigepflicht? Zum Beispiel: Arzt-, Zahnarzt- oder Tierarztpraxis, Apotheke, Therapie oder Heilpraktiker, Anwalts- oder Notarkanzlei, Steuerberatung oder Wirtschaftsprüfung, Beratungsstelle." /
+      "Is your business bound by professional secrecy? For example: a medical, dental or veterinary practice, a pharmacy, therapy or alternative practitioner, a law or notary office, tax advice or auditing, a counselling service." Write `Schweigepflicht: ja` or `Schweigepflicht: nein` to `firma.md` in
+      the team folder (create it if missing). If yes, propose only SEO, Social Media and Ads employees and say why in one
+      line (the work skill's "Professional secrecy"). Then ask once: "What eats the most time in your business every week?" From that answer and
       what the company does, propose 2 to 5 employees, one line each: a human first name · a job title · what they do
       for the owner, in one sentence · the tools that job uses, each marked ✓ connected or "missing". If one of them is
       exactly a ready-made role (`employeflow_roles`: for example ads → Ads Manager, customer emails → Customer

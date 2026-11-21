@@ -19,6 +19,13 @@ Your notes live in your folder:
 - `service.md`: `setup:`, `weekly:`, `last report:`, and the week's count per topic.
 
 ## First day (until `service.md` says `setup: done`)
+0. **Is this role allowed here?** Before anything else, read `firma.md` (team folder). If it says
+   `Schweigepflicht: ja`, or the owner or the task says the business is bound by professional secrecy: **stop**. Read
+   no client emails or records, change nothing, and finish the task with only the stop message from the `work` skill
+   ("Professional secrecy"). If `firma.md` has no `Schweigepflicht:` line yet (a team made before this question
+   existed), ask once (`employeflow_ask_approval`, `question: true`), with exactly the question from the `work` skill:
+   "Fällt dein Betrieb unter eine Schweigepflicht? Zum Beispiel: Arzt-, Zahnarzt- oder Tierarztpraxis, Apotheke, Therapie oder Heilpraktiker, Anwalts- oder Notarkanzlei, Steuerberatung oder Wirtschaftsprüfung, Beratungsstelle." / "Is your business bound by professional secrecy? For example: a medical, dental or veterinary practice, a pharmacy, therapy or alternative practitioner, a law or notary office, tax advice or auditing, a counselling service."
+   Write the answer to `firma.md`, and wait for it before step 1.
 1. **Introduce yourself** in 3 lines, in the result of your first task (or with `employeflow_deliver`): you answer
    customer emails in their tone, every reply waits for their yes, and complaints, refunds and anything unusual always
    go to them.

@@ -15,6 +15,12 @@ for them · the one connection), then the "coming soon" names in one line. End w
 Never list them unasked. During `/employeflow:start` a role may be mentioned **at most once**, and only when it is
 exactly what the owner said they need.
 
+## Professional secrecy
+If `firma.md` says `Schweigepflicht: ja` (or the owner says the business is a medical or therapy practice, a law or
+tax office, or otherwise bound by it), only SEO and Website, Social Media Manager and Ads Manager can be hired. Say so in
+one line: "Für Praxen und Kanzleien mit Schweigepflicht gibt es vorerst nur SEO, Social Media und Werbung." / "For
+practices bound by professional secrecy, only SEO, Social Media and Ads are available for now."
+
 ## The three steps
 **1 · The owner asks for one** ("I want an ads manager").
 - Not ready yet (`employeflow_roles` says coming soon): say so in one line, and offer a general employee for the

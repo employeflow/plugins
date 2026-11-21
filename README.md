@@ -24,8 +24,9 @@ claude plugin install employeflow --marketplace employeflow/plugins
 ## What you need
 
 - **Claude Code**: the **Code** tab in the Claude desktop app, or `claude` in a terminal.
-- **A Claude plan for business:** your company's Claude **Team** or **Enterprise** plan, or (in a terminal) your company's
-  own Anthropic API key. Claude Pro and Max are personal plans, and Anthropic's terms don't allow them for business use.
+- **Your own Claude plan:** **Pro** or **Max** if you work alone, **Team** or **Enterprise** if more people use it, or (in a
+  terminal) your own Anthropic API key. In the EU, if your employees handle your customers' personal data, Team or an API
+  key comes with Anthropic's data processing agreement.
 - An **Employeflow account** ([employeflow.com](https://employeflow.com)) that owns a team or is a member of one.
   You sign in with it once; there is no code to copy.
 
@@ -118,7 +119,11 @@ is confirmed with you in one line.
 manager". He introduces himself, tells you the one connection to make (for the Ads Manager: your Meta ad account) and
 checks that it works. Then he does the job: every week he reviews your ads and proposes what to stop, what to scale and
 what to try, and every launch, pause and budget change waits for your yes, and he plans inside a monthly limit only you set. Ready
-today: **Ads Manager** and **Customer Service**. More are coming (office paperwork, email marketing and others).
+today: **Ads Manager**, **Customer Service**, **Office** (quotes, invoices, reminders, receipts for your tax advisor) and
+**Email Marketing** (your newsletter, only to people who agreed, and you press send), **Social Media Manager**, **SEO and
+Website**, **Office Coordinator**, **Inbound Sales**, **Reception and Bookings** (not yet for medical or therapy practices,
+lawyers or tax advisers) and **CRM and Data**. Not yet for practices bound by professional secrecy (medical, therapy, law or
+tax offices): for them only SEO, Social Media and Ads for now.
 
 All five new jobs work in English and German.
 
@@ -187,7 +192,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 | Skill `post` | [`employeflow/skills/post/SKILL.md`](employeflow/skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
 | Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen`, `morning-brief`, `meeting-notes`, `lead-follow-up`, `content-pipeline`, `research-brief` | [`employeflow/skills/`](employeflow/skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
-| Skills `hire`, `ads-manager`, `customer-service` | [`employeflow/skills/`](employeflow/skills/) | Ready-made employees: the Boss hires one on your word; each introduces itself, names the one connection, and waits for your yes on everything that goes out or costs money |
+| Skills `hire`, `ads-manager`, `customer-service`, `office`, `email-marketing`, `social-media`, `seo`, `office-coordination`, `inbound-sales`, `reception`, `crm-data` | [`employeflow/skills/`](employeflow/skills/) | Ready-made employees: the Boss hires one on your word; each introduces itself, names the one connection, and waits for your yes on everything that goes out or costs money |
 | Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
 | Hooks | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh), [`employeflow/bin/turn.sh`](employeflow/bin/turn.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched. `turn.sh`: the turn report above (numbers only) |
 

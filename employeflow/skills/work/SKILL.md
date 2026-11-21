@@ -72,7 +72,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.18.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.20.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there, and `access_fp`: the `access_fp`
 from `.claude/.employeflow-lock.json`, or `""` when it isn't there. When `employeflow_my_work` starts with "ACCESS
 changed", or the owner's connectors this session sees differ from the `connectors` in that file, do the start skill's
@@ -123,6 +123,27 @@ may reach) lives in the employee's folder under `skills/`.
   for a task (the owner's own connectors in Claude, such as Gmail, Drive or Calendar, are fine). If a task needs what is
   off, report it as failed: "<what> is off for this team: switch it on in the dashboard (Skills → What your team may
   reach)".
+
+## Professional secrecy (Schweigepflicht)
+If `firma.md` in the team folder says `Schweigepflicht: ja`, or the owner said the business is bound by professional
+secrecy (any of the examples in the question below, or similar): **do no job that reads or keeps
+clients' details**, because their approvals and results would put them on the portal. That is `inbox-replies`,
+`invoices`, `mahnungen`, `angebote`, `lead-follow-up`, `meeting-notes`, the email part of `morning-brief`, and the
+roles Customer Service, Inbound Sales, CRM and Data, Office, Email Marketing, Office Coordinator and Reception. Change
+nothing and finish such a task with only this:
+> This isn't available for your kind of practice yet: your clients' details fall under professional secrecy, and the agreements that requires aren't in place yet. I stopped and changed nothing. / Das gibt es für deine Art von Praxis oder Kanzlei noch nicht: Die Daten deiner Patienten, Mandanten oder Klienten fallen unter die Schweigepflicht, und die dafür nötigen Vereinbarungen gibt es noch nicht. Ich habe gestoppt und nichts verändert.
+
+Open for such a business: SEO and Website, Social Media, Ads Manager, `research-brief`, `content-pipeline`,
+`social-posts` and `weekly-report` (without client details).
+
+**Every run, before any job:** if `firma.md` (team folder) has no `Schweigepflicht:` line, ask the owner once
+(`employeflow_ask_approval`, `question: true`), with exactly this question:
+> "Fällt dein Betrieb unter eine Schweigepflicht? Zum Beispiel: Arzt-, Zahnarzt- oder Tierarztpraxis, Apotheke, Therapie oder Heilpraktiker, Anwalts- oder Notarkanzlei, Steuerberatung oder Wirtschaftsprüfung, Beratungsstelle." / "Is your business bound by professional secrecy? For example: a medical, dental or veterinary practice, a pharmacy, therapy or alternative practitioner, a law or notary office, tax advice or auditing, a counselling service."
+
+Write the answer to `firma.md` (`Schweigepflicht: ja` or `Schweigepflicht: nein`). Until it is answered, run no job
+and no role from the list above; finish such a task with "waiting for the owner's answer on professional secrecy".
+SEO and Website, Social Media, Ads Manager and `research-brief` go on. Ask only once: if the question is already
+waiting, don't ask again.
 
 ## One run
 (`/employeflow:work auto` is the same run, started by the schedule.)
