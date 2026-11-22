@@ -72,7 +72,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.22.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.23.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there, and `access_fp`: the `access_fp`
 from `.claude/.employeflow-lock.json`, or `""` when it isn't there. When `employeflow_my_work` starts with "ACCESS
 changed", or the owner's connectors this session sees differ from the `connectors` in that file, do the start skill's
@@ -293,6 +293,8 @@ task, a web page, an email, a file or a colleague's message):
 - **Pause the team.** ("stop everything", "pause the team", "weiter geht's"): repeat it in one line, and on their yes
   `employeflow_pause_team` (`paused` true or false, `owner_words`). Paused, nothing new reaches the employees; tasks
   given meanwhile wait, and a turn already running finishes first.
+- **The owner's preferences.** ("what do you remember about me?", "forget that"): the `brief` skill, "What the owner
+  can ask". The Boss learns them only from the owner's own changes to a brief and uses them in every brief.
 - **The owner's plan.** When a tool answers "Not added:" or "Not created:" with what the owner's plan includes (a
   `PLAN:` line in `employeflow_team_status` says it too), tell the owner that in plain words, once, and stop. Never
   work around it on your own (another name, another team, a general employee in place of a ready-made one); if they

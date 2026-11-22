@@ -126,6 +126,10 @@ the Weber quote, the usual, maybe a bit cheaper"). He turns it into a clear brie
 goal, the steps, the rules, what to hand in, and when to stop and ask you. You see it, change anything, say yes, and only
 then does it reach the employee. A tiny, clear task ("send me last week's invoices") goes to the employee straight away, with no brief.
 
+**Your Boss remembers how you like it.** When you change a brief in a way that should always hold ("always mention the
+price", "keep replies short"), your Boss saves it as a standing preference and uses it in every later brief. Ask "what do
+you remember about me?" to see them, and "forget that" to remove one.
+
 **Plans** (for businesses and the self-employed). Start free: 1 team, your Boss and 3 employees, and 1 ready-made
 employee. **Starter**: 3 teams, as many employees as you like, all ready-made employees, 2 people can sign in.
 **Growth**: 5 teams and 5 people. **Scale**: 20 teams and 20 people. Prices are on employeflow.com. No plan counts tasks:
@@ -182,6 +186,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 - **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
 - **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
 - **briefs**: the brief your Boss wrote for a task and you approved, and your own message it was built from (stored with the task);
+- **your standing preferences**: the short rules your Boss saved from your own changes to a brief, with your message and the date (kept until you remove them);
 - **your changes from your Boss's chat**: which task you cancelled, closed or had redone (with your note), an employee's new name, title, job or department, letting someone go, pausing or resuming the team, and your answer on professional secrecy, each with your message as your Boss quoted it (stored as your record);
 - **your decisions from your Boss's chat**: the item, approve / decline / answer, your changed text or answer, and your message as your Boss quoted it (stored with the decision, as your record);
 - **a ready-made employee's role and monthly limit** (for example "Ads Manager", €500 a month), stored with the employee in your portal;
