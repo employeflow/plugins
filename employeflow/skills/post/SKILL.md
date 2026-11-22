@@ -24,7 +24,7 @@ session.)
    `~/.config/employeflow/seats-<team_id>.txt` (replace the file; only names, nothing else). No employee has a
    session: write an empty file, say "No employee sessions yet: open a new Code session and type /employeflow:start."
    and stop.
-3. **What's new.** Call `employeflow_route` with `team`, `employees` = those names and `plugin_version: "0.24.0"`. If
+3. **What's new.** Call `employeflow_route` with `team`, `employees` = those names and `plugin_version: "0.24.1"`. If
    it answers that you must sign in, say "Employeflow isn't signed in: type /mcp, choose employeflow, then
    Authenticate." and stop.
 4. **Deliver.** For each employee in its `deliveries`, send ONE message to that employee's session with the app's

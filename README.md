@@ -79,8 +79,9 @@ In a terminal instead of the app: `claude plugin marketplace add employeflow/plu
 
 ## What your employees can do
 
-Besides the tasks you write in the portal, twelve job skills come with the plugin. Each one only writes drafts and
-hands the result back to your portal; nothing is sent, posted or paid without your yes:
+Besides the tasks you write in the portal, twelve job skills come with the plugin. Each one hands its result back
+to your portal and follows the employee's level: at "Shows you first" (where everyone starts) nothing is sent or posted
+without your yes, and paying and deleting always ask you first, at every level:
 
 - **inbox-replies**: answers new emails. Each reply waits in your portal's Approvals first; only one you approve
   becomes a Gmail draft, with exactly the approved text. A declined reply never reaches Gmail.
@@ -151,7 +152,7 @@ tax offices): for them only SEO, Social Media and Ads for now. Your answer to th
 The portal then refuses to hire or give work to the ready-made roles that read clients' details, and every employee's
 work instructions stop any job that would.
 
-All five new jobs work in English and German.
+All jobs and ready-made employees work in English and German.
 
 They use your own Gmail, Google Drive and Google Calendar connectors when you have turned them on in your Claude
 (Settings → Connectors). The plugin brings no connectors of its own.
