@@ -130,6 +130,10 @@ then does it reach the employee. A tiny, clear task ("send me last week's invoic
 price", "keep replies short"), your Boss saves it as a standing preference and uses it in every later brief. Ask "what do
 you remember about me?" to see them, and "forget that" to remove one.
 
+**See who got what done.** Every finished task and every result an employee hands in puts one line in your Team Chat,
+in that employee's name ("Paula: done · Quote for Weber"), so the chat shows the work as it happens. One line per finished
+step, nothing more.
+
 **Plans** (for businesses and the self-employed). Start free: 1 team, your Boss and 3 employees, and 1 ready-made
 employee. **Starter**: 3 teams, as many employees as you like, all ready-made employees, 2 people can sign in.
 **Growth**: 5 teams and 5 people. **Scale**: 20 teams and 20 people. Prices are on employeflow.com. No plan counts tasks:
@@ -190,7 +194,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 - **your changes from your Boss's chat**: which task you cancelled, closed or had redone (with your note), an employee's new name, title, job or department, letting someone go, pausing or resuming the team, and your answer on professional secrecy, each with your message as your Boss quoted it (stored as your record);
 - **your decisions from your Boss's chat**: the item, approve / decline / answer, your changed text or answer, and your message as your Boss quoted it (stored with the decision, as your record);
 - **a ready-made employee's role and monthly limit** (for example "Ads Manager", €500 a month), stored with the employee in your portal;
-- **team talk**: the one-line message an employee writes when it hands work to a colleague, takes it over, or hands it back (at most 300 characters), shown in your Team Chat;
+- **team talk**: the one-line message an employee writes when it hands work to a colleague, takes it over, or hands it back, and the one line when it finishes a task or hands in a result (at most 300 characters each), shown in your Team Chat;
 - **progress on a team goal** (a number and one line, at most 300 characters), an employee's **one-line plan** when they ready up for a goal (at most 300), and **finished deliverables** (a title and a two-line summary with where they are);
 - from the **Boss's session only**, when you agree it there: a **goal** (title, number and unit, date, who answers for it, who works on it) and **work you give one or two employees** (one line, details at most 2,000 characters);
 - when the Boss hands out a task you gave him: each part (the employee, a one-line task, its details).
