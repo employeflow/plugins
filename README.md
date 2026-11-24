@@ -100,6 +100,11 @@ without your yes, and paying and deleting always ask you first, at every level:
   that colleague as a task; a follow-up email waits for your approval.
 - **lead-follow-up**: answers new inquiries fast and follows up after 3 and 7 days, then stops; every email waits for
   your approval. Only people who wrote to you first; never cold outreach.
+- **inbox-sorter**: every morning sorts your new emails into five piles, labels them in Gmail (only after your yes to
+  labels) and writes you one short note on what needs you today; it never answers, sends or deletes anything.
+- **receipts**: every day copies your new invoices and receipts from Gmail and your Drive into one month folder with a
+  list; once a month the email to your accountant waits for your yes. It never pays, books or deletes anything and gives
+  no tax advice.
 - **content-pipeline**: research → posts → your yes. The writer hands the research to the research colleague and gets
   the brief back.
 - **research-brief**: a question becomes a one-page answer with sources, handed to the colleague who needs it.
@@ -130,6 +135,12 @@ then does it reach the employee. A tiny, clear task ("send me last week's invoic
 **Your Boss remembers how you like it.** When you change a brief in a way that should always hold ("always mention the
 price", "keep replies short"), your Boss saves it as a standing preference and uses it in every later brief. Ask "what do
 you remember about me?" to see them, and "forget that" to remove one.
+
+**Positions: hire a job, not just a helper.** A position is a ready-made employee that does its round by itself every
+day: **Lead follow-up**, **Inbox sorter** and **Receipts to your accountant**. Tell your Boss, for example, "hire someone to follow up my inquiries". He checks the connections it needs (Gmail; Receipts also Google Drive), says when the round runs (Lead follow-up every day at 9, the Inbox sorter at 8, Receipts at 18, or the hour you name), and shows you its job card: what it does,
+when, what waits for your yes. Change it in plain words: "Lena, start at 7", "pause Lena", "what does Lena do?", "let
+Lena go". If a connection is missing, the round waits, paused, until you switch it on. Rounds run while your computer is on
+and the Claude app is open.
 
 **See who got what done.** Every finished task and every result an employee hands in puts one line in your Team Chat,
 in that employee's name ("Paula: done · Quote for Weber"), so the chat shows the work as it happens. One line per finished
@@ -186,15 +197,16 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 
 **What your Claude sends, when it uses the plugin's tools:**
 - your **sign-in token**, the **team** (and, in an employee's folder, the **employee**) from `.employeflow.json`, and the plugin's version, with every request;
-- when a task starts: its **task id**; when it ends: the **result** (or a summary plus where the file is, at most 600 characters) and, for a text result file (.md .txt .csv .json .html), its **name and text** (at most 100,000 characters);
+- when a task starts: its **task id**; when it ends: the **result** (or a summary plus where the file is, at most 600 characters; for the Inbox sorter and Lead follow-up, a result can name the senders and subjects of emails it is about) and, for a text result file (.md .txt .csv .json .html), its **name and text** (at most 100,000 characters);
 - each **chat reply** an employee writes to you;
 - **approval requests**: a title (at most 300 characters), the **exact draft** that would go out, such as an email reply or a post (at most 20,000), and, if it answers a customer, **the customer's own words** (at most 2,000), so you can approve, edit or decline it in your portal's Approvals;
 - **questions between employees** and their answers (at most 2,000 characters each), shown in your Team Chat and passed to the colleague's session;
 - **briefs**: the brief your Boss wrote for a task and you approved, and your own message it was built from (stored with the task);
-- **your standing preferences**: the short rules your Boss saved from your own changes to a brief, with your message and the date (kept until you remove them);
+- **your standing preferences**: the short rules your Boss saved from your own changes to a brief or your own words about how an employee should work, with your message and the date (kept until you remove them);
 - **your changes from your Boss's chat**: which task you cancelled, closed or had redone (with your note), an employee's new name, title, job or department, letting someone go, pausing or resuming the team, and your answer on professional secrecy, each with your message as your Boss quoted it (stored as your record);
 - **your decisions from your Boss's chat**: the item, approve / decline / answer, your changed text or answer, and your message as your Boss quoted it (stored with the decision, as your record);
 - **a ready-made employee's role and monthly limit** (for example "Ads Manager", €500 a month), stored with the employee in your portal;
+- **a position's daily round**: its hour, your time zone, the round's one-line job, and whether it is paused and which connection it waits for (only the connection's name, never what's in it), stored as a routine in your portal; kept while the position runs, and when you let that employee go, the round is stopped and kept as a record with your team;
 - **team talk**: the one-line message an employee writes when it hands work to a colleague, takes it over, or hands it back, and the one line when it finishes a task or hands in a result (at most 300 characters each), shown in your Team Chat;
 - **progress on a team goal** (a number and one line, at most 300 characters), an employee's **one-line plan** when they ready up for a goal (at most 300), and **finished deliverables** (a title and a two-line summary with where they are);
 - from the **Boss's session only**, when you agree it there: a **goal** (title, number and unit, date, who answers for it, who works on it) and **work you give one or two employees** (one line, details at most 2,000 characters);
@@ -222,7 +234,7 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 | Skill `post` | [`employeflow/skills/post/SKILL.md`](employeflow/skills/post/SKILL.md) | The team's post office: brings new work into the right employee's session (`/employeflow:post`) |
 | Skill `work` | [`employeflow/skills/work/SKILL.md`](employeflow/skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
 | Skill `brief` | [`employeflow/skills/brief/SKILL.md`](employeflow/skills/brief/SKILL.md) | The prompt builder: your raw words become a clear brief (context, goal, steps, rules, deliver, stop and ask) that you approve before it goes out |
-| Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen`, `morning-brief`, `meeting-notes`, `lead-follow-up`, `content-pipeline`, `research-brief` | [`employeflow/skills/`](employeflow/skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
+| Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen`, `morning-brief`, `meeting-notes`, `lead-follow-up`, `inbox-sorter`, `receipts`, `content-pipeline`, `research-brief` | [`employeflow/skills/`](employeflow/skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
 | Skills `hire`, `ads-manager`, `customer-service`, `office`, `email-marketing`, `social-media`, `seo`, `office-coordination`, `inbound-sales`, `reception`, `crm-data` | [`employeflow/skills/`](employeflow/skills/) | Ready-made employees: the Boss hires one on your word; each introduces itself, names the one connection, and waits for your yes on everything that goes out or costs money |
 | Skill `setup` | [`employeflow/skills/setup/SKILL.md`](employeflow/skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
 | Hooks | [`employeflow/hooks/hooks.json`](employeflow/hooks/hooks.json), [`employeflow/bin/peek.sh`](employeflow/bin/peek.sh), [`employeflow/bin/turn.sh`](employeflow/bin/turn.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched. `turn.sh`: the turn report above (numbers only) |

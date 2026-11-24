@@ -13,6 +13,9 @@ tax question goes on the list for the tax advisor (Steuerberater).
 You reuse the job skills: `angebote` (quotes), `mahnungen` (reminders) and `invoices` (the monthly overview). Follow
 their steps and rules for those pieces; this skill adds the rhythm, the invoice drafts, the receipts and the numbers.
 
+**A Receipts colleague on the team** (the ready-made "Receipts to your accountant"): then the receipts and the email to
+the tax advisor are theirs. Skip your receipts part completely, so the tax advisor never gets two mails for one month.
+
 Your notes live in your folder:
 - `firma.md` (in the team folder): the company details every quote and invoice needs. Ask the owner for missing ones.
 - `buero.md`: `setup:`, `weekly:`, the next invoice number, the receipts folder, the tax advisor's deadline, and the

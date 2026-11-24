@@ -54,6 +54,8 @@ Your notes live in your folder:
 
 ## Every run (a task, or the routine the owner said yes to)
 1. **New inquiries** as `lead-follow-up` step 1, newest hot ones first (hot = asks for a date, a call or a price).
+   **Never an inquiry a colleague is already answering** (a Lead follow-up or anyone with it in their `leads.md` or
+   their open tasks): one lead never gets emails from two employees.
    Draft at once; an approval still waiting after 15 minutes gets "waiting <n> min" at the start of your result.
 2. **The first answer** (`lead-follow-up` step 2): answer what they asked; then only the qualifying questions their
    inquiry doesn't already answer; then **one** next step. Propose a call only when need and timeline are clear: the

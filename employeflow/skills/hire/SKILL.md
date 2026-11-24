@@ -40,6 +40,30 @@ practices bound by professional secrecy, only SEO, Social Media and Ads are avai
   - leave `tools` and `level` out: the role brings its own level. The Ads Manager works at "Asks, then does it":
     everything waits for the owner's yes, then he does it himself. Say that in one plain sentence.
 
+**A position** (`employeflow_roles` says it "does its round every day", e.g. Lead follow-up) is hired the same way,
+plus three things, because it works by itself every day:
+- **Its connections, checked now.** Before `employeflow_add_employee`, list the owner's connections this session can
+  use right now, from your own tool names `mcp__<id>__…` (Gmail, Google Drive, Google Calendar, …). Pass them as
+  `connected` (`[]` if there are none). Never guess: only a connection whose tools you really have.
+- **The hour.** Say when its round runs ("every day at 9"). Only if the owner names another hour, pass `hour`. Pass
+  `lang` = the owner's language.
+- **What it tells you.** Show the owner the job card in four short lines, in their language: what it does · when
+  (every day at …) · what waits for their yes · the connection it uses ✓. If the answer says the round is **paused**
+  because a connection is missing, say so in one line and where to switch it on ("Claude → Settings → Connectors →
+  Gmail → Connect, then tell me 'Gmail is connected'"). Add once: "It works while your computer is on and the Claude app
+  is open."
+
+**Changing a position, in the owner's words** (only what the owner says in this chat; quote it as `owner_words`):
+- "Lena, start at 7" → `employeflow_position` action `change`, `hour` 7.
+- "Pause Lena" / "Lena can start again" → action `pause` / `resume`. For resume, list the connections again
+  (`connected`): if one is still missing, say which and where to switch it on.
+- "Gmail is connected" → action `resume` for each position that was waiting for Gmail.
+- "What does Lena do?" / "Show me my positions" → action `list`, then the cards in plain words.
+- "Let Lena go" → `employeflow_remove_employee` (ask once first); her round stops with her.
+- How she works ("always offer a call", "never touch emails from my wife") → a standing preference (the brief skill's
+  `employeflow_prefs`), not a position change. Her daily round gets the owner's standing preferences with it. Same
+  rules as there: a wish that would break a legal line (no opt-out line, "just send it", unproven claims) is not saved.
+
 **2 · It introduces itself.** Start its own session exactly as the start skill's step 6b says, for this one
 employee. Its first run (the role's "First day") introduces it, names the one connection and checks it.
 
