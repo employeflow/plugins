@@ -59,6 +59,8 @@ plus three things, because it works by itself every day:
   (`connected`): if one is still missing, say which and where to switch it on.
 - "Gmail is connected" → action `resume` for each position that was waiting for Gmail.
 - "What does Lena do?" / "Show me my positions" → action `list`, then the cards in plain words.
+- "Is Lena working?" / "Did the round run?" → action `list`; give the card's **Is it working?** sentence as it is, with its
+  fix (for example: the computer or the Claude app was off, a connection is missing, the last round is still open).
 - "Let Lena go" → `employeflow_remove_employee` (ask once first); her round stops with her.
 - How she works ("always offer a call", "never touch emails from my wife") → a standing preference (the brief skill's
   `employeflow_prefs`), not a position change. Her daily round gets the owner's standing preferences with it. Same

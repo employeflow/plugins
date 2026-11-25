@@ -95,7 +95,7 @@ without your yes, and paying and deleting always ask you first, at every level:
   Zahlungserinnerung → 1. Mahnung → 2. Mahnung. Each letter waits for your approval; no invented fees, no threats,
   interest only where the law allows it. It's a drafting tool, not legal advice.
 - **morning-brief**: one short message each morning: what needs you, today's appointments, the important new emails,
-  what the team did.
+  what the team did, how the daily rounds went; with Gmail connected also as a draft to yourself (never sent).
 - **meeting-notes**: a transcript or notes become a summary, decisions and to-dos; each colleague's to-do is handed to
   that colleague as a task; a follow-up email waits for your approval.
 - **lead-follow-up**: answers new inquiries fast and follows up after 3 and 7 days, then stops; every email waits for
@@ -138,7 +138,8 @@ you remember about me?" to see them, and "forget that" to remove one.
 
 **Positions: hire a job, not just a helper.** A position is a ready-made employee that does its round by itself every
 day: **Lead follow-up**, **Inbox sorter** and **Receipts to your accountant**. Tell your Boss, for example, "hire someone to follow up my inquiries". He checks the connections it needs (Gmail; Receipts also Google Drive), says when the round runs (Lead follow-up every day at 9, the Inbox sorter at 8, Receipts at 18, or the hour you name), and shows you its job card: what it does,
-when, what waits for your yes. Change it in plain words: "Lena, start at 7", "pause Lena", "what does Lena do?", "let
+when, what waits for your yes. Change it in plain words: "Lena, start at 7", "pause Lena", "what does Lena do?", "is Lena working?" (one plain
+sentence: when the last round ran, when the next one runs, and why one was skipped, with the fix), "let
 Lena go". If a connection is missing, the round waits, paused, until you switch it on. Rounds run while your computer is on
 and the Claude app is open.
 
@@ -155,9 +156,9 @@ the work runs on your own Claude plan.
 manager". He introduces himself, tells you the one connection to make (for the Ads Manager: your Meta ad account) and
 checks that it works. Then he does the job: every week he reviews your ads and proposes what to stop, what to scale and
 what to try, and every launch, pause and budget change waits for your yes, and he plans inside a monthly limit only you set. Ready
-today: **Ads Manager**, **Customer Service**, **Office** (quotes, invoices, reminders, receipts for your tax advisor) and
+today: **Ads Manager**, **Customer Service**, **Office** (quotes, invoices, reminders, and receipts for your tax advisor unless a Receipts employee does them) and
 **Email Marketing** (your newsletter, only to people who agreed, and you press send), **Social Media Manager**, **SEO and
-Website**, **Office Coordinator**, **Inbound Sales**, **Reception and Bookings** (not yet for medical or therapy practices,
+Website**, **Office Coordinator**, **Reception and Bookings** (not yet for medical or therapy practices,
 lawyers or tax advisers) and **CRM and Data**. Not yet for practices bound by professional secrecy (medical, therapy, law or
 tax offices): for them only SEO, Social Media and Ads for now. Your answer to that question is stored with your team.
 The portal then refuses to hire or give work to the ready-made roles that read clients' details, and every employee's

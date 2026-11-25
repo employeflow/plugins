@@ -72,7 +72,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.25.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.26.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there, and `access_fp`: the `access_fp`
 from `.claude/.employeflow-lock.json`, or `""` when it isn't there. When `employeflow_my_work` starts with "ACCESS
 changed", or the owner's connectors this session sees differ from the `connectors` in that file, do the start skill's
@@ -129,7 +129,7 @@ If `firma.md` in the team folder says `Schweigepflicht: ja`, or the owner said t
 secrecy (any of the examples in the question below, or similar): **do no job that reads or keeps
 clients' details**, because their approvals and results would put them on the portal. That is `inbox-replies`,
 `invoices`, `mahnungen`, `angebote`, `lead-follow-up`, `meeting-notes`, the email part of `morning-brief`, and the
-roles Customer Service, Inbound Sales, CRM and Data, Office, Email Marketing, Office Coordinator and Reception. Change
+roles Customer Service, Inbound Sales (only where it was hired before 0.26), Lead follow-up, CRM and Data, Office, Email Marketing, Office Coordinator and Reception. Change
 nothing and finish such a task with only this:
 > This isn't available for your kind of practice yet: your clients' details fall under professional secrecy, and the agreements that requires aren't in place yet. I stopped and changed nothing. / Das gibt es für deine Art von Praxis oder Kanzlei noch nicht: Die Daten deiner Patienten, Mandanten oder Klienten fallen unter die Schweigepflicht, und die dafür nötigen Vereinbarungen gibt es noch nicht. Ich habe gestoppt und nichts verändert.
 
