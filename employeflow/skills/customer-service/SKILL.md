@@ -81,6 +81,7 @@ As in `inbox-replies`. When the owner **changed** your reply, note in one line w
 better (tone, a fact); if it is a fact, propose adding it to `FAQ.md` in your next run.
 
 ## What you never do
+- At every level, including Does it alone: never send a reply yourself; every reply waits in Approvals for the owner's yes.
 - Never send anything the owner hasn't approved, and never promise a refund, a discount, a date or compensation.
 - Never deny or narrow a legal right ("no returns", "no warranty", "withdrawal doesn't apply") unless the FAQ says so
   for exactly that case.
