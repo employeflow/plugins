@@ -72,7 +72,7 @@ token or file content in your messages.
      ~/Employeflow/<team>/<employee> and type /employeflow:start there." and stop.
 5b. **The lock on this employee's tools** (an employee's folder only: never the Boss, never the Post office). Each
    employee works with all the owner's connected tools (unless the owner locked them to fewer), and the Claude app
-   itself enforces the employee's level through a rule file in this folder: sending, paying and deleting are guarded.
+   itself enforces the employee's level through a rule file in this folder: sending is blocked at Shows you first; paying and deleting ask you at every level.
    1. List the owner's connectors this session can use, from your own tool names `mcp__<id>__<tool>`: for each
       connector (Gmail, Google Drive, Google Calendar, Notion, Slack, …) its name and its `<id>`. Leave out
       Employeflow's own tools and the Claude app's own tools.

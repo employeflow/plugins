@@ -52,12 +52,14 @@ claude plugin install employeflow --marketplace employeflow/plugins
 
    **Every employee works with all the tools you connected, and nothing goes out without you unless you move that employee to "Does it alone".** When an employee's
    session starts, it writes a small rule file into its own folder (`.claude/settings.json`; your Claude app asks you
-   once to allow it), and from then on the Claude app itself enforces that employee's level. If you want, tell your Boss
+   once to allow it), and from then on the Claude app itself blocks sending at "Shows you first" and asks you before
+   paying or deleting, at every level. If you want, tell your Boss
    to lock someone to fewer tools ("lock Rosa to Gmail only"); the app then refuses that employee your other tools. Each
    employee has a level, which you can change any time by telling your Boss:
    - **Shows you first** (everyone starts here): it prepares; sending, posting and sharing are locked; you send or post
      it yourself.
-   - **Asks, then does it:** it puts what would go out into your Approvals and does it after your yes, exactly as approved.
+   - **Asks, then does it:** your employee is set to wait for your yes in Approvals before it sends. Only at **Shows you
+     first** does the Claude app itself block sending. Paying and deleting always ask you, at every level.
    - **Does it alone:** it sends and posts on its own and reports each one.
 
    **Paying and deleting always ask you first,** at every level: the Claude app asks you before such a tool runs. After 20
@@ -79,7 +81,7 @@ In a terminal instead of the app: `claude plugin marketplace add employeflow/plu
 
 ## What your employees can do
 
-Besides the tasks you write in the portal, twelve job skills come with the plugin. Each one hands its result back
+Besides the tasks you write in the portal, fourteen job skills come with the plugin. Each one hands its result back
 to your portal and follows the employee's level: at "Shows you first" (where everyone starts) nothing is sent or posted
 without your yes, and paying and deleting always ask you first, at every level:
 
@@ -98,7 +100,7 @@ without your yes, and paying and deleting always ask you first, at every level:
   what the team did, how the daily rounds went; with Gmail connected also as a draft to yourself (never sent).
 - **meeting-notes**: a transcript or notes become a summary, decisions and to-dos; each colleague's to-do is handed to
   that colleague as a task; a follow-up email waits for your approval.
-- **lead-follow-up**: answers new inquiries fast and follows up after 3 and 7 days, then stops; every email waits for
+- **lead-follow-up**: answers new inquiries every morning and follows up after 3 days (and once more after 7 days for leads outside Germany), then stops; every email waits for
   your approval. Only people who wrote to you first; never cold outreach.
 - **inbox-sorter**: every morning sorts your new emails into five piles, labels them in Gmail (only after your yes to
   labels) and writes you one short note on what needs you today; it never answers, sends or deletes anything.
@@ -221,7 +223,7 @@ The plugin talks to one address only: `https://employeflow.com/api/mcp`, our ser
 
 **It does not send:** your other prompts, any other file, your transcripts, or your Claude login. Employeflow refuses any result, reply or file that looks like a password or key, and stores nothing of it.
 
-**Nothing goes out without you, at the level you choose.** At "Shows you first" (where everyone starts), employees never send, post or publish: outside things become drafts in your Approvals. At "Asks, then does it" they do it after your yes, exactly as approved; at "Does it alone" they do it and report each one. Paying and deleting always ask you first. Results and chat replies go into your own portal only.
+**Nothing goes out without you, at the level you choose.** At "Shows you first" (where everyone starts), employees never send, post or publish: outside things become drafts in your Approvals. At "Asks, then does it" your employee is set to wait for your yes in Approvals before it sends; only at "Shows you first" does the Claude app itself block sending; at "Does it alone" they do it and report each one. Paying and deleting always ask you first. Results and chat replies go into your own portal only.
 
 The portal decides what a signed-in account may do: only teams you own or are a member of, only the folder's
 employee's work, and on a team that runs on its owner's own Claude only the owner hands out work.
@@ -236,12 +238,13 @@ employee's work, and on a team that runs on its owner's own Claude only the owne
 | Skill `work` | [`skills/work/SKILL.md`](skills/work/SKILL.md) | How Claude does one run (`/employeflow:work`) |
 | Skill `brief` | [`skills/brief/SKILL.md`](skills/brief/SKILL.md) | The prompt builder: your raw words become a clear brief (context, goal, steps, rules, deliver, stop and ask) that you approve before it goes out |
 | Skills `inbox-replies`, `invoices`, `meeting-prep`, `social-posts`, `weekly-report`, `angebote`, `mahnungen`, `morning-brief`, `meeting-notes`, `lead-follow-up`, `inbox-sorter`, `receipts`, `content-pipeline`, `research-brief` | [`skills/`](skills/) | Ready-made jobs; anything meant for the outside world becomes a draft for your approval |
-| Skills `hire`, `ads-manager`, `customer-service`, `office`, `email-marketing`, `social-media`, `seo`, `office-coordination`, `inbound-sales`, `reception`, `crm-data` | [`skills/`](skills/) | Ready-made employees: the Boss hires one on your word; each introduces itself, names the one connection, and waits for your yes on everything that goes out or costs money |
+| Skills `hire`, `ads-manager`, `customer-service`, `office`, `email-marketing`, `social-media`, `seo`, `office-coordination`, `reception`, `crm-data` (`inbound-sales` is retired and no longer hired; the three positions are in the row above) | [`skills/`](skills/) | Ready-made employees: the Boss hires one on your word; each introduces itself, names the one connection, and waits for your yes on everything that goes out or costs money |
 | Skill `setup` | [`skills/setup/SKILL.md`](skills/setup/SKILL.md) | Older command; points to `/employeflow:start` |
 | Hooks | [`hooks/hooks.json`](hooks/hooks.json), [`bin/peek.sh`](bin/peek.sh), [`bin/turn.sh`](bin/turn.sh) | The free idle check: before a scheduled `/employeflow:work auto` or `/employeflow:post auto` it asks the portal (count-only key) whether anything is waiting, and stops the run if not. Every other prompt passes untouched. `turn.sh`: the turn report above (numbers only) |
 
-The plugin never starts anything on its own. Work only runs when you type `/employeflow:work`, or from a scheduled
-task you created yourself.
+The plugin starts nothing you didn't set up. Work runs when you type `/employeflow:work`, from a scheduled task you
+created yourself, from the post office you turned on (it opens an employee's session when you hire one in the portal),
+or from a position's daily round you hired.
 
 ## Upgrading from 0.1 or 0.2
 

@@ -72,7 +72,7 @@ by /employeflow:start) this session IS that employee: it works only that employe
 employee's role. A file without `as_employee` (an older setup) works the whole team, each task in its employee's role;
 say once at the end: "Tip: type /employeflow:start to give each employee its own session." Without the file, say
 "Type /employeflow:start to make this session one of your employees." and stop. Always pass
-`plugin_version: "0.26.1"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
+`plugin_version: "0.27.0"` to `employeflow_my_work`, and in an employee's folder also `skills_fp`: the `fp` from
 `skills/.employeflow-skills.json` in that folder, or `""` when the file isn't there, and `access_fp`: the `access_fp`
 from `.claude/.employeflow-lock.json`, or `""` when it isn't there. When `employeflow_my_work` starts with "ACCESS
 changed", or the owner's connectors this session sees differ from the `connectors` in that file, do the start skill's
